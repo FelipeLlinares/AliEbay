@@ -14,6 +14,7 @@
         <title>Listado de usuarios</title>
     </head>
     <body>
+       <jsp:include page="/WEB-INF/jsp/cabecera.jsp" />
         <h1>Listado de usuarios</h1>
         <table border="1" width="80%">
             <tr>

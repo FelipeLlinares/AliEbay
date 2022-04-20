@@ -4,26 +4,22 @@
  */
 package aliebay.servlet;
 
-import aliebay.dao.UsuarioFacade;
-import aliebay.entity.Usuario;
-import jakarta.ejb.EJB;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author Cate
  */
-@WebServlet(name = "NuevoServlet", urlPatterns = {"/NuevoServlet"})
-public class NuevoServlet extends AliEbaySessionServlet {
+@WebServlet(name = "LogoutServlet", urlPatterns = {"/LogoutServlet"})
+public class LogoutServlet extends AliEbaySessionServlet {
 
-    @EJB UsuarioFacade uf;
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,14 +31,11 @@ public class NuevoServlet extends AliEbaySessionServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        if (super.comprobarSesion(request,response)){
-        List<Usuario> usuarios = uf.findAll();
+      
+        HttpSession session = request.getSession();
+        session.invalidate();
         
-        request.setAttribute("usuarios", usuarios);
-        
-        request.getRequestDispatcher("/WEB-INF/jsp/lista.jsp").forward(request, response);
-        }
+        response.sendRedirect(request.getContextPath());
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

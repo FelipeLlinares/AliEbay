@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Cate
  */
 @WebServlet(name = "UsuarioBorrarServlet", urlPatterns = {"/UsuarioBorrarServlet"})
-public class UsuarioBorrarServlet extends HttpServlet {
+public class UsuarioBorrarServlet extends AliEbaySessionServlet {
 
     @EJB UsuarioFacade userFacade;
     

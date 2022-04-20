@@ -10,7 +10,6 @@ import jakarta.ejb.EJB;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -20,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
  * @author Cate
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends AliEbaySessionServlet {
 
     @EJB UsuarioFacade userfac;
     /**
@@ -47,8 +46,8 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("error", strError);
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } else{
-            //HttpSession session = request.getSession();
-            //session.setAttribute("usuario", admin);
+            HttpSession session = request.getSession();
+            session.setAttribute("usuario", user);
             response.sendRedirect(request.getContextPath() + "/NuevoServlet");
                     
         }
