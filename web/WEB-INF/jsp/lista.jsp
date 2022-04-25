@@ -46,5 +46,6 @@
             }
         %>
         </table>
+        <a href="UsuarioNuevoEditarServlet">Crear Nuevo Usuario</a>
     </body>
 </html>

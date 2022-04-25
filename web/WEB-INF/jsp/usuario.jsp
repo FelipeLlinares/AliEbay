@@ -29,6 +29,9 @@
         Ciudad: <input type="text" name="ciudad" value="<%= usuario == null ? "" : usuario.getCiudadResidencia()%>" /> </br>
         Edad: <input type="text" name="edad" value="<%= usuario == null ? "" : usuario.getEdad()%>" /> </br>
         Sexo:
+        <input type="radio" name="sexo" value="Hombre" <%= h %> />Hombre
+        <input type="radio" name="sexo" value="Mujer" <%= m %>  /> Mujer
+        </br>
         <%
             if (usuario != null){
                 
@@ -37,11 +40,17 @@
                 } else {
                     m = "checked";
                 }
+            } else {
+        %>
+        Tipo Usuario:
+        <input type="radio" name="tipoUsuario" value="Comprador" <%= h %> />Comprador
+        <input type="radio" name="tipoUsuario" value="Vendedor" <%= m %>  /> Vendedor
+        </br>
+        Usuario: <input type="text" name="usuario"/> </br>
+        Contraseña: <input type="password" name="password"/> </br>
+        <%
             }
         %>
-        <input type="radio" name="sexo" value="Hombre" <%= h %> />Hombre
-        <input type="radio" name="sexo" value="Mujer" <%= m %>  /> Mujer
-        </br>
         <input type="submit" value="Enviar" />
         </form>
     </body>

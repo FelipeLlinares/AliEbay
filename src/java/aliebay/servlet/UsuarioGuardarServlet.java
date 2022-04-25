@@ -4,8 +4,12 @@
  */
 package aliebay.servlet;
 
+import aliebay.dao.CompradorFacade;
 import aliebay.dao.UsuarioFacade;
+import aliebay.dao.VendedorFacade;
+import aliebay.entity.Comprador;
 import aliebay.entity.Usuario;
+import aliebay.entity.Vendedor;
 import jakarta.ejb.EJB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,6 +27,8 @@ import jakarta.servlet.http.HttpServletResponse;
 public class UsuarioGuardarServlet extends AliEbaySessionServlet {
 
     @EJB UsuarioFacade userFacade;
+    @EJB CompradorFacade comFacade;
+    @EJB VendedorFacade venFacade;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -65,8 +71,23 @@ public class UsuarioGuardarServlet extends AliEbaySessionServlet {
         str = request.getParameter("sexo");
         usuario.setSexo(str);
         
+        str = request.getParameter("usuario");
+        usuario.setUserName(str);
+        
+        str = request.getParameter("password");
+        usuario.setPassword(str);
+        
+        str = request.getParameter("tipoUsuario");
+        
         if (strId == null ||strId.isEmpty()){
             userFacade.create(usuario);
+            if(str.equals("Comprador")){
+                Comprador comprador = new Comprador(usuario.getIdUsuario());
+                comFacade.create(comprador);
+            }else if(str.equals("Vendedor")){
+                Vendedor vendedor = new Vendedor(usuario.getIdUsuario());
+                venFacade.create(vendedor);
+            }
         } else {
             userFacade.edit(usuario);
         }
