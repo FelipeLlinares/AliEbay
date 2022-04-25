@@ -67,7 +67,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         
         if(!encontrado){
        
-            q = this.getEntityManager().createQuery("Select m From Markting m where m.idUsuario = :idUsuario");
+            q = this.getEntityManager().createQuery("Select m From Marketing m where m.idUsuario = :idUsuario");
             q.setParameter("idUsuario", idUsuario);
             List<Marketing> marketing = q.getResultList();
             if (marketing != null && !marketing.isEmpty()){

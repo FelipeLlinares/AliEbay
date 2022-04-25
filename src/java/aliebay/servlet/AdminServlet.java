@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Cate
  */
 @WebServlet(name = "AdminServlet", urlPatterns = {"/AdminServlet"})
-public class AdminServlet extends HttpServlet {
+public class AdminServlet extends AliEbaySessionServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
