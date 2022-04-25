@@ -46,6 +46,5 @@
             }
         %>
         </table>
-        <a href="UsuarioNuevoEditarServlet">Crear nuevo cliente.... </a>
     </body>
 </html>

@@ -20,8 +20,9 @@
         <%= strError%><br/>
         <form method="POST" action="LoginServlet">
             Usuario: <input type="text" name="usuario" value="" /><br/>
-            Clave: <input type="password" name="clave" value="" /><br/> <br/>            
-            <input type="submit" value="Enviar" />                
+            Clave: <input type="password" name="clave" value="" /><br/>           
+            <input type="submit" value="Enviar"/><br/>  
+            ¿No tienes una cuenta? <a href="UsuarioNuevoEditarServlet" >Regístrate</a>
         </form>
     </body>
 </html>
