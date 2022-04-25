@@ -63,4 +63,20 @@ public abstract class AliEbaySessionServlet extends HttpServlet {
             return true;
         }
     }
+
+    protected boolean comprobarMarketing(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+       HttpSession session = request.getSession();
+        
+        String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+        
+        if (!tipoUsuario.equals("Marketing")){
+            String strError = "No tienes permisos de marketing";
+            request.setAttribute("error", strError);
+            request.getRequestDispatcher("/" + tipoUsuario + "Servlet").forward(request,response);
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
