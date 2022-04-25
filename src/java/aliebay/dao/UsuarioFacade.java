@@ -4,7 +4,11 @@
  */
 package aliebay.dao;
 
+import aliebay.entity.Administrador;
+import aliebay.entity.Comprador;
+import aliebay.entity.Marketing;
 import aliebay.entity.Usuario;
+import aliebay.entity.Vendedor;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -45,5 +49,51 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         }else{
             return usuarios.get(0);
         }
+    }
+    
+    public String getTipoUsuario (Usuario user){
+        int idUsuario = user.getIdUsuario();
+        Query q;
+        String result="";
+        boolean encontrado = false;
+        
+        q = this.getEntityManager().createQuery("Select a From Administrador a where a.idUsuario = :idUsuario");
+        q.setParameter("idUsuario", idUsuario);
+        List<Administrador> admin = q.getResultList();
+        if (admin != null && !admin.isEmpty()){
+            encontrado = true;
+            result = "Admin";
+        }
+        
+        if(!encontrado){
+       
+            q = this.getEntityManager().createQuery("Select m From Markting m where m.idUsuario = :idUsuario");
+            q.setParameter("idUsuario", idUsuario);
+            List<Marketing> marketing = q.getResultList();
+            if (marketing != null && !marketing.isEmpty()){
+                encontrado = true;
+                result = "Marketing";
+            }
+            
+            if (!encontrado){
+                q = this.getEntityManager().createQuery("Select c From Comprador c where c.idUsuario = :idUsuario");
+                q.setParameter("idUsuario", idUsuario);
+                List<Comprador> comprador = q.getResultList();
+                if (comprador != null && !comprador.isEmpty()){
+                    result = "Comprador";
+                    encontrado = true;
+                }
+                
+                if (!encontrado){
+                    q = this.getEntityManager().createQuery("Select v From Vendedor v where v.idUsuario = :idUsuario");
+                    q.setParameter("idUsuario", idUsuario);
+                    List<Vendedor> vendedor = q.getResultList();
+                    if (vendedor != null && !vendedor.isEmpty()){
+                        result = "Vendedor";
+                    }
+                }
+            }
+        }
+        return result;
     }
 }

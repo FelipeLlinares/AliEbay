@@ -4,24 +4,21 @@
  */
 package aliebay.servlet;
 
-import aliebay.dao.UsuarioFacade;
-import aliebay.entity.Usuario;
-import jakarta.ejb.EJB;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author Cate
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends AliEbaySessionServlet {
+@WebServlet(name = "CompradorServlet", urlPatterns = {"/CompradorServlet"})
+public class CompradorServlet extends HttpServlet {
 
-    @EJB UsuarioFacade userfac;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,24 +30,18 @@ public class LoginServlet extends AliEbaySessionServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      
-        String usuario = request.getParameter("usuario");
-        String clave = request.getParameter("clave");
-        
-        
-        Usuario user = this.userfac.comprobarUsuario(usuario, clave);
-        //admin es o una lista vacia o un Object[]
-        if (user == null){
-            String strError = "El usuario o la clave son incorrectos";
-            request.setAttribute("error", strError);
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        } else{
-            HttpSession session = request.getSession();
-            session.setAttribute("usuario", user);
-            
-            String tipoUser = userfac.getTipoUsuario(user);
-            response.sendRedirect(request.getContextPath() + "/" + tipoUser + "Servlet");
-                    
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CompradorServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CompradorServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
