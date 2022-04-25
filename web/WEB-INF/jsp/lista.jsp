@@ -28,6 +28,7 @@
                 <th>Sexo</th>
                 <th></th><!-- Borrar -->
                 <th></th><!-- Editar -->
+                <th></th><!-- Productos -->
             </tr>
         <%
             List<Usuario> usuariosC = (List)request.getAttribute("usuariosC");
@@ -41,8 +42,9 @@
            <td><%= u.getCiudadResidencia()%></td> 
            <td><%= u.getEdad()%></td> 
            <td><%= u.getSexo()%></td>
-           <td><a href="UsuarioBorrarServlet?id=<%= u.getIdUsuario()%>">Borrar</a><td>
-           <td><a href="UsuarioNuevoEditarServlet?id=<%= u.getIdUsuario()%>">Editar</a><td>
+           <td><a href="UsuarioBorrarServlet?id=<%= u.getIdUsuario()%>">Borrar</a></td>
+           <td><a href="UsuarioNuevoEditarServlet?id=<%= u.getIdUsuario()%>">Editar</a></td>
+           <td><a href="MostrarProductosServlet?id=<%=u.getIdUsuario()%>">Productos</a></td>
         </tr>
         
         <%
@@ -59,22 +61,26 @@
                 <th>Domicilio</th>  
                 <th>Ciudad</th> 
                 <th>Edad</th> 
-                <th>Sexo</th> 
+                <th>Sexo</th>
+                <th></th><!-- Borrar -->
+                <th></th><!-- Editar -->
+                <th></th><!-- Productos -->
             </tr>
         <%
             List<Usuario> usuariosV = (List)request.getAttribute("usuariosV");
             for (Usuario u: usuariosV) {
         %>    
         <tr>
-            <td><%= u.getIdUsuario()%></td>
-            <td><%= u.getNombre() %></td>            
-            <td><%= u.getApellidos() %></td>                     
+           <td><%= u.getIdUsuario()%></td>
+           <td><%= u.getNombre() %></td>            
+           <td><%= u.getApellidos() %></td>                     
            <td><%= u.getDomicilio() %></td>   
            <td><%= u.getCiudadResidencia()%></td> 
            <td><%= u.getEdad()%></td> 
            <td><%= u.getSexo()%></td>
-           <td><a href="UsuarioBorrarServlet?id=<%= u.getIdUsuario()%>">Borrar</a><td>
-           <td><a href="UsuarioNuevoEditarServlet?id=<%= u.getIdUsuario()%>">Editar</a><td>
+           <td><a href="UsuarioBorrarServlet?id=<%= u.getIdUsuario()%>">Borrar</a></td>
+           <td><a href="UsuarioNuevoEditarServlet?id=<%= u.getIdUsuario()%>">Editar</a></td>
+            <td><a href="MostrarProductosServlet?id=<%=u.getIdUsuario()%>">Productos</a></td>
         </tr>
         
         <%

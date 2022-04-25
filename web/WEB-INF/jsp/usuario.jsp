@@ -46,11 +46,11 @@
         <input type="radio" name="tipoUsuario" value="Comprador" <%= h %> />Comprador
         <input type="radio" name="tipoUsuario" value="Vendedor" <%= m %>  /> Vendedor
         </br>
-        Usuario: <input type="text" name="usuario"/> </br>
-        Contraseña: <input type="password" name="password"/> </br>
         <%
             }
         %>
+        Usuario: <input type="text" name="usuario"/> </br>
+        Contraseña: <input type="password" name="password"/> </br>
         <input type="submit" value="Enviar" />
         </form>
     </body>
