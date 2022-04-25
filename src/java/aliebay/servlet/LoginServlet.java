@@ -49,6 +49,7 @@ public class LoginServlet extends AliEbaySessionServlet {
             session.setAttribute("usuario", user);
             
             String tipoUser = userfac.getTipoUsuario(user);
+            session.setAttribute("tipoUsuario",tipoUser);
             response.sendRedirect(request.getContextPath() + "/" + tipoUser + "Servlet");
                     
         }

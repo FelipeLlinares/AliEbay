@@ -18,7 +18,7 @@
     <tr width="80%">
         <td>Bievenido, <%= user.getNombre()%></td>
         <td>Session ID, <%= user.getIdUsuario() %></td>
-        <td><a href="NuevoServlet">Listado de clientes</a></td>
+        <td><a href="AdminServlet">Listado de clientes</a></td>
         <td><a href="LogoutServlet">Salir</a></td>
     </tr>
 </table>

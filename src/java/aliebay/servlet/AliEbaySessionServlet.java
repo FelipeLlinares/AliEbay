@@ -4,7 +4,9 @@
  */
 package aliebay.servlet;
 
+import aliebay.entity.Administrador;
 import aliebay.entity.Usuario;
+import jakarta.persistence.Query;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
@@ -44,7 +47,20 @@ public abstract class AliEbaySessionServlet extends HttpServlet {
             return true;
         }
     }
-
-
-
+    
+    protected boolean comprobarAdmin (HttpServletRequest request, HttpServletResponse response)
+            throws ServletException,IOException{
+        HttpSession session = request.getSession();
+        
+        String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+        
+        if (!tipoUsuario.equals("Admin")){
+            String strError = "No tienes permisos de administrador";
+            request.setAttribute("error", strError);
+            request.getRequestDispatcher("/" + tipoUsuario + "Servlet").forward(request,response);
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
