@@ -5,6 +5,7 @@
 package aliebay.servlet;
 
 import aliebay.dao.ProductoFacade;
+import aliebay.dao.VendedorFacade;
 import aliebay.entity.Comprador;
 import aliebay.entity.Producto;
 import aliebay.entity.Usuario;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 @WebServlet(name = "MostrarProductosServlet", urlPatterns = {"/MostrarProductosServlet"})
 public class MostrarProductosServlet extends AliEbaySessionServlet {
-    @EJB ProductoFacade pf;
+    @EJB VendedorFacade vf;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,9 +40,8 @@ public class MostrarProductosServlet extends AliEbaySessionServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (super.comprobarSesion(request,response) && super.comprobarAdmin(request,response)){
-            //String str = request.getParameter("id");
-            //List<Producto> productos = pf.findAll(str);
-            List<Producto> productos = new ArrayList<>();
+            int id = Integer.parseInt(request.getParameter("id"));
+            List<Producto> productos = vf.getProductos(vf.find(id));
             request.setAttribute("productos", productos);
             //request.setAttribute("ventas", ventas);
         
