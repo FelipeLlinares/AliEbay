@@ -2,8 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package aliebay.servlet;
+package aliebay.servlet.marketing;
 
+import aliebay.dao.CompradorFacade;
+import aliebay.dao.ListacompradorFacade;
+import aliebay.dao.UsuarioFacade;
+import aliebay.entity.Comprador;
+import aliebay.entity.Listacomprador;
+import aliebay.entity.Usuario;
+import aliebay.servlet.AliEbaySessionServlet;
+import jakarta.ejb.EJB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,14 +19,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
  * @author Cate
  */
 @WebServlet(name = "ListaCompradorNuevoEditarServlet", urlPatterns = {"/ListaCompradorNuevoEditarServlet"})
-public class ListaCompradorNuevoEditarServlet extends HttpServlet {
-
+public class ListaCompradorNuevoEditarServlet extends AliEbaySessionServlet {
+     @EJB ListacompradorFacade lcf;
+     @EJB CompradorFacade compradorf;
+     @EJB UsuarioFacade userfc;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -30,18 +41,21 @@ public class ListaCompradorNuevoEditarServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ListaCompradorNuevoEditarServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ListaCompradorNuevoEditarServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        
+        if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
+       
+            String str = request.getParameter("id");
+            if (str != null){
+                Listacomprador listacomprador = lcf.find(Integer.parseInt(str));
+                request.setAttribute("listaComprador", listacomprador);
+            }
+            
+             List<Comprador> compradores = compradorf.findAll();
+           //  List<Usuario> usuarios = userfc.findAll();
+            request.setAttribute("compradores", compradores);
+           // request.setAttribute("usuarios", usuarios);
+        
+            request.getRequestDispatcher("/WEB-INF/jsp/editarCrearListaComprador.jsp").forward(request,response);
         }
     }
 

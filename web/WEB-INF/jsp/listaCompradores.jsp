@@ -20,6 +20,7 @@
             <tr>
                 <th>Nombre</th>
                 <th></th>
+                <th></th>
             </tr>
         <%
             List<Listacomprador> listaCompradores = (List)request.getAttribute("listaCompradores");
@@ -27,8 +28,8 @@
         %>  
         <tr>
             <td><%= lc.getNombre()%></td>
+            <td><a href="ListaCompradorNuevoEditarServlet?id=<%= lc.getIdLista()%>">Editar</a></td>
             <td><a href="ListaCompradorBorrarServlet?id=<%= lc.getIdLista()%>">Borrar</a></td>
-           <td><a href="ListaCompradorNuevoEditarServlet?id=<%= lc.getIdLista()%>">Editar</a></td>
         </tr>
         <%
             }
