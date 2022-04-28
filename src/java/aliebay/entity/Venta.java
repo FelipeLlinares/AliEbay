@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -47,7 +48,7 @@ public class Venta implements Serializable {
     @ManyToOne(optional = false)
     private Comprador comprador;
     @JoinColumn(name = "idProducto", referencedColumnName = "idProducto", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private Producto producto;
 
     public Venta() {

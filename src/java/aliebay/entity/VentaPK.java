@@ -8,7 +8,6 @@ import java.io.Serializable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -18,15 +17,12 @@ import jakarta.validation.constraints.NotNull;
 public class VentaPK implements Serializable {
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "idVenta")
     private int idVenta;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "idProducto")
     private int idProducto;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "idComprador")
     private int idComprador;
 

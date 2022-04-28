@@ -41,8 +41,8 @@ public class MostrarProductosServlet extends AliEbaySessionServlet {
             throws ServletException, IOException {
         if (super.comprobarSesion(request,response) && super.comprobarAdmin(request,response)){
             int id = Integer.parseInt(request.getParameter("id"));
-            List<Producto> productos = vf.getProductos(vf.find(id));
-            request.setAttribute("productos", productos);
+            //List<Producto> productos = vf.getProductos(vf.find(id));
+            //request.setAttribute("productos", productos);
             //request.setAttribute("ventas", ventas);
         
             request.getRequestDispatcher("/WEB-INF/jsp/productos.jsp").forward(request, response);

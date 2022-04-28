@@ -16,7 +16,6 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -38,11 +37,10 @@ public class Mensaje implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected MensajePK mensajePK;
-    @Size(max = 45)
     @Column(name = "descripcion")
     private String descripcion;
     @Column(name = "fecha")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     @JoinColumn(name = "idListaComprador", referencedColumnName = "idLista", insertable = false, updatable = false)
     @ManyToOne(optional = false)

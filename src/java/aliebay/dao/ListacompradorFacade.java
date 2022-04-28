@@ -4,18 +4,15 @@
  */
 package aliebay.dao;
 
-import aliebay.entity.Comprador;
 import aliebay.entity.Listacomprador;
-import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import java.util.List;
 
 /**
  *
  * @author felip
  */
-@Stateless
+@jakarta.ejb.Stateless
 public class ListacompradorFacade extends AbstractFacade<Listacomprador> {
 
     @PersistenceContext(unitName = "AliEbayPU")
@@ -28,10 +25,6 @@ public class ListacompradorFacade extends AbstractFacade<Listacomprador> {
 
     public ListacompradorFacade() {
         super(Listacomprador.class);
-    }
-
-    public List<Comprador> getCompradoresListaComprador(int parseInt) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

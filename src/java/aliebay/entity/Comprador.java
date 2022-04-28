@@ -19,7 +19,6 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 
@@ -38,7 +37,6 @@ public class Comprador implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
     @Column(name = "idUsuario")
     private Integer idUsuario;
     @JoinTable(name = "favorito", joinColumns = {
@@ -46,7 +44,10 @@ public class Comprador implements Serializable {
         @JoinColumn(name = "idProducto", referencedColumnName = "idProducto")})
     @ManyToMany
     private List<Producto> productoList;
-    @ManyToMany(mappedBy = "compradorList")
+    @JoinTable(name = "pertenencialista", joinColumns = {
+        @JoinColumn(name = "idComprador", referencedColumnName = "idUsuario")}, inverseJoinColumns = {
+        @JoinColumn(name = "idLista", referencedColumnName = "idLista")})
+    @ManyToMany
     private List<Listacomprador> listacompradorList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "comprador")
     private List<Venta> ventaList;

@@ -5,18 +5,14 @@
 package aliebay.dao;
 
 import aliebay.entity.Administrador;
-import aliebay.entity.Usuario;
-import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
-import java.util.List;
 
 /**
  *
  * @author felip
  */
-@Stateless
+@jakarta.ejb.Stateless
 public class AdministradorFacade extends AbstractFacade<Administrador> {
 
     @PersistenceContext(unitName = "AliEbayPU")
@@ -30,4 +26,5 @@ public class AdministradorFacade extends AbstractFacade<Administrador> {
     public AdministradorFacade() {
         super(Administrador.class);
     }
+    
 }

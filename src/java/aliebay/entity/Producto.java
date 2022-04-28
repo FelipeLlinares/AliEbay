@@ -20,10 +20,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 
@@ -37,6 +37,7 @@ import jakarta.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p"),
     @NamedQuery(name = "Producto.findByIdProducto", query = "SELECT p FROM Producto p WHERE p.idProducto = :idProducto"),
+    @NamedQuery(name = "Producto.findByIdVendedor", query = "SELECT p FROM Producto p WHERE p.idVendedor = :idVendedor"),
     @NamedQuery(name = "Producto.findByTitulo", query = "SELECT p FROM Producto p WHERE p.titulo = :titulo"),
     @NamedQuery(name = "Producto.findByDescripcion", query = "SELECT p FROM Producto p WHERE p.descripcion = :descripcion"),
     @NamedQuery(name = "Producto.findByPrecioSalida", query = "SELECT p FROM Producto p WHERE p.precioSalida = :precioSalida"),
@@ -51,16 +52,16 @@ public class Producto implements Serializable {
     @Basic(optional = false)
     @Column(name = "idProducto")
     private Integer idProducto;
-    @Size(max = 45)
+    @Basic(optional = false)
+    @Column(name = "idVendedor")
+    private int idVendedor;
     @Column(name = "titulo")
     private String titulo;
-    @Size(max = 45)
     @Column(name = "descripcion")
     private String descripcion;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "precioSalida")
     private Float precioSalida;
-    @Size(max = 45)
     @Column(name = "URLFoto")
     private String uRLFoto;
     @Column(name = "fechaSalida")
@@ -71,16 +72,13 @@ public class Producto implements Serializable {
     private Date fechaFin;
     @ManyToMany(mappedBy = "productoList")
     private List<Comprador> compradorList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
-    private List<Venta> ventaList;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "producto")
+    private Venta venta;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
     private List<Puja> pujaList;
     @JoinColumn(name = "categoria", referencedColumnName = "idCategoria")
     @ManyToOne
     private Categoria categoria;
-    @JoinColumn(name = "idVendedor", referencedColumnName = "idUsuario")
-    @ManyToOne
-    private Vendedor idVendedor;
 
     public Producto() {
     }
@@ -89,12 +87,25 @@ public class Producto implements Serializable {
         this.idProducto = idProducto;
     }
 
+    public Producto(Integer idProducto, int idVendedor) {
+        this.idProducto = idProducto;
+        this.idVendedor = idVendedor;
+    }
+
     public Integer getIdProducto() {
         return idProducto;
     }
 
     public void setIdProducto(Integer idProducto) {
         this.idProducto = idProducto;
+    }
+
+    public int getIdVendedor() {
+        return idVendedor;
+    }
+
+    public void setIdVendedor(int idVendedor) {
+        this.idVendedor = idVendedor;
     }
 
     public String getTitulo() {
@@ -154,13 +165,12 @@ public class Producto implements Serializable {
         this.compradorList = compradorList;
     }
 
-    @XmlTransient
-    public List<Venta> getVentaList() {
-        return ventaList;
+    public Venta getVenta() {
+        return venta;
     }
 
-    public void setVentaList(List<Venta> ventaList) {
-        this.ventaList = ventaList;
+    public void setVenta(Venta venta) {
+        this.venta = venta;
     }
 
     @XmlTransient
@@ -178,14 +188,6 @@ public class Producto implements Serializable {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
-    }
-
-    public Vendedor getIdVendedor() {
-        return idVendedor;
-    }
-
-    public void setIdVendedor(Vendedor idVendedor) {
-        this.idVendedor = idVendedor;
     }
 
     @Override

@@ -8,7 +8,6 @@ import java.io.Serializable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -21,11 +20,9 @@ public class MensajePK implements Serializable {
     @Column(name = "id")
     private int id;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "idListaComprador")
     private int idListaComprador;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "idMarketing")
     private int idMarketing;
 

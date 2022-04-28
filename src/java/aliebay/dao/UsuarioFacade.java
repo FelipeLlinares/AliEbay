@@ -9,7 +9,6 @@ import aliebay.entity.Comprador;
 import aliebay.entity.Marketing;
 import aliebay.entity.Usuario;
 import aliebay.entity.Vendedor;
-import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -19,7 +18,7 @@ import java.util.List;
  *
  * @author felip
  */
-@Stateless
+@jakarta.ejb.Stateless
 public class UsuarioFacade extends AbstractFacade<Usuario> {
 
     @PersistenceContext(unitName = "AliEbayPU")
@@ -96,4 +95,5 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         }
         return result;
     }
+    
 }

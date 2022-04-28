@@ -10,16 +10,14 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 
@@ -38,17 +36,14 @@ public class Listacomprador implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "idLista")
     private Integer idLista;
-    @Size(max = 45)
+    @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @JoinTable(name = "pertenencialista", joinColumns = {
-        @JoinColumn(name = "idLista", referencedColumnName = "idLista")}, inverseJoinColumns = {
-        @JoinColumn(name = "idComprador", referencedColumnName = "idUsuario")})
-    @ManyToMany
+    @ManyToMany(mappedBy = "listacompradorList")
     private List<Comprador> compradorList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "listacomprador")
     private List<Mensaje> mensajeList;
@@ -58,6 +53,11 @@ public class Listacomprador implements Serializable {
 
     public Listacomprador(Integer idLista) {
         this.idLista = idLista;
+    }
+
+    public Listacomprador(Integer idLista, String nombre) {
+        this.idLista = idLista;
+        this.nombre = nombre;
     }
 
     public Integer getIdLista() {

@@ -5,7 +5,6 @@
 package aliebay.dao;
 
 import aliebay.entity.Mensaje;
-import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -13,7 +12,7 @@ import jakarta.persistence.PersistenceContext;
  *
  * @author felip
  */
-@Stateless
+@jakarta.ejb.Stateless
 public class MensajeFacade extends AbstractFacade<Mensaje> {
 
     @PersistenceContext(unitName = "AliEbayPU")

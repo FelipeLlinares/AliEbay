@@ -16,7 +16,6 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -45,27 +44,22 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "idUsuario")
     private Integer idUsuario;
-    @Size(max = 45)
     @Column(name = "nombre")
     private String nombre;
-    @Size(max = 45)
     @Column(name = "apellidos")
     private String apellidos;
-    @Size(max = 45)
     @Column(name = "domicilio")
     private String domicilio;
-    @Size(max = 45)
     @Column(name = "ciudadResidencia")
     private String ciudadResidencia;
     @Column(name = "edad")
     private Integer edad;
-    @Size(max = 45)
     @Column(name = "sexo")
     private String sexo;
-    @Size(max = 45)
+    @Basic(optional = false)
     @Column(name = "userName")
     private String userName;
-    @Size(max = 45)
+    @Basic(optional = false)
     @Column(name = "password")
     private String password;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
@@ -82,6 +76,12 @@ public class Usuario implements Serializable {
 
     public Usuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public Usuario(Integer idUsuario, String userName, String password) {
+        this.idUsuario = idUsuario;
+        this.userName = userName;
+        this.password = password;
     }
 
     public Integer getIdUsuario() {
