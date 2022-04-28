@@ -6,30 +6,27 @@ package aliebay.servlet.marketing;
 
 import aliebay.dao.CompradorFacade;
 import aliebay.dao.ListacompradorFacade;
-import aliebay.dao.UsuarioFacade;
 import aliebay.entity.Comprador;
 import aliebay.entity.Listacomprador;
-import aliebay.entity.Usuario;
+import aliebay.entity.Vendedor;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author Cate
  */
-@WebServlet(name = "ListaCompradorNuevoEditarServlet", urlPatterns = {"/ListaCompradorNuevoEditarServlet"})
-public class ListaCompradorNuevoEditarServlet extends AliEbaySessionServlet {
-     @EJB ListacompradorFacade lcf;
-     @EJB CompradorFacade compradorf;
-     @EJB UsuarioFacade userfc;
+@WebServlet(name = "ListaCompradorGuardarServlet", urlPatterns = {"/ListaCompradorGuardarServlet"})
+public class ListaCompradorGuardarServlet extends AliEbaySessionServlet {
+    @EJB ListacompradorFacade lcf;
+    @EJB CompradorFacade compradorf;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,23 +38,46 @@ public class ListaCompradorNuevoEditarServlet extends AliEbaySessionServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
        
-            String str = request.getParameter("id");
-            if (str != null){
-                Listacomprador listacomprador = lcf.find(Integer.parseInt(str));
-                request.setAttribute("listaComprador", listacomprador);
-                
-                List<Comprador> compradoresListaComprador = compradorf.getCompradoresListaComprador(Integer.parseInt(str));
-                request.setAttribute("compradoresListaComprador", compradoresListaComprador);
-                
-            }
-            
-            List<Comprador> compradores = compradorf.findAll();
-            request.setAttribute("compradores", compradores);
+     if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
         
-            request.getRequestDispatcher("/WEB-INF/jsp/editarCrearListaComprador.jsp").forward(request,response);
+        String strId,str;
+        Listacomprador lComprador;
+        
+        strId = request.getParameter("id");
+        
+        if (strId == null || strId.isEmpty()){
+            lComprador = new Listacomprador();
+        } else{
+            lComprador = this.lcf.find(Integer.parseInt(strId));
+        }
+        
+        str = request.getParameter("nombre");
+        lComprador.setNombre(str);
+        
+        List <Comprador> c = new ArrayList();
+        for (Comprador comprador : compradorf.findAll()){
+            int compradorID = comprador.getIdUsuario(); 
+            str = request.getParameter(Integer.toString(compradorID));
+            if (str != null){ //en el caso que no esten seleccionados el checkbox no devuelve nada por lo que str es null
+                Comprador compradorEncontrado = compradorf.find(Integer.parseInt(str));
+                c.add(compradorEncontrado);
+                
+                //actualizar la referencia de comprador
+                List<Listacomprador> a = compradorEncontrado.getListacompradorList();
+                a.add(lComprador);
+                compradorEncontrado.setListacompradorList(a);
+            }
+        }
+        lComprador.setCompradorList(c);
+        
+        if (strId == null || strId.isEmpty()){
+            lcf.create(lComprador);
+        } else {
+            lcf.edit(lComprador);
+        }
+        
+        response.sendRedirect(request.getContextPath() + "/MarketingServlet");
         }
     }
 

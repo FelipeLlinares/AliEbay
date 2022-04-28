@@ -8,6 +8,8 @@ import aliebay.entity.Comprador;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import java.util.List;
 
 /**
  *
@@ -27,5 +29,17 @@ public class CompradorFacade extends AbstractFacade<Comprador> {
     public CompradorFacade() {
         super(Comprador.class);
     }
+
+    public List<Comprador> getCompradoresListaComprador(int idComprador) {
+      Query q;
+      
+      q = this.getEntityManager().createQuery("select c from Comprador c join c.listacompradorList lc "
+                                                + "where lc.idLista= :id");
+      
+      q.setParameter("id", idComprador);
+      return q.getResultList();     
+    }
+    
+    
     
 }

@@ -31,6 +31,7 @@
             <td><a href="ListaCompradorNuevoEditarServlet?id=<%= lc.getIdLista()%>">Editar</a></td>
             <td><a href="ListaCompradorBorrarServlet?id=<%= lc.getIdLista()%>">Borrar</a></td>
         </tr>
+        <a href="ListaCompradorNuevoEditarServlet">Crear nueva lista comprador....</a>
         <%
             }
         %>            
