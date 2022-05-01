@@ -6,9 +6,12 @@ package aliebay.servlet.marketing;
 
 import aliebay.dao.CompradorFacade;
 import aliebay.dao.ListacompradorFacade;
-import aliebay.dao.UsuarioFacade;
+import aliebay.dao.MarketingFacade;
+import aliebay.dao.MensajeFacade;
 import aliebay.entity.Comprador;
 import aliebay.entity.Listacomprador;
+import aliebay.entity.Marketing;
+import aliebay.entity.Mensaje;
 import aliebay.entity.Usuario;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
@@ -19,16 +22,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author Cate
  */
-@WebServlet(name = "ListaCompradorNuevoEditarServlet", urlPatterns = {"/ListaCompradorNuevoEditarServlet"})
-public class ListaCompradorNuevoEditarServlet extends AliEbaySessionServlet {
-     @EJB ListacompradorFacade lcf;
-     @EJB CompradorFacade compradorf;
+@WebServlet(name = "ListaCompradorGuardarMensajeServlet", urlPatterns = {"/ListaCompradorGuardarMensajeServlet"})
+public class ListaCompradorGuardarMensajeServlet extends AliEbaySessionServlet {
+    @EJB ListacompradorFacade lcf;
+    @EJB MensajeFacade mensajef;
+    @EJB MarketingFacade marketingf;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,23 +46,40 @@ public class ListaCompradorNuevoEditarServlet extends AliEbaySessionServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
        
-            String str = request.getParameter("id");
-            if (str != null){
-                Listacomprador listacomprador = lcf.find(Integer.parseInt(str));
-                request.setAttribute("listaComprador", listacomprador);
-                
-                List<Comprador> compradoresListaComprador = compradorf.getCompradoresListaComprador(Integer.parseInt(str));
-                request.setAttribute("compradoresListaComprador", compradoresListaComprador);
-                
-            }
-            
-            List<Comprador> compradores = compradorf.findAll();
-            request.setAttribute("compradores", compradores);
+     if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
         
-            request.getRequestDispatcher("/WEB-INF/jsp/editarCrearListaComprador.jsp").forward(request,response);
+        String strIdLista,strID,str;
+        Mensaje mensaje;
+
+        
+        strID = request.getParameter("id");
+        
+        if (strID == null || strID.isEmpty()){
+            mensaje = new Mensaje();
+        } else{
+            mensaje = this.mensajef.find(Integer.parseInt(strID));
+        }
+       
+        str = request.getParameter("description");
+        mensaje.setDescripcion(str);
+        
+        strIdLista = request.getParameter("idLista");
+        mensaje.setListacomprador(lcf.find(Integer.parseInt(strIdLista)));
+        
+        HttpSession session = request.getSession();
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        Marketing marketing = marketingf.find(user.getIdUsuario());
+        mensaje.setMarketing(marketing);
+        
+        
+        if (strID == null || strID.isEmpty()){
+            mensajef.create(mensaje);
+        } else {
+            mensajef.edit(mensaje);
+        }
+        
+        response.sendRedirect(request.getContextPath() + "/ListaCompradorMensajeServlet");
         }
     }
 

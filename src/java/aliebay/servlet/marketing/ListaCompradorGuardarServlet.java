@@ -8,7 +8,6 @@ import aliebay.dao.CompradorFacade;
 import aliebay.dao.ListacompradorFacade;
 import aliebay.entity.Comprador;
 import aliebay.entity.Listacomprador;
-import aliebay.entity.Vendedor;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -27,23 +26,15 @@ import java.util.List;
 public class ListaCompradorGuardarServlet extends AliEbaySessionServlet {
     @EJB ListacompradorFacade lcf;
     @EJB CompradorFacade compradorf;
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+       
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-     if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
+
+        if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
         
         String strId,str;
         Listacomprador lComprador;
-        
+
         strId = request.getParameter("id");
         
         if (strId == null || strId.isEmpty()){
@@ -52,31 +43,40 @@ public class ListaCompradorGuardarServlet extends AliEbaySessionServlet {
             lComprador = this.lcf.find(Integer.parseInt(strId));
         }
         
+
         str = request.getParameter("nombre");
         lComprador.setNombre(str);
-        
-        List <Comprador> c = new ArrayList();
-        for (Comprador comprador : compradorf.findAll()){
-            int compradorID = comprador.getIdUsuario(); 
-            str = request.getParameter(Integer.toString(compradorID));
-            if (str != null){ //en el caso que no esten seleccionados el checkbox no devuelve nada por lo que str es null
-                Comprador compradorEncontrado = compradorf.find(Integer.parseInt(str));
-                c.add(compradorEncontrado);
-                
-                //actualizar la referencia de comprador
-                List<Listacomprador> a = compradorEncontrado.getListacompradorList();
-                a.add(lComprador);
-                compradorEncontrado.setListacompradorList(a);
-            }
-        }
-        lComprador.setCompradorList(c);
         
         if (strId == null || strId.isEmpty()){
             lcf.create(lComprador);
         } else {
             lcf.edit(lComprador);
         }
-        
+
+        List <Comprador> c = new ArrayList();
+        List <Listacomprador> a = new ArrayList();
+        for (Comprador comprador : compradorf.findAll()){
+            int compradorID = comprador.getIdUsuario(); 
+            str = request.getParameter(Integer.toString(compradorID));
+            if (str != null){ //en el caso que no esten seleccionados el checkbox no devuelve nada por lo que str es null
+                c.add(comprador);
+                
+                //actualizar la referencia de comprador
+                a = comprador.getListacompradorList();
+                if (!a.contains(lComprador)){
+                    a.add(lComprador);
+                    comprador.setListacompradorList(a);
+                }
+            } else {
+                a = comprador.getListacompradorList();
+                if (a.contains(lComprador)){
+                    a.remove(lComprador);
+                    comprador.setListacompradorList(a);
+                }
+            }
+            compradorf.edit(comprador);
+        }
+               
         response.sendRedirect(request.getContextPath() + "/MarketingServlet");
         }
     }

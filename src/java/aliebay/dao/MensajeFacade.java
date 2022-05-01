@@ -7,6 +7,8 @@ package aliebay.dao;
 import aliebay.entity.Mensaje;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import java.util.List;
 
 /**
  *
@@ -25,6 +27,17 @@ public class MensajeFacade extends AbstractFacade<Mensaje> {
 
     public MensajeFacade() {
         super(Mensaje.class);
+    }
+    
+    public List<Mensaje> mensajesListaComprador (int idLista){
+        Query q;
+        
+        q = this.getEntityManager().createQuery("SELECT m FROM "
+                                            + "Mensaje m WHERE m.mensajePK.idListaComprador = :idListaComprador");
+        
+      q.setParameter("idListaComprador", idLista);
+      return q.getResultList();
+                
     }
     
 }

@@ -6,10 +6,10 @@ package aliebay.servlet.marketing;
 
 import aliebay.dao.CompradorFacade;
 import aliebay.dao.ListacompradorFacade;
-import aliebay.dao.UsuarioFacade;
+import aliebay.dao.MensajeFacade;
 import aliebay.entity.Comprador;
 import aliebay.entity.Listacomprador;
-import aliebay.entity.Usuario;
+import aliebay.entity.Mensaje;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -25,10 +25,10 @@ import java.util.List;
  *
  * @author Cate
  */
-@WebServlet(name = "ListaCompradorNuevoEditarServlet", urlPatterns = {"/ListaCompradorNuevoEditarServlet"})
-public class ListaCompradorNuevoEditarServlet extends AliEbaySessionServlet {
+@WebServlet(name = "ListaCompradorNuevoEditarMensajeServlet", urlPatterns = {"/ListaCompradorNuevoEditarMensajeServlet"})
+public class ListaCompradorNuevoEditarMensajeServlet extends AliEbaySessionServlet {
      @EJB ListacompradorFacade lcf;
-     @EJB CompradorFacade compradorf;
+     @EJB MensajeFacade mensajef;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,19 +44,18 @@ public class ListaCompradorNuevoEditarServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
        
             String str = request.getParameter("id");
-            if (str != null){
-                Listacomprador listacomprador = lcf.find(Integer.parseInt(str));
-                request.setAttribute("listaComprador", listacomprador);
-                
-                List<Comprador> compradoresListaComprador = compradorf.getCompradoresListaComprador(Integer.parseInt(str));
-                request.setAttribute("compradoresListaComprador", compradoresListaComprador);
-                
-            }
+            String strIdLista = request.getParameter("idLista");
             
-            List<Comprador> compradores = compradorf.findAll();
-            request.setAttribute("compradores", compradores);
-        
-            request.getRequestDispatcher("/WEB-INF/jsp/editarCrearListaComprador.jsp").forward(request,response);
+            Listacomprador listacomprador = lcf.find(Integer.parseInt(strIdLista));
+            request.setAttribute("listaComprador", listacomprador);
+            
+            
+            if (str != null){
+                Mensaje m = mensajef.find(Integer.parseInt(str));
+                request.setAttribute("mensaje", m);
+            }
+          
+            request.getRequestDispatcher("/WEB-INF/jsp/mensajeNuevo.jsp").forward(request,response);
         }
     }
 

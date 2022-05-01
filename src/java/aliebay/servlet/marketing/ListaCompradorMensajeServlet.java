@@ -4,12 +4,10 @@
  */
 package aliebay.servlet.marketing;
 
-import aliebay.dao.CompradorFacade;
 import aliebay.dao.ListacompradorFacade;
-import aliebay.dao.UsuarioFacade;
-import aliebay.entity.Comprador;
+import aliebay.dao.MensajeFacade;
 import aliebay.entity.Listacomprador;
-import aliebay.entity.Usuario;
+import aliebay.entity.Mensaje;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -25,10 +23,10 @@ import java.util.List;
  *
  * @author Cate
  */
-@WebServlet(name = "ListaCompradorNuevoEditarServlet", urlPatterns = {"/ListaCompradorNuevoEditarServlet"})
-public class ListaCompradorNuevoEditarServlet extends AliEbaySessionServlet {
-     @EJB ListacompradorFacade lcf;
-     @EJB CompradorFacade compradorf;
+@WebServlet(name = "ListaCompradorMensajeServlet", urlPatterns = {"/ListaCompradorMensajeServlet"})
+public class ListaCompradorMensajeServlet extends AliEbaySessionServlet {
+    @EJB MensajeFacade mensajef;
+    @EJB ListacompradorFacade listacompradorf;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,23 +38,21 @@ public class ListaCompradorNuevoEditarServlet extends AliEbaySessionServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
        
-            String str = request.getParameter("id");
-            if (str != null){
-                Listacomprador listacomprador = lcf.find(Integer.parseInt(str));
-                request.setAttribute("listaComprador", listacomprador);
-                
-                List<Comprador> compradoresListaComprador = compradorf.getCompradoresListaComprador(Integer.parseInt(str));
-                request.setAttribute("compradoresListaComprador", compradoresListaComprador);
-                
-            }
-            
-            List<Comprador> compradores = compradorf.findAll();
-            request.setAttribute("compradores", compradores);
+        String str = request.getParameter("id");
         
-            request.getRequestDispatcher("/WEB-INF/jsp/editarCrearListaComprador.jsp").forward(request,response);
+        if (str != null){
+         Listacomprador listacomprador = listacompradorf.find(Integer.parseInt(str));
+         request.setAttribute("listaComprador", listacomprador);
+            
+         List<Mensaje> mensajes = mensajef.mensajesListaComprador(Integer.parseInt(str));
+         request.setAttribute("mensajes", mensajes);
+        }    
+            
+
+        
+        request.getRequestDispatcher("/WEB-INF/jsp/listaCompradorMensajes.jsp").forward(request, response);
         }
     }
 
