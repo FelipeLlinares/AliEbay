@@ -25,7 +25,7 @@
         Mensaje mensaje = (Mensaje) request.getAttribute("mensaje");
         %>
     <body>
-        <h1><%= listaComprador.getNombre() %></h1>
+        <h1>Mensaje nuevo para la lista:  <%= listaComprador.getNombre() %></h1>
         <form action="ListaCompradorGuardarMensajeServlet" method="POST">      
         <input type="hidden" name="id" value="<%= mensaje == null ? "" : mensaje.getMensajePK().getId() %>"/>
         <input type="hidden" name="idLista" value="<%= listaComprador == null ? "" : listaComprador.getIdLista()%>"/>

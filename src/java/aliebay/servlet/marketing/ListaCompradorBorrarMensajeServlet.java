@@ -7,7 +7,10 @@ package aliebay.servlet.marketing;
 import aliebay.dao.ListacompradorFacade;
 import aliebay.dao.MensajeFacade;
 import aliebay.entity.Listacomprador;
+import aliebay.entity.Marketing;
 import aliebay.entity.Mensaje;
+import aliebay.entity.MensajePK;
+import aliebay.entity.Usuario;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -17,16 +20,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author Cate
  */
-@WebServlet(name = "ListaCompradorMensajeServlet", urlPatterns = {"/ListaCompradorMensajeServlet"})
-public class ListaCompradorMensajeServlet extends AliEbaySessionServlet {
+@WebServlet(name = "ListaCompradorBorrarMensajeServlet", urlPatterns = {"/ListaCompradorBorrarMensajeServlet"})
+public class ListaCompradorBorrarMensajeServlet extends AliEbaySessionServlet {
     @EJB MensajeFacade mensajef;
-    @EJB ListacompradorFacade listacompradorf;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,19 +40,23 @@ public class ListaCompradorMensajeServlet extends AliEbaySessionServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
-       
-        String str = request.getParameter("id");
+            String str = request.getParameter("id");
+            String strIdLista = request.getParameter("idLista");
+            HttpSession session = request.getSession();
+            Usuario user = (Usuario) session.getAttribute("usuario");
+            
+            int idMensaje = Integer.parseInt(str);
+            int idLista = Integer.parseInt(strIdLista);     
+            
+            MensajePK mensajePK = new MensajePK(idMensaje, idLista, user.getIdUsuario());
+           
+            Mensaje mensaje = this.mensajef.find(mensajePK);
+            
+            this.mensajef.remove(mensaje);
         
-        if (str != null){
-         Listacomprador listacomprador = listacompradorf.find(Integer.parseInt(str));
-         request.setAttribute("listaComprador", listacomprador);
-            
-         List<Mensaje> mensajes = mensajef.mensajesListaComprador(Integer.parseInt(str));
-         request.setAttribute("mensajes", mensajes);
-        }    
-            
-        request.getRequestDispatcher("/WEB-INF/jsp/listaCompradorMensajes.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/MarketingServlet");
         }
     }
 

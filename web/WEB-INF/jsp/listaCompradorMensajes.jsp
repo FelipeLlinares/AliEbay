@@ -37,7 +37,8 @@
             <td><%= m.getMensajePK().getId()%></td>
             <td> <%= m.getDescripcion() %> </td>
             <td> <%= m.getFecha()%></td>
-            <td><a href="ListaCompradorNuevoEditarMensajeServlet?id=<%= m.getMensajePK().getId() %>&idLista=<%= lc.getIdLista() %>">Editar</td>
+            <td><a href="ListaCompradorNuevoEditarMensajeServlet?id=<%= m.getMensajePK().getId() %>&idLista=<%= lc.getIdLista() %>">Editar</a></td>
+            <td><a href="ListaCompradorBorrarMensajeServlet?id=<%= m.getMensajePK().getId() %>&idLista=<%= lc.getIdLista() %>">Borrar</a></td>
         </tr>
         <%
             }
