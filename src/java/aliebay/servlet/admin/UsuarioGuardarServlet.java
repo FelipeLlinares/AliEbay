@@ -2,20 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package aliebay.servlet;
+package aliebay.servlet.admin;
 
 import aliebay.dao.CompradorFacade;
+import aliebay.dao.MarketingFacade;
 import aliebay.dao.UsuarioFacade;
 import aliebay.dao.VendedorFacade;
 import aliebay.entity.Comprador;
+import aliebay.entity.Marketing;
 import aliebay.entity.Usuario;
 import aliebay.entity.Vendedor;
+import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -29,6 +30,7 @@ public class UsuarioGuardarServlet extends AliEbaySessionServlet {
     @EJB UsuarioFacade userFacade;
     @EJB CompradorFacade comFacade;
     @EJB VendedorFacade venFacade;
+    @EJB MarketingFacade marFacade;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -79,24 +81,32 @@ public class UsuarioGuardarServlet extends AliEbaySessionServlet {
         
         str = request.getParameter("tipoUsuario");
         
-        if (strId == null ||strId.isEmpty()){
+        String servlet = request.getParameter("admin");
+        servlet = servlet != null?"/AdminServlet":"/LoginServlet";
+        
+        if (strId == null || strId.isEmpty()){
             userFacade.create(usuario);
-            if(str.equals("Comprador")){
+            if(str.equals("comprador")){
                 Comprador comprador = new Comprador(usuario.getIdUsuario());
+                comprador.setUsuario(usuario);
                 comFacade.create(comprador);
-            }else if(str.equals("Vendedor")){
+            }else if(str.equals("vendedor")){
                 Vendedor vendedor = new Vendedor(usuario.getIdUsuario());
+                vendedor.setUsuario(usuario);
                 venFacade.create(vendedor);
+            }else if(str.equals("marketing")){
+                Marketing marketing = new Marketing(usuario.getIdUsuario());
+                marketing.setUsuario(usuario);
+                marFacade.create(marketing);
             }
         } else {
             userFacade.edit(usuario);
+            servlet = "/AdminServlet";
         }
         
-        response.sendRedirect(request.getContextPath() + "/NuevoServlet");
         
-        
-        
-        
+        //request.getRequestDispatcher(request.getContextPath() + servlet).forward(request,response);
+        response.sendRedirect(request.getContextPath() + servlet);   
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

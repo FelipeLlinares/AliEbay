@@ -2,28 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package aliebay.servlet;
+package aliebay.servlet.admin;
 
-import aliebay.dao.UsuarioFacade;
-import aliebay.entity.Usuario;
+import aliebay.dao.CategoriaFacade;
+import aliebay.entity.Categoria;
+import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
  *
- * @author Cate
+ * @author felip
  */
-@WebServlet(name = "NuevoServlet", urlPatterns = {"/NuevoServlet"})
-public class NuevoServlet extends AliEbaySessionServlet {
-
-    @EJB UsuarioFacade uf;
-    
+@WebServlet(name = "GestionarCategoriasServlet", urlPatterns = {"/GestionarCategoriasServlet"})
+public class GestionarCategoriasServlet extends AliEbaySessionServlet {
+    @EJB CategoriaFacade cf;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,15 +31,15 @@ public class NuevoServlet extends AliEbaySessionServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        if (super.comprobarSesion(request,response)){
-        List<Usuario> usuarios = uf.findAll();
+        if (super.comprobarSesion(request,response) && super.comprobarAdmin(request,response)){
+            
+            List<Categoria> categorias = cf.findAll();
+            request.setAttribute("categorias", categorias);
         
-        request.setAttribute("usuarios", usuarios);
-        
-        request.getRequestDispatcher("/WEB-INF/jsp/lista.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/categorias.jsp").forward(request, response);
         }
     }
 
@@ -83,5 +81,4 @@ public class NuevoServlet extends AliEbaySessionServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
