@@ -25,7 +25,12 @@
             </tr>
         <%
             List<Producto> productos = (List)request.getAttribute("productos");
-            for (Producto p: productos) {
+            if(productos.isEmpty()){
+        %>
+        <h2> No existen productos para este usuario<h2/>
+        <%
+            }else{
+                for (Producto p: productos) {
         %>    
         <tr>
             <td><%= p.getTitulo()%></td>
@@ -34,6 +39,7 @@
         </tr>
         
         <%
+                }
             }
         %>
         </table>
