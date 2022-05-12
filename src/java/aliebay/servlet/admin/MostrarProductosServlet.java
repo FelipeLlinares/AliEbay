@@ -42,7 +42,7 @@ public class MostrarProductosServlet extends AliEbaySessionServlet {
             List<Producto> productos = pf.getProductos(id);
             request.setAttribute("productos", productos);
             //request.setAttribute("ventas", ventas);
-        
+
             request.getRequestDispatcher("/WEB-INF/jsp/productos.jsp").forward(request, response);
         }
     }
