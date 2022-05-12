@@ -7,6 +7,8 @@ package aliebay.dao;
 import aliebay.entity.Producto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import java.util.List;
 
 /**
  *
@@ -25,6 +27,14 @@ public class ProductoFacade extends AbstractFacade<Producto> {
 
     public ProductoFacade() {
         super(Producto.class);
+    }
+    
+    public List<Producto> getProductos(int id){
+        Query q;
+        q = this.getEntityManager().createNamedQuery("Producto.findByIdVendedor");
+        q.setParameter("idVendedor",id);
+
+        return q.getResultList();
     }
     
 }

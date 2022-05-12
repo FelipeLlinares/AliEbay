@@ -17,6 +17,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
@@ -24,7 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "MostrarProductosServlet", urlPatterns = {"/MostrarProductosServlet"})
 public class MostrarProductosServlet extends AliEbaySessionServlet {
-    @EJB VendedorFacade vf;
+    @EJB ProductoFacade pf;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,10 +39,10 @@ public class MostrarProductosServlet extends AliEbaySessionServlet {
             throws ServletException, IOException {
         if (super.comprobarSesion(request,response) && super.comprobarAdmin(request,response)){
             int id = Integer.parseInt(request.getParameter("id"));
-            //List<Producto> productos = vf.getProductos(vf.find(id));
-            //request.setAttribute("productos", productos);
+            List<Producto> productos = pf.getProductos(id);
+            request.setAttribute("productos", productos);
             //request.setAttribute("ventas", ventas);
-        
+
             request.getRequestDispatcher("/WEB-INF/jsp/productos.jsp").forward(request, response);
         }
     }
