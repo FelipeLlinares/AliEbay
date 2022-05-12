@@ -59,11 +59,6 @@ public class AdminServlet extends AliEbaySessionServlet {
             request.setAttribute("compradores", compradores);
             request.setAttribute("vendedores", vendedores);
             request.setAttribute("marketings", marketings);
-        
-            for(Marketing m:marketings){
-                System.out.print(m.getIdUsuario());
-                System.out.print(m.getUsuario().getNombre());
-            }
             
             request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp").forward(request, response);
         }
