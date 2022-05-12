@@ -37,7 +37,7 @@ public class CategoriaBorrarServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request,response) && super.comprobarAdmin(request,response)){
             
             String str = request.getParameter("id");
-            Categoria c = this.cf.find(str);
+            Categoria c = cf.find(str);
             this.cf.remove(c);
             response.sendRedirect(request.getContextPath() + "/GestionarCategoriasServlet");
             

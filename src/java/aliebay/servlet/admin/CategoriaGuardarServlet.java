@@ -9,10 +9,8 @@ import aliebay.entity.Categoria;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -20,10 +18,9 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author felip
  */
-@WebServlet(name = "CategoriaNuevoEditarServlet", urlPatterns = {"/CategoriaNuevoEditarServlet"})
-public class CategoriaNuevoEditarServlet extends AliEbaySessionServlet {
+@WebServlet(name = "CategoriaGuardarServlet", urlPatterns = {"/CategoriaGuardarServlet"})
+public class CategoriaGuardarServlet extends AliEbaySessionServlet {
     @EJB CategoriaFacade cf;
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,15 +32,15 @@ public class CategoriaNuevoEditarServlet extends AliEbaySessionServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (super.comprobarSesion(request,response) && super.comprobarAdmin(request,response)){
-            String str = request.getParameter("id");
-            String categoria = str!=null?str:"";
+          
             
-            request.setAttribute("categoria", categoria);
-            
-            request.getRequestDispatcher("/WEB-INF/jsp/nuevaCategoria.jsp").forward(request,response);
-            
-        }
+            String nueva = request.getParameter("nuevaCategoria");
+
+            Categoria categoria = new Categoria(nueva);
+            cf.create(categoria);
+
+            response.sendRedirect(request.getContextPath() + "/GestionarCategoriasServlet");
+     
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

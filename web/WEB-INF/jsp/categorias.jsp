@@ -19,7 +19,7 @@
             <tr>
                 <th>Nombre</th>            
                 <th></th><!-- Borrar -->
-                <th></th><!-- Editar -->
+                <th></th><!-- Mostrar Productos -->
             </tr>
         <%
             List<Categoria> categorias = (List)request.getAttribute("categorias");
@@ -28,7 +28,7 @@
         <tr>
             <td><%= c.getIdCategoria() %></td>            
            <td><a href="CategoriaBorrarServlet?id=<%= c.getIdCategoria()%>">Borrar</a></td>
-           <td><a href="CategoriaNuevoEditarServlet?id=<%= c.getIdCategoria()%>">Editar</a></td>
+           <td><a href="ProductosPorCartegoriaServlet?id=<%= c.getIdCategoria()%>">Mostrar Productos</a></td>
         </tr>
         
         <%

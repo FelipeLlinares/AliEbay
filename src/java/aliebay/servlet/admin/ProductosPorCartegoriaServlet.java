@@ -5,25 +5,26 @@
 package aliebay.servlet.admin;
 
 import aliebay.dao.CategoriaFacade;
-import aliebay.entity.Categoria;
-import aliebay.servlet.AliEbaySessionServlet;
+import aliebay.dao.ProductoFacade;
+import aliebay.entity.Producto;
 import jakarta.ejb.EJB;
 import java.io.IOException;
 import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author felip
  */
-@WebServlet(name = "CategoriaNuevoEditarServlet", urlPatterns = {"/CategoriaNuevoEditarServlet"})
-public class CategoriaNuevoEditarServlet extends AliEbaySessionServlet {
+@WebServlet(name = "ProductosPorCartegoriaServlet", urlPatterns = {"/ProductosPorCartegoriaServlet"})
+public class ProductosPorCartegoriaServlet extends HttpServlet {
+    @EJB ProductoFacade pf;
     @EJB CategoriaFacade cf;
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,15 +36,11 @@ public class CategoriaNuevoEditarServlet extends AliEbaySessionServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (super.comprobarSesion(request,response) && super.comprobarAdmin(request,response)){
-            String str = request.getParameter("id");
-            String categoria = str!=null?str:"";
-            
-            request.setAttribute("categoria", categoria);
-            
-            request.getRequestDispatcher("/WEB-INF/jsp/nuevaCategoria.jsp").forward(request,response);
-            
-        }
+        String categoria = (String) request.getParameter("categoria");
+        List<Producto> productos = pf.getProductosPorCategoria(cf.find(categoria));
+        
+        request.setAttribute("productos", productos);
+        request.setAttribute("categoria",categoria);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

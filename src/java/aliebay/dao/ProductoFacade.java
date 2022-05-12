@@ -4,6 +4,7 @@
  */
 package aliebay.dao;
 
+import aliebay.entity.Categoria;
 import aliebay.entity.Producto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -37,5 +38,12 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         return q.getResultList();
     }
     
+    public List<Producto> getProductosPorCategoria(Categoria categoria){
+        Query q;
+        q= this.getEntityManager().createQuery("SELECT p FROM Producto p WHERE p.categoria = : categoria");
+        q.setParameter("categoria", categoria);
+        
+        return q.getResultList();
+    }
     
 }
