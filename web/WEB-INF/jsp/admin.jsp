@@ -106,7 +106,6 @@
                 <th>Sexo</th>
                 <th></th><!-- Borrar -->
                 <th></th><!-- Editar -->
-                <th></th><!-- Productos -->
             </tr>
         <%
             List<Marketing> marketings = (List)request.getAttribute("marketings");
@@ -123,7 +122,6 @@
            <td><%= u.getSexo()%></td>
            <td><a href="UsuarioBorrarServlet?id=<%= u.getIdUsuario()%>">Borrar</a></td>
            <td><a href="UsuarioNuevoEditarServlet?id=<%= u.getIdUsuario()%>">Editar</a></td>
-            <td><a href="MostrarProductosServlet?id=<%=u.getIdUsuario()%>">Productos</a></td>
         </tr>
         
         <%

@@ -28,7 +28,7 @@ public class ProductoFacade extends AbstractFacade<Producto> {
     public ProductoFacade() {
         super(Producto.class);
     }
-    
+
     public List<Producto> getProductos(int id){
         Query q;
         q = this.getEntityManager().createNamedQuery("Producto.findByIdVendedor");
@@ -36,5 +36,6 @@ public class ProductoFacade extends AbstractFacade<Producto> {
 
         return q.getResultList();
     }
+
     
 }
