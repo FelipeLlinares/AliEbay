@@ -4,6 +4,7 @@
  */
 package aliebay.servlet.comprador;
 
+import aliebay.dao.CompradorFacade;
 import aliebay.dao.VendedorFacade;
 import aliebay.entity.Comprador;
 import aliebay.entity.Producto;
@@ -30,6 +31,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "ProductosCompradorServlet", urlPatterns = {"/ProductosCompradorServlet"})
 public class ProductosCompradorServlet extends AliEbaySessionServlet {
     @EJB VendedorFacade vf;
+    @EJB CompradorFacade cf;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,10 +44,8 @@ public class ProductosCompradorServlet extends AliEbaySessionServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (super.comprobarSesion(request,response)){
             
-            HttpSession session = request.getSession();
-            Usuario user = (Usuario) session.getAttribute("usuario");
-
-            Comprador comprador = user.getComprador();
+            String usuario = request.getParameter("id");
+            Comprador comprador = cf.find(Integer.parseInt(usuario));
             
             if(comprador != null) {
                 
@@ -63,6 +63,10 @@ public class ProductosCompradorServlet extends AliEbaySessionServlet {
                 }
 
                 request.setAttribute("vendedores", nombresVendedores);
+                
+                if(super.comprobarComprador(request, response)) {
+                    request.setAttribute("admin", false);
+                }
                 
                 request.getRequestDispatcher("/WEB-INF/jsp/productosComprador.jsp").forward(request, response);
             }

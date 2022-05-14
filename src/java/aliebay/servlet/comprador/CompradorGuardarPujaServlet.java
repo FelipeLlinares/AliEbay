@@ -73,13 +73,15 @@ public class CompradorGuardarPujaServlet extends AliEbaySessionServlet {
 
                 float nuevoValorPuja = Float.parseFloat(puja);
 
-                if (prod.getPrecioSalida() < nuevoValorPuja) {
+                if (prod.getPrecioSalida() <= nuevoValorPuja) {
                     if (pujaUltima < nuevoValorPuja) {
                         Puja nuevaPuja = pjf.findPuja(prod.getIdProducto(), comprador.getIdUsuario());
                         if (nuevaPuja == null) {
                             nuevaPuja = new Puja(prod.getIdProducto(), comprador.getIdUsuario());
                         }
                         nuevaPuja.setPuja(nuevoValorPuja);
+                        nuevaPuja.setProducto(prod);
+                        nuevaPuja.setComprador(comprador);
                         Date date = new Date();
                         nuevaPuja.setFecha(date);
 

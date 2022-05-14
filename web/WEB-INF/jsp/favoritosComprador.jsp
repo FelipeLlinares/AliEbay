@@ -74,7 +74,7 @@
                     }
             %>  
             <tr>
-                <td><img src="<%= pc.getURLFoto()%>" width="50px" height="50px"></td>
+                <td><a href="verFotoServlet?url=<%= pc.getURLFoto() %>">Ver Foto</a></td>
                 <td><%= pc.getTitulo()%></td>
                 <td><%= pc.getDescripcion()%></td>
                 <td><%= vendedores.get(i)%></td>
@@ -135,7 +135,7 @@
                     }
             %>  
             <tr>
-                <td><img src="<%= pc.getURLFoto()%>" width="50px" height="50px"></td>
+                <td><a href="verFotoServlet?url=<%= pc.getURLFoto() %>">Ver Foto</a></td>
                 <td><%= pc.getTitulo()%></td>
                 <td><%= pc.getDescripcion()%></td>
                 <td><%= vendedores.get(i)%></td>

@@ -15,10 +15,6 @@
     }     
 %>
 
-<%
-String strError = (String)request.getAttribute("error");
-if (strError == null) strError = "";
-%>  
 
 <table width="80%">
     <tr width="80%">
@@ -29,6 +25,5 @@ if (strError == null) strError = "";
 </table>
 <html>
     <body>
-        <h2 style="color:red"><%= strError%><br/></h2>
     </body>   
 </html>

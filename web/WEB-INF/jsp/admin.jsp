@@ -48,7 +48,7 @@
             <td><%= u.getSexo()%></td>
             <td><a href="UsuarioBorrarServlet?id=<%= u.getIdUsuario()%>">Borrar</a></td>
             <td><a href="UsuarioNuevoEditarServlet?id=<%= u.getIdUsuario()%>">Editar</a></td>
-            <td><a href="MostrarProductosServlet?id=<%=u.getIdUsuario()%>">Productos</a></td>
+            <td><a href="ProductosCompradorServlet?id=<%=u.getIdUsuario()%>">Productos</a></td>
         </tr>
         
         <%

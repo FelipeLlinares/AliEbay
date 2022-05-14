@@ -9,11 +9,13 @@ import aliebay.entity.Producto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
  *
- * @author felip
+ * @author Enrique Cañadas Cobo
  */
 @jakarta.ejb.Stateless
 public class ProductoFacade extends AbstractFacade<Producto> {
@@ -38,14 +40,49 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         return q.getResultList();
     }
 
+    public List<Producto> getProductosDisponibles() {
+        Query q;
+        
+        Date date = new Date();
+        
+        q = this.getEntityManager().createQuery("SELECT p FROM Producto p WHERE p.fechaFin >= :fechaAhora ORDER BY p.fechaFin ");
+        q.setParameter("fechaAhora", date);
+        
+        return q.getResultList();
+    }
+    
+    public List<Producto> getProductosDisponiblesPorNombre(String nombre) {
+        Query q;
+        
+        Date date = new Date();
+
+        
+        q = this.getEntityManager().createQuery("SELECT p FROM Producto p WHERE p.fechaFin >= :fechaAhora AND p.titulo LIKE '%" + nombre + "%' ORDER BY p.fechaFin ");
+        q.setParameter("fechaAhora", date);
+        
+        return q.getResultList();
+    }
     
     public List<Producto> getProductosPorCategoria(Categoria categoria){
         Query q;
-        q= this.getEntityManager().createQuery("SELECT p FROM Producto p WHERE p.categoria = :categoria");
+        
+        Date date = new Date();
+        
+        q = this.getEntityManager().createQuery("SELECT p FROM Producto p WHERE p.fechaFin >= :fechaAhora AND p.categoria = :categoria");
         q.setParameter("categoria", categoria);
+        q.setParameter("fechaAhora", date);
         
         return q.getResultList();
     }
 
-    
+    public List<Producto> getProductosVendidos() {
+        Query q;
+        
+        Date date = new Date();
+        
+        q = this.getEntityManager().createQuery("SELECT p FROM Producto p WHERE p.fechaFin < :fechaAhora AND p.venta NOT IN (SELECT v FROM Venta v)");
+        q.setParameter("fechaAhora", date);
+        
+        return q.getResultList();
+    }
 }

@@ -24,7 +24,7 @@
         <td>Bievenido, <%= user.getNombre()%></td>
         <td>Session ID, <%= user.getIdUsuario() %></td>
         <td><a href="FavoritoServlet">Favoritos</a></td>
-        <td><a href="ProductosCompradorServlet">Productos comprados</a></td>
+        <td><a href="ProductosCompradorServlet?id=<%= user.getIdUsuario()%>">Productos comprados</a></td>
         <td><a href="LogoutServlet">Salir</a></td>
     </tr>
 </table>

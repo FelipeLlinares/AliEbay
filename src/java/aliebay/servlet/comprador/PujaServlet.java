@@ -52,7 +52,6 @@ public class PujaServlet extends AliEbaySessionServlet {
                 request.setAttribute("vendedor", vendedorNombre);
                 
                 String error = (String) request.getAttribute("error");
-                System.out.println(" HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA " + error);
                 request.setAttribute("error", error);
                 request.getRequestDispatcher("/WEB-INF/jsp/pujar.jsp").forward(request, response);
             } else {

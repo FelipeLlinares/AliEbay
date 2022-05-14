@@ -33,9 +33,8 @@ import java.util.Objects;
  */
 @WebServlet(name = "FavoritoServlet", urlPatterns = {"/FavoritoServlet"})
 public class FavoritoServlet extends AliEbaySessionServlet {
-
-    @EJB
-    VendedorFacade vf;
+    @EJB VendedorFacade vf;
+    @EJB ProductoFacade pf;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -63,7 +62,8 @@ public class FavoritoServlet extends AliEbaySessionServlet {
                 List<Producto> productosNoPujadosPorComprador = new ArrayList<>();
                 List<String> nombresVendedoresNoPujados = new ArrayList<>();
 
-                for (Producto pr : productos) {
+                for (Producto prod : productos) {
+                    Producto pr = pf.find(prod.getIdProducto());
                     List<Puja> pujas = pr.getPujaList();
                     if (pujas != null && !pujas.isEmpty()) {
                         Puja puja = pr.getPujaList().get(pr.getPujaList().size() - 1);

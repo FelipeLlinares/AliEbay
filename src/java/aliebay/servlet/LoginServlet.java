@@ -4,8 +4,16 @@
  */
 package aliebay.servlet;
 
+import aliebay.dao.CompradorFacade;
+import aliebay.dao.ProductoFacade;
 import aliebay.dao.UsuarioFacade;
+import aliebay.dao.VentaFacade;
+import aliebay.entity.Comprador;
+import aliebay.entity.Producto;
+import aliebay.entity.Puja;
 import aliebay.entity.Usuario;
+import aliebay.entity.Venta;
+import aliebay.entity.VentaPK;
 import jakarta.ejb.EJB;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -13,6 +21,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
@@ -20,7 +29,9 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends AliEbaySessionServlet {
-
+    @EJB ProductoFacade pf;
+    @EJB VentaFacade vf;
+    @EJB CompradorFacade cf;
     @EJB UsuarioFacade userfac;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,6 +47,44 @@ public class LoginServlet extends AliEbaySessionServlet {
       
         String usuario = request.getParameter("usuario");
         String clave = request.getParameter("clave");
+        
+        List<Producto> productosVendidos = pf.getProductosVendidos();
+        
+        for(Producto pr : productosVendidos) {
+            List<Puja> pujas = pr.getPujaList();
+            
+            if(pujas != null && !pujas.isEmpty()) {
+                Puja puja = pujas.get(pujas.size() - 1);
+                
+                VentaPK ventaPK = new VentaPK();
+                ventaPK.setIdComprador(puja.getComprador().getIdUsuario());
+                ventaPK.setIdProducto(puja.getProducto().getIdProducto());
+                
+                Venta venta = new Venta(ventaPK);
+                venta.setComprador(puja.getComprador());
+                venta.setFecha(pr.getFechaFin());
+                venta.setPrecioVenta(puja.getPuja());
+                venta.setProducto(pr);
+                vf.create(venta);
+                
+                Comprador comprador = puja.getComprador();
+                List<Venta> ventasComprador = comprador.getVentaList();
+                ventasComprador.add(venta);
+                comprador.setVentaList(ventasComprador);
+                cf.edit(comprador);
+                
+                pr.setVenta(venta);
+                pf.edit(pr);
+            } else {
+                Venta venta = new Venta();
+                venta.setFecha(pr.getFechaFin());
+                venta.setProducto(pr);
+                vf.create(venta);
+                
+                pr.setVenta(venta);
+                pf.edit(pr);
+            }   
+        }
         
         
         Usuario user = this.userfac.comprobarUsuario(usuario, clave);
