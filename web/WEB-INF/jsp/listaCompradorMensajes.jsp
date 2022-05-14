@@ -21,14 +21,18 @@
     
     <body>
         <h1>Mensajes <%=lc.getNombre()%></h1>
-<table border="1" width="80%">
+    <a href="ListaCompradorNuevoEditarMensajeServlet?idLista=<%= lc.getIdLista() %>">Nuevo mensaje</a>
+    <br/>
+    <br/>
+
+    <table border="1" width="80%">
             <tr>
                 <th>Asunto</th>
                 <th>Descripcion</th>
                 <th>Fecha</th>
                 <th></th>
             </tr>
-        <a href="ListaCompradorNuevoEditarMensajeServlet?idLista=<%= lc.getIdLista() %>">Nuevo mensaje</a>
+
         <%
             for (Mensaje m: mensajes) {
         %>  
