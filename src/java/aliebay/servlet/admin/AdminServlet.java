@@ -2,8 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package aliebay.servlet;
+package aliebay.servlet.admin;
 
+import aliebay.dao.AdministradorFacade;
+import aliebay.dao.CompradorFacade;
+import aliebay.dao.MarketingFacade;
+import aliebay.dao.UsuarioFacade;
+import aliebay.dao.VendedorFacade;
+import aliebay.entity.Comprador;
+import aliebay.entity.Marketing;
+import aliebay.entity.Usuario;
+import aliebay.entity.Vendedor;
+import aliebay.servlet.AliEbaySessionServlet;
+import aliebay.servlet.AliEbaySessionServlet;
+import aliebay.servlet.AliEbaySessionServlet;
+import jakarta.ejb.EJB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,14 +24,21 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Cate
  */
-@WebServlet(name = "VendedorServlet", urlPatterns = {"/VendedorServlet"})
-public class VendedorServlet extends AliEbaySessionServlet {
+@WebServlet(name = "AdminServlet", urlPatterns = {"/AdminServlet"})
+public class AdminServlet extends AliEbaySessionServlet {
 
+    @EJB CompradorFacade cf;
+    @EJB VendedorFacade vf;
+    @EJB MarketingFacade  mf;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -30,10 +50,21 @@ public class VendedorServlet extends AliEbaySessionServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (super.comprobarSesion(request,response)){
-            request.getRequestDispatcher("/WEB-INF/jsp/vendedor.jsp").forward(request, response);
+        
+        if (super.comprobarSesion(request,response) && super.comprobarAdmin(request,response)){
+            List<Comprador> compradores = cf.findAll();
+            List<Vendedor> vendedores = vf.findAll();
+            List<Marketing> marketings = mf.findAll();
+        
+            request.setAttribute("compradores", compradores);
+            request.setAttribute("vendedores", vendedores);
+            request.setAttribute("marketings", marketings);
+            
+            request.getRequestDispatcher("/WEB-INF/jsp/admin.jsp").forward(request, response);
         }
     }
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -73,5 +104,4 @@ public class VendedorServlet extends AliEbaySessionServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

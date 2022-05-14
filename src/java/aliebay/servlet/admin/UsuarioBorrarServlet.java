@@ -2,10 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package aliebay.servlet;
+package aliebay.servlet.admin;
 
+import aliebay.dao.UsuarioFacade;
+import aliebay.entity.Usuario;
+import aliebay.servlet.AliEbaySessionServlet;
+import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,9 +19,11 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Cate
  */
-@WebServlet(name = "VendedorServlet", urlPatterns = {"/VendedorServlet"})
-public class VendedorServlet extends AliEbaySessionServlet {
+@WebServlet(name = "UsuarioBorrarServlet", urlPatterns = {"/UsuarioBorrarServlet"})
+public class UsuarioBorrarServlet extends AliEbaySessionServlet {
 
+    @EJB UsuarioFacade userFacade;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -30,9 +35,12 @@ public class VendedorServlet extends AliEbaySessionServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (super.comprobarSesion(request,response)){
-            request.getRequestDispatcher("/WEB-INF/jsp/vendedor.jsp").forward(request, response);
-        }
+
+        String str = request.getParameter("id");
+        Usuario usuario = this.userFacade.find(Integer.parseInt(str));
+        this.userFacade.remove(usuario);
+        response.sendRedirect(request.getContextPath() + "/AdminServlet");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

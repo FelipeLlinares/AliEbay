@@ -11,18 +11,32 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Bienvenidos al sistema</title>
     </head>
-        <%
-        String strError = (String)request.getAttribute("error");
-        if (strError == null) strError = "";
-    %>  
     <body>
         <h1>Login</h1>
-        <%= strError%><br/>
-        <form method="POST" action="LoginServlet">
-            Usuario: <input type="text" name="usuario" value="" /><br/>
-            Clave: <input type="password" name="clave" value="" /><br/>           
-            <input type="submit" value="Enviar"/><br/>  
-            ¿No tienes una cuenta? <a href="UsuarioNuevoEditarServlet" >Regístrate</a>
+        <%
+            String strError = (String)request.getAttribute("error");
+            if (strError != null){
+        %>  
+            <h3 style="color:red"><%= strError%><br/></h3>
+        <%
+            }
+        %>
+        <form id = "form" method="POST" action="LoginServlet">
+            <table>
+                <tr>
+                    <td>Usuario:</td>
+                    <td><input type="text" name="usuario" value="" /></td>
+                </tr>
+                <tr>
+                    <td>Contraseña:</td>
+                    <td><input type="password" name="clave" value=""/></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Enviar"/></td>
+                </tr>
+            </table>
+            <br/>
+            ¿No tienes una cuenta? <a href="UsuarioNuevoEditarServlet">Regístrate</a>
         </form>
     </body>
 </html>

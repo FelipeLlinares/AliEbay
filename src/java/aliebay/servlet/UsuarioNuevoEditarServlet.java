@@ -6,6 +6,7 @@ package aliebay.servlet;
 
 import aliebay.dao.UsuarioFacade;
 import aliebay.entity.Usuario;
+import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,9 +40,12 @@ public class UsuarioNuevoEditarServlet extends AliEbaySessionServlet {
         if (str != null){
             Usuario usuario = uf.find(Integer.parseInt(str));
             request.setAttribute("usuario", usuario);
+        } else {
+            str = request.getParameter("tipoUsuario");
+            request.setAttribute("tipoUsuario", str);
         }
-        
-        request.getRequestDispatcher("/WEB-INF/jsp/usuario.jsp").forward(request,response);
+  
+        request.getRequestDispatcher("/WEB-INF/jsp/nuevoUsuario.jsp").forward(request,response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

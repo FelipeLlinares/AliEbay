@@ -79,4 +79,20 @@ public abstract class AliEbaySessionServlet extends HttpServlet {
             return true;
         }
     }
+    
+    protected boolean comprobarVendedor(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+       HttpSession session = request.getSession();
+        
+        String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+        
+        if (!tipoUsuario.equals("Vendedor")){
+            String strError = "No tienes permisos de vendedor";
+            request.setAttribute("error", strError);
+            request.getRequestDispatcher("/" + tipoUsuario + "Servlet").forward(request,response);
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
