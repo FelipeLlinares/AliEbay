@@ -2,29 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package aliebay.servlet.admin;
+package aliebay.servlet;
 
-import aliebay.dao.CategoriaFacade;
-import aliebay.dao.ProductoFacade;
-import aliebay.entity.Producto;
-import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 
 /**
  *
  * @author felip
  */
-@WebServlet(name = "ProductosPorCartegoriaServlet", urlPatterns = {"/ProductosPorCartegoriaServlet"})
-public class ProductosPorCartegoriaServlet extends HttpServlet {
-    @EJB ProductoFacade pf;
-    @EJB CategoriaFacade cf;
+@WebServlet(name = "verFotoServlet", urlPatterns = {"/verFotoServlet"})
+public class verFotoServlet extends AliEbaySessionServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,24 +30,13 @@ public class ProductosPorCartegoriaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String categoria = (String) request.getParameter("id");
-        List<Producto> productos = pf.getProductosPorCategoria(cf.find(categoria));
+        if (super.comprobarSesion(request,response)){
+            String url = (String)request.getParameter("url");
+        request.setAttribute("url", url);
         
-        List<Producto> productosVendidos = new ArrayList<>();
-        List<Producto> productosNoVendidos  = new ArrayList<>();
-        
-        for(Producto p:productos){
-            if(p.getVenta() == null){
-                productosNoVendidos.add(p);
-            }else{
-                productosVendidos.add(p);
-            }
+        request.getRequestDispatcher("/WEB-INF/jsp/verFoto.jsp").forward(request, response);
         }
-        request.setAttribute("productosVendidos", productosVendidos);
-        request.setAttribute("productosNoVendidos", productosNoVendidos);
-        request.setAttribute("categoria",categoria);
         
-        request.getRequestDispatcher("/WEB-INF/jsp/productos.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

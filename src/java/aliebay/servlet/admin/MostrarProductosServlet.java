@@ -17,6 +17,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,10 +41,22 @@ public class MostrarProductosServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request,response) && super.comprobarAdmin(request,response)){
             int id = Integer.parseInt(request.getParameter("id"));
             List<Producto> productos = pf.getProductos(id);
-            request.setAttribute("productos", productos);
-            //request.setAttribute("ventas", ventas);
+            
+             List<Producto> productosVendidos = new ArrayList<>();
+            List<Producto> productosNoVendidos  = new ArrayList<>();
+        
+            for(Producto p:productos){
+                if(p.getVenta() == null){
+                    productosNoVendidos.add(p);
+                }else{
+                    productosVendidos.add(p);
+                }
+            }
+            
+        request.setAttribute("productosVendidos", productosVendidos);
+        request.setAttribute("productosNoVendidos", productosNoVendidos);
 
-            request.getRequestDispatcher("/WEB-INF/jsp/productos.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/productos.jsp").forward(request, response);
         }
     }
 
