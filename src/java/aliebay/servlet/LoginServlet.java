@@ -75,15 +75,7 @@ public class LoginServlet extends AliEbaySessionServlet {
                 
                 pr.setVenta(venta);
                 pf.edit(pr);
-            } else {
-                Venta venta = new Venta();
-                venta.setFecha(pr.getFechaFin());
-                venta.setProducto(pr);
-                vf.create(venta);
-                
-                pr.setVenta(venta);
-                pf.edit(pr);
-            }   
+            }
         }
         
         

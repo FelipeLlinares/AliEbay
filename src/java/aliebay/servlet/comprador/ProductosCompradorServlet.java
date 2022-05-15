@@ -57,15 +57,17 @@ public class ProductosCompradorServlet extends AliEbaySessionServlet {
                 
                 for(Venta ve : ventas) {
                     Vendedor vendedor = vf.find(ve.getProducto().getIdVendedor());
-                    String vendedorNombre = vendedor.getUsuario().getNombre() + " " + vendedor.getUsuario().getApellidos();
+                    String vendedorNombre = vendedor.getUsuario().getUserName();
 
                     nombresVendedores.add(vendedorNombre);
                 }
 
                 request.setAttribute("vendedores", nombresVendedores);
                 
-                if(super.comprobarComprador(request, response)) {
-                    request.setAttribute("admin", false);
+                HttpSession session = request.getSession();
+                String tipo = (String) session.getAttribute("tipoUsuario");
+                if(tipo.equals("Admin")) {
+                    request.setAttribute("admin", true);
                 }
                 
                 request.getRequestDispatcher("/WEB-INF/jsp/productosComprador.jsp").forward(request, response);

@@ -37,7 +37,7 @@ public class ProductosPorCartegoriaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String categoria = (String) request.getParameter("id");
-        List<Producto> productos = pf.getProductosPorCategoria(cf.find(categoria));
+        List<Producto> productos = pf.getTodosProductosPorCategoria(cf.find(categoria));
         
         List<Producto> productosVendidos = new ArrayList<>();
         List<Producto> productosNoVendidos  = new ArrayList<>();

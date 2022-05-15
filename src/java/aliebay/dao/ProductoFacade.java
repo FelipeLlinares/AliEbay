@@ -75,6 +75,17 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         return q.getResultList();
     }
     
+    public List<Producto> getTodosProductosPorCategoria(Categoria categoria){
+        Query q;
+        
+        Date date = new Date();
+        
+        q = this.getEntityManager().createQuery("SELECT p FROM Producto p WHERE p.categoria = :categoria");
+        q.setParameter("categoria", categoria);
+        
+        return q.getResultList();
+    }
+    
     public List<Producto> getProductosPorNombreYCategoria(String nombreFiltro, Categoria categ) {
         Query q;
         

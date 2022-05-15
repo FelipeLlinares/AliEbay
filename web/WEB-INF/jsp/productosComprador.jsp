@@ -19,7 +19,7 @@
     </head>
     <body>
         <%
-            if (request.getAttribute("admin") != null){
+            if (request.getAttribute("admin") == null){
         %>
         <jsp:include page="/WEB-INF/jsp/cabeceraFavoritos.jsp" />
         <h1>Mis productos</h1>
@@ -57,7 +57,6 @@
                 <th>Precio salida</th>
                 <th>Precio compra</th>
                 <th></th><!--- Borrar --->
-                <th></th><!--- Editar --->
             </tr>
             <%
             
@@ -83,8 +82,7 @@
                 <td><%= fechaTotal%></td>
                 <td><%= pc.getPrecioSalida()%> €</td>
                 <td><%= ve.getPrecioVenta()%> €</td>
-                <td><a href="ProductosBorrarServlet?producto=<%= pc.getIdProducto()%>"> Borrar </a></td>
-                <td><a href="ProductosEditarServlet?producto=<%= pc.getIdProducto()%>"> Editar </a></td>
+                <td><a href="ProductosBorrarServlet?producto=<%= pc.getIdProducto()%>&comprador=<%=ve.getComprador().getIdUsuario()%>"> Borrar </a></td>
             </tr>
             <%
                     }
