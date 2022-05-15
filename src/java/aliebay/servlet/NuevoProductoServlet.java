@@ -50,7 +50,8 @@ public class NuevoProductoServlet extends AliEbaySessionServlet {
             
             SimpleDateFormat sdt = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             ProductoDTO producto = new ProductoDTO();
-            String str;
+            String str, prod;
+            
 
             HttpSession session = request.getSession();
             UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
@@ -58,8 +59,8 @@ public class NuevoProductoServlet extends AliEbaySessionServlet {
             List<CategoriaDTO> categorias = cs.listarCategorias();
             request.setAttribute("categorias", categorias);
             
-            str = request.getParameter("idprod");
-            int idproducto = Integer.parseInt("idprod");
+            //prod = request.getParameter("idprod");
+            //int idproducto = Integer.parseInt(prod);
 
             String titulo = request.getParameter("titulo");
             String descripcion = request.getParameter("descripcion");
@@ -79,10 +80,10 @@ public class NuevoProductoServlet extends AliEbaySessionServlet {
             String categoria = request.getParameter("categorias");
             String vendedor = request.getParameter("id");
             
-            if (str == null){
+            if (request.getParameter("idprod") == null){
                 ps.crearProducto(titulo, descripcion, precioinicio, urlFoto, fechaSalida, fechafinal, categoria, vendedor);
             }else{
-               ps.editarProducto(idproducto,titulo, descripcion, precioinicio, urlFoto, fechaSalida, fechafinal, categoria, vendedor); 
+               ps.editarProducto(Integer.parseInt(request.getParameter("idprod")),titulo, descripcion, precioinicio, urlFoto, fechaSalida, fechafinal, categoria, vendedor); 
             }
             
             response.sendRedirect(request.getContextPath() + "/VendedorServlet");

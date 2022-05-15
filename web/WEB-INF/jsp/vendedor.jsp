@@ -73,8 +73,8 @@
             <td><a href="verFotoServlet?url=<%= p.getuRLFoto() %>">Ver Foto</a></td>
             <td><%=  sdf.format(p.getFechaSalida()) %></td>
             <td><%= sdf.format(p.getFechaFin()) %></td>
-            <td><a href="EditarNuevoProductoServlet?id=<%=v.getIdUsuario()%>">Editar</a></td>
-            <td><a href="BorrarProductoServlet?id=<%=v.getIdUsuario()%>">Borrar</a></td>
+            <td><a href="EditarNuevoProductoServlet?id=<%=v.getIdUsuario()%>&idprod=<%=p.getIdProducto()%>">Editar</a></td>
+            <td><a href="BorrarProductoServlet?id=<%=v.getIdUsuario()%>&idprod=<%=p.getIdProducto()%>">Borrar</a></td>
         </tr>
         <%
                     }
