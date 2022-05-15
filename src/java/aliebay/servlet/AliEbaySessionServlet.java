@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author Cate
+ * @author Jose Maria Tapia Catena
  */
 @WebServlet(name = "AliEbaySessionServlet", urlPatterns = {"/AliEbaySessionServlet"})
 public abstract class AliEbaySessionServlet extends HttpServlet {

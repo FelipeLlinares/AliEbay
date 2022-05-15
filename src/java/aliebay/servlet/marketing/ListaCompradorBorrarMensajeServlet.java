@@ -24,7 +24,7 @@ import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author Cate
+ * @author Jose Maria Tapia Catena
  */
 @WebServlet(name = "ListaCompradorBorrarMensajeServlet", urlPatterns = {"/ListaCompradorBorrarMensajeServlet"})
 public class ListaCompradorBorrarMensajeServlet extends AliEbaySessionServlet {

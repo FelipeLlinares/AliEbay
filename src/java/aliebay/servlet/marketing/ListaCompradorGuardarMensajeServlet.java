@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Cate
+ * @author Jose Maria Tapia Catena
  */
 @WebServlet(name = "ListaCompradorGuardarMensajeServlet", urlPatterns = {"/ListaCompradorGuardarMensajeServlet"})
 public class ListaCompradorGuardarMensajeServlet extends AliEbaySessionServlet {
