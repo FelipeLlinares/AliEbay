@@ -5,8 +5,11 @@
 package aliebay.servlet;
 
 import aliebay.dao.ProductoFacade;
+import aliebay.dto.ProductoDTO;
+import aliebay.dto.UsuarioDTO;
 import aliebay.entity.Producto;
 import aliebay.entity.Usuario;
+import aliebay.service.ProductoService;
 import jakarta.ejb.EJB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,7 +28,7 @@ import java.util.List;
  */
 @WebServlet(name = "VendedorServlet", urlPatterns = {"/VendedorServlet"})
 public class VendedorServlet extends AliEbaySessionServlet {
-    @EJB ProductoFacade pf;
+    @EJB ProductoService pf;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,15 +43,15 @@ public class VendedorServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request,response)){
             
             HttpSession session = request.getSession();
-            Usuario user = (Usuario) session.getAttribute("usuario");
+            UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
             int id = user.getIdUsuario();
             
-            List<Producto> productos = pf.getProductos(id);
+            List<ProductoDTO> productos = pf.getProductosVendedor(id);
             
-             List<Producto> productosVendidos = new ArrayList<>();
-            List<Producto> productosNoVendidos  = new ArrayList<>();
+            List<ProductoDTO> productosVendidos = new ArrayList<>();
+            List<ProductoDTO> productosNoVendidos  = new ArrayList<>();
         
-            for(Producto p:productos){
+            for(ProductoDTO p:productos){
                 if(p.getVenta() == null){
                     productosNoVendidos.add(p);
                 }else{

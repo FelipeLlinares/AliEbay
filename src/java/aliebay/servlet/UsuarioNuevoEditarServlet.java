@@ -6,7 +6,11 @@ package aliebay.servlet;
 
 import aliebay.dao.UsuarioFacade;
 import aliebay.dto.UsuarioDTO;
+<<<<<<< Updated upstream
 import aliebay.service.UsuarioService;
+=======
+import aliebay.entity.Usuario;
+>>>>>>> Stashed changes
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;

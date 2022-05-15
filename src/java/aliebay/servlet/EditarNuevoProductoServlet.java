@@ -47,14 +47,14 @@ public class EditarNuevoProductoServlet extends AliEbaySessionServlet {
             throws ServletException, IOException {
         if (super.comprobarSesion(request,response)){
           
-            String str = request.getParameter("producto");
+            String str = request.getParameter("idprod");
             List<CategoriaDTO> categorias = cs.listarCategorias();
             
             request.setAttribute("categorias",categorias);
             
             if (str != null){
                 ProductoDTO producto = ps.buscarProducto(Integer.parseInt(str));
-                request.setAttribute("producto", producto);
+                request.setAttribute("idprod", producto);
             }else{
                 String vendedor = request.getParameter("id");
                 request.setAttribute("vendedor", vendedor);

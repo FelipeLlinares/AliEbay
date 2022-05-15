@@ -16,14 +16,14 @@
         <title>Nuevo producto</title>
     </head>
     <% 
-        ProductoDTO producto = (ProductoDTO)request.getAttribute("producto");
+        ProductoDTO producto = (ProductoDTO)request.getAttribute("idprod");
         String vendedor = (String)request.getAttribute("vendedor");
         
         %>
     <body>
         <h1>Datos producto</h1>
         <form action="NuevoProductoServlet" method="POST">
-        <input type="hidden" name="id" value="<%= producto == null ? "" : producto.getIdProducto() %>"/>
+        <input type="hidden" name="idprod" value="<%= producto == null ? "" : producto.getIdProducto() %>"/>
         <table>
             <tr>
                 <td>Título:</td>
@@ -39,7 +39,7 @@
             </tr>
             <tr>
                 <td>URL a foto del producto:</td>
-                <td><input type="text" name="urlFoto" value="<%= producto == null ? "" : producto.getURLFoto()%>" /></td>
+                <td><input type="text" name="urlFoto" value="<%= producto == null ? "" : producto.getuRLFoto()%>" /></td>
             </tr>
             <tr>
                 <td>Fecha de salida: </td>
