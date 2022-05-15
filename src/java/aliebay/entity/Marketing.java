@@ -105,7 +105,6 @@ public class Marketing implements Serializable {
     public MarketingDTO toDTO() {
         MarketingDTO dto = new MarketingDTO();
         dto.setIdUsuario(idUsuario);
-        dto.setUsuario(usuario.toDTO());
         return dto;
     }
     

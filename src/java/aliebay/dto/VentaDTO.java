@@ -22,8 +22,8 @@ import java.util.Date;
 public class VentaDTO {
     private Date fecha;
     private Float precioVenta;
-    private Comprador comprador;
-    private Producto producto;
+    private CompradorDTO comprador;
+    private ProductoDTO producto;
 
     public VentaDTO() {
     }
@@ -44,19 +44,19 @@ public class VentaDTO {
         this.precioVenta = precioVenta;
     }
 
-    public Comprador getComprador() {
+    public CompradorDTO getComprador() {
         return comprador;
     }
 
-    public void setComprador(Comprador comprador) {
+    public void setComprador(CompradorDTO comprador) {
         this.comprador = comprador;
     }
 
-    public Producto getProducto() {
+    public ProductoDTO getProducto() {
         return producto;
     }
 
-    public void setProducto(Producto producto) {
+    public void setProducto(ProductoDTO producto) {
         this.producto = producto;
     }
     

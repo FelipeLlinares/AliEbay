@@ -5,7 +5,8 @@
 package aliebay.servlet;
 
 import aliebay.dao.UsuarioFacade;
-import aliebay.entity.Usuario;
+import aliebay.dto.UsuarioDTO;
+import aliebay.service.UsuarioService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -23,7 +24,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "UsuarioNuevoEditarServlet", urlPatterns = {"/UsuarioNuevoEditarServlet"})
 public class UsuarioNuevoEditarServlet extends AliEbaySessionServlet {
 
-    @EJB UsuarioFacade uf;
+    @EJB UsuarioService us;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,7 +39,7 @@ public class UsuarioNuevoEditarServlet extends AliEbaySessionServlet {
             
         String str = request.getParameter("id");
         if (str != null){
-            Usuario usuario = uf.find(Integer.parseInt(str));
+            UsuarioDTO usuario = us.buscarUsuario(Integer.parseInt(str));
             request.setAttribute("usuario", usuario);
         } else {
             str = request.getParameter("tipoUsuario");

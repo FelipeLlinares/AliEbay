@@ -101,6 +101,7 @@ public class CompradorService {
         List<Producto> productos = c.getProductoList();
         productos.add(p);
         c.setProductoList(productos);
+        cf.edit(c);
 
         List<Comprador> compradores = p.getCompradorList();
         compradores.add(c);
@@ -117,6 +118,7 @@ public class CompradorService {
         List<Producto> productos = c.getProductoList();
         productos.remove(p);
         c.setProductoList(productos);
+        cf.edit(c);
 
         List<Comprador> compradores = p.getCompradorList();
         compradores.remove(c);

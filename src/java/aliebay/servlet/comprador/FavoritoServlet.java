@@ -11,6 +11,7 @@ import aliebay.dto.UsuarioDTO;
 import aliebay.dto.VendedorDTO;
 import aliebay.service.CompradorService;
 import aliebay.service.ProductoService;
+import aliebay.service.UsuarioService;
 import aliebay.service.VendedorService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
@@ -35,6 +36,8 @@ public class FavoritoServlet extends AliEbaySessionServlet {
     @EJB VendedorService vs;
     @EJB ProductoService ps;
     @EJB CompradorService cs;
+    @EJB
+    UsuarioService us;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -75,8 +78,8 @@ public class FavoritoServlet extends AliEbaySessionServlet {
                         if (Objects.equals(puja.getComprador().getIdUsuario(), comprador.getIdUsuario())) {
                             productosPujadosPorComprador.add(pr);
 
-                            VendedorDTO vendedor = vs.buscarVendedor(pr.getIdVendedor());
-                            String vendedorNombre = vendedor.getUsuario().getUserName();
+                            UsuarioDTO usuario = us.buscarUsuario(pr.getIdVendedor());
+                            String vendedorNombre = usuario.getUserName();
 
                             nombresVendedoresPujados.add(vendedorNombre);
                         } else {

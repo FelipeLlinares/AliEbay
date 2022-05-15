@@ -52,9 +52,9 @@ public class CompradorGuardarFavoritoServlet extends AliEbaySessionServlet {
 
             if (producto != null) {
 
-                cs.quitarFavorito(comprador.getIdUsuario(), Integer.parseInt(producto));
+                cs.anyadirFavorito(comprador.getIdUsuario(), Integer.parseInt(producto));
 
-                response.sendRedirect(request.getContextPath() + "/" + "FavoritoServlet");
+                response.sendRedirect(request.getContextPath() + "/" + "CompradorServlet");
             }
         }
     }

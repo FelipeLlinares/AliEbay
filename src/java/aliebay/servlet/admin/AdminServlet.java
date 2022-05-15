@@ -6,9 +6,11 @@ package aliebay.servlet.admin;
 
 import aliebay.dto.CompradorDTO;
 import aliebay.dto.MarketingDTO;
+import aliebay.dto.UsuarioDTO;
 import aliebay.dto.VendedorDTO;
 import aliebay.service.CompradorService;
 import aliebay.service.MarketingService;
+import aliebay.service.UsuarioService;
 import aliebay.service.VendedorService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
@@ -17,6 +19,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +28,7 @@ import java.util.List;
  */
 @WebServlet(name = "AdminServlet", urlPatterns = {"/AdminServlet"})
 public class AdminServlet extends AliEbaySessionServlet {
-
+    @EJB UsuarioService us;
     @EJB CompradorService cs;
     @EJB VendedorService vs;
     @EJB MarketingService  ms;
@@ -43,10 +46,23 @@ public class AdminServlet extends AliEbaySessionServlet {
             throws ServletException, IOException {
         
         if (super.comprobarSesion(request,response) && super.comprobarAdmin(request,response)){
-            List<CompradorDTO> compradores = cs.listarComprador();
-            List<VendedorDTO> vendedores = vs.listarVendedor();
-            List<MarketingDTO> marketings = ms.listarMarketing();
-        
+            List<UsuarioDTO> compradores = new ArrayList<>();
+            List<UsuarioDTO> vendedores = new ArrayList<>();
+            List<UsuarioDTO> marketings = new ArrayList<>();
+            
+            List<UsuarioDTO> usuarios = us.listarUsuario();
+            
+            for(UsuarioDTO usuario : usuarios) {
+                if(usuario.getComprador() != null) {
+                    compradores.add(usuario);
+                } else if(usuario.getVendedor() != null) {
+                    vendedores.add(usuario);
+                } else if(usuario.getMarketing() != null) {
+                    marketings.add(usuario);
+                }
+            }
+            
+                    
             request.setAttribute("compradores", compradores);
             request.setAttribute("vendedores", vendedores);
             request.setAttribute("marketings", marketings);

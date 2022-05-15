@@ -132,7 +132,7 @@ public class CompradorServlet extends AliEbaySessionServlet {
             request.setAttribute("nombresVendedoresNoPujados", nombresVendedoresNoPujados);
             request.setAttribute("mayoresPujasVendidos", mayoresPujasVendidos);
             request.setAttribute("mayoresPujasNoVendidos", mayoresPujasNoVendidos);
-            request.setAttribute("favoritos", mayoresPujasNoVendidos);
+            request.setAttribute("favoritos", productosFavoritos);
 
             request.getRequestDispatcher("/WEB-INF/jsp/comprador.jsp").forward(request, response);
         }

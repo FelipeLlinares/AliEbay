@@ -5,10 +5,10 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="aliebay.entity.Venta"%>
-<%@page import="aliebay.entity.Producto"%>
-<%@page import="aliebay.entity.Puja"%>
-<%@page import="aliebay.entity.Categoria"%>
+<%@page import="aliebay.dto.VentaDTO"%>
+<%@page import="aliebay.dto.ProductoDTO"%>
+<%@page import="aliebay.dto.PujaDTO"%>
+<%@page import="aliebay.dto.CategoriaDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <!DOCTYPE html>
@@ -36,7 +36,7 @@
 
 
         <%
-            List<Venta> ventas = (List)request.getAttribute("ventas");
+            List<VentaDTO> ventas = (List)request.getAttribute("ventas");
             List<String> vendedores = (List)request.getAttribute("vendedores");
             if(ventas == null || ventas.isEmpty()) {
                 
@@ -61,20 +61,14 @@
             <%
             
                 for (int i=0; i < ventas.size(); i++) {
-                    Venta ve = ventas.get(i);
-                    Producto pc = ve.getProducto();
+                    VentaDTO ve = ventas.get(i);
+                    ProductoDTO pc = ve.getProducto();
                 
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     String fechaTotal = sdf.format(ve.getFecha());
-                
-                    String pujaUltima = "No hay pujas";
-                    List<Puja> pujas = pc.getPujaList();
-                    if(pujas != null && !pujas.isEmpty()) {
-                        pujaUltima = String.valueOf(pujas.get(pujas.size() - 1).getPuja());
-                    }
             %>
             <tr>
-                <td><a href="verFotoServlet?url=<%= pc.getURLFoto() %>">Ver Foto</a></td>
+                <td><a href="verFotoServlet?url=<%= pc.getuRLFoto() %>">Ver Foto</a></td>
                 <td><%= pc.getTitulo()%></td>
                 <td><%= pc.getDescripcion()%></td>
                 <td><%= vendedores.get(i)%></td>

@@ -131,8 +131,10 @@ public class Venta implements Serializable {
 
     public VentaDTO toDTO() {
         VentaDTO dto = new VentaDTO();
-        dto.setComprador(comprador);
-        dto.setProducto(producto);
+        dto.setComprador(comprador.toDTO());
+        if(dto.getProducto() == null) {
+            dto.setProducto(producto.toDTO());
+        }
         dto.setPrecioVenta(precioVenta);
         dto.setFecha(fecha);
         return dto;

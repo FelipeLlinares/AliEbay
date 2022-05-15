@@ -6,6 +6,7 @@ package aliebay.dto;
 
 import aliebay.entity.Categoria;
 import aliebay.entity.Comprador;
+import aliebay.entity.Producto;
 import aliebay.entity.Puja;
 import aliebay.entity.Venta;
 import jakarta.persistence.Basic;
@@ -120,5 +121,17 @@ public class ProductoDTO {
         this.categoria = categoria;
     }
     
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof ProductoDTO)) {
+            return false;
+        }
+        ProductoDTO other = (ProductoDTO) object;
+        if ((this.idProducto == null && other.idProducto != null) || (this.idProducto != null && !this.idProducto.equals(other.idProducto))) {
+            return false;
+        }
+        return true;
+    }
     
 }

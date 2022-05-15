@@ -74,7 +74,7 @@
                 List<String> vendedores = (List) request.getAttribute("nombresVendedoresPujados");
             
                 UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
-                List<ProductoDTO> productosFavoritos = (List) request.getAttribute("favoritos");;
+                List<ProductoDTO> productosFavoritos = (List) request.getAttribute("favoritos");
             
                 if(productos != null && !productos.isEmpty()) {
         %>

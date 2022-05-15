@@ -34,9 +34,8 @@
                 <th></th><!-- Productos -->
             </tr>
         <%
-            List<CompradorDTO> compradores = (List)request.getAttribute("compradores");
-            for (CompradorDTO c: compradores) { 
-                UsuarioDTO u = c.getUsuario();
+            List<UsuarioDTO> compradores = (List)request.getAttribute("compradores");
+            for (UsuarioDTO u: compradores) { 
         %>    
         <tr>
             <td><%= u.getIdUsuario()%></td>
@@ -72,9 +71,8 @@
                 <th></th><!-- Productos -->
             </tr>
         <%
-            List<VendedorDTO> vendedores = (List)request.getAttribute("vendedores");
-            for (VendedorDTO v: vendedores) {
-                UsuarioDTO u = v.getUsuario();
+            List<UsuarioDTO> vendedores = (List)request.getAttribute("vendedores");
+            for (UsuarioDTO u: vendedores) {
         %>    
         <tr>
            <td><%= u.getIdUsuario()%></td>
@@ -108,9 +106,8 @@
                 <th></th><!-- Editar -->
             </tr>
         <%
-            List<MarketingDTO> marketings = (List)request.getAttribute("marketings");
-            for (MarketingDTO m: marketings) {
-                UsuarioDTO u = m.getUsuario();
+            List<UsuarioDTO> marketings = (List)request.getAttribute("marketings");
+            for (UsuarioDTO u: marketings) {
         %>    
         <tr>
            <td><%= u.getIdUsuario()%></td>
