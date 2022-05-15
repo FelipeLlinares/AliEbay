@@ -60,6 +60,7 @@
                 <th>Fecha de salida</th>
                 <th>Fecha de fin:</th>
                 <th></th><!-- Editar -->
+                <th></th><!-- Borrar -->
             </tr>
         <%
                 for (ProductoDTO p: productosNoVendidos) {
@@ -73,6 +74,7 @@
             <td><%=  sdf.format(p.getFechaSalida()) %></td>
             <td><%= sdf.format(p.getFechaFin()) %></td>
             <td><a href="EditarNuevoProductoServlet?id=<%=p.getIdProducto()%>&titulo=<%=p.getTitulo()%>&descripcion=<%=p.getDescripcion()%>&precioSalida=<%=p.getPrecioSalida()%>&urlFoto=<%=p.getuRLFoto()%>&fechaSalida=<%=p.getFechaSalida()%>&fechaFin=<%=p.getFechaFin()%>">Editar</a></td>
+            <td><a href="BorrarProductoServlet?id=<%=p.getIdProducto()%>">Borrar</a></td>
         </tr>
         </table>
         <%
