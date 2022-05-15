@@ -26,7 +26,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author encac
+ * @author Enrique Cañadas Cobo
  */
 @WebServlet(name = "ProductosCompradorServlet", urlPatterns = {"/ProductosCompradorServlet"})
 public class ProductosCompradorServlet extends AliEbaySessionServlet {

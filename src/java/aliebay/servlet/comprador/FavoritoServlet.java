@@ -29,7 +29,7 @@ import java.util.Objects;
 
 /**
  *
- * @author encac
+ * @author Enrique Cañadas Cobo
  */
 @WebServlet(name = "FavoritoServlet", urlPatterns = {"/FavoritoServlet"})
 public class FavoritoServlet extends AliEbaySessionServlet {

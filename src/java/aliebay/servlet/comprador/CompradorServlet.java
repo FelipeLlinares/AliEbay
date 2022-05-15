@@ -67,7 +67,12 @@ public class CompradorServlet extends AliEbaySessionServlet {
             String categoria = request.getParameter("categorias");
             
             List<Producto> productos;
-            if(nombreFiltro != null && !nombreFiltro.isEmpty()) {
+            
+            if(nombreFiltro != null && categoria != null && !nombreFiltro.isEmpty() && !categoria.isEmpty()) {
+                Categoria categ = cf.find(categoria);
+                productos = pf.getProductosPorNombreYCategoria(nombreFiltro, categ);
+                request.setAttribute("filtrado", "por '" + nombreFiltro + "' y por '" + categ.getIdCategoria() + "'");
+            } else if(nombreFiltro != null && !nombreFiltro.isEmpty()) {
                 productos = pf.getProductosDisponiblesPorNombre(nombreFiltro);
                 request.setAttribute("filtrado", "por '" + nombreFiltro + "'");
             } else if(categoria != null && !categoria.isEmpty()){

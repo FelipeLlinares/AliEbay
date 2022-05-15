@@ -1,7 +1,7 @@
 <%-- 
     Document   : filtradoProductos
     Created on : 14 may. 2022, 14:24:58
-    Author     : encac
+    Author     : Enrique Cañadas Cobo
 --%>
 
 <%@page import="aliebay.entity.Usuario"%>

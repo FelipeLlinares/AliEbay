@@ -1,7 +1,7 @@
 <%-- 
     Document   : cabeceraComprador
     Created on : 13 may. 2022, 13:00:24
-    Author     : encac
+    Author     : Enrique Cañadas Cobo
 --%>
 
 <%@page import="aliebay.entity.Usuario"%>

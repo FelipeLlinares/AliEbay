@@ -74,6 +74,17 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         
         return q.getResultList();
     }
+    
+    public List<Producto> getProductosPorNombreYCategoria(String nombreFiltro, Categoria categ) {
+        Query q;
+        
+        Date date = new Date();
+        
+        q = this.getEntityManager().createQuery("SELECT p FROM Producto p WHERE p.fechaFin >= :fechaAhora AND p.titulo LIKE '%" + nombreFiltro + "%' AND p.categoria = :categoria");
+        q.setParameter("categoria", categ);
+        q.setParameter("fechaAhora", date);
+        
+        return q.getResultList();    }
 
     public List<Producto> getProductosVendidos() {
         Query q;
