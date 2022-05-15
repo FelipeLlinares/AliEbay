@@ -5,6 +5,7 @@
 package aliebay.servlet;
 
 
+import aliebay.dto.UsuarioDTO;
 import aliebay.entity.Usuario;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -35,7 +36,7 @@ public abstract class AliEbaySessionServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         
-        Usuario user = (Usuario) session.getAttribute("usuario");
+        UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
         
         if (user == null){
             response.sendRedirect(request.getContextPath());

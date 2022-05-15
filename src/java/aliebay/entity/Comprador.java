@@ -146,7 +146,6 @@ public class Comprador implements Serializable {
     public CompradorDTO toDTO () {
         CompradorDTO dto = new CompradorDTO();
         dto.setIdUsuario(idUsuario);
-        dto.setUsuario(usuario.toDTO());
         return dto;
     }
     

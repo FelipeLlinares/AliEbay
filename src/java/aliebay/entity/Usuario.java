@@ -218,18 +218,23 @@ public class Usuario implements Serializable {
     public UsuarioDTO toDTO() {
         UsuarioDTO dto = new UsuarioDTO();
         dto.setIdUsuario(idUsuario);
-        dto.setAdministrador(administrador.toDTO());
         dto.setApellidos(apellidos);
         dto.setCiudadResidencia(ciudadResidencia);
-        dto.setComprador(comprador.toDTO());
+        if(comprador != null) {
+            dto.setComprador(comprador.toDTO());
+        } else if(vendedor != null) {
+            dto.setVendedor(vendedor.toDTO());
+        } else if(administrador != null) {
+            dto.setAdministrador(administrador.toDTO());
+        } else if(marketing != null) {
+            dto.setMarketing(marketing.toDTO());
+        }
         dto.setDomicilio(domicilio);
         dto.setEdad(edad);
-        dto.setMarketing(marketing.toDTO());
         dto.setNombre(nombre);
         dto.setPassword(password);
         dto.setSexo(sexo);
         dto.setUserName(userName);
-        dto.setVendedor(vendedor.toDTO());
         return dto;
     }
     

@@ -90,7 +90,6 @@ public class Vendedor implements Serializable {
     public VendedorDTO toDTO() {
         VendedorDTO dto = new VendedorDTO();
         dto.setIdUsuario(idUsuario);
-        dto.setUsuario(usuario.toDTO());
         return dto;
     }
     
