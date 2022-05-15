@@ -9,10 +9,12 @@ package aliebay.servlet.comprador;
 import aliebay.dao.CompradorFacade;
 import aliebay.dao.ProductoFacade;
 import aliebay.dao.PujaFacade;
+import aliebay.dto.PujaDTO;
 import aliebay.entity.Comprador;
 import aliebay.entity.Producto;
 import aliebay.entity.Puja;
 import aliebay.entity.Usuario;
+import aliebay.service.PujaService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -36,7 +38,7 @@ public class CompradorGuardarPujaServlet extends AliEbaySessionServlet {
     @EJB
     ProductoFacade pf;
     @EJB
-    PujaFacade pjf;
+    PujaService pjs;
     @EJB
     CompradorFacade cf;
 
@@ -75,9 +77,10 @@ public class CompradorGuardarPujaServlet extends AliEbaySessionServlet {
 
                 if (prod.getPrecioSalida() <= nuevoValorPuja) {
                     if (pujaUltima < nuevoValorPuja) {
-                        Puja nuevaPuja = pjf.findPuja(prod.getIdProducto(), comprador.getIdUsuario());
+                        PujaDTO nuevaPuja = pjs.findPuja(prod.getIdProducto(), comprador.getIdUsuario());
                         if (nuevaPuja == null) {
-                            nuevaPuja = new Puja(prod.getIdProducto(), comprador.getIdUsuario());
+                            nuevaPuja = new PujaDTO(prod.getIdProducto(), comprador.getIdUsuario());
+                            
                         }
                         nuevaPuja.setPuja(nuevoValorPuja);
                         nuevaPuja.setProducto(prod);

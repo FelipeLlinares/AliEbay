@@ -89,15 +89,21 @@ public class UsuarioGuardarServlet extends AliEbaySessionServlet {
             if(str.equals("comprador")){
                 Comprador comprador = new Comprador(usuario.getIdUsuario());
                 comprador.setUsuario(usuario);
-                comFacade.create(comprador);
+                usuario.setComprador(comprador);
+                userFacade.edit(usuario);
+                //comFacade.create(comprador);
             }else if(str.equals("vendedor")){
                 Vendedor vendedor = new Vendedor(usuario.getIdUsuario());
                 vendedor.setUsuario(usuario);
-                venFacade.create(vendedor);
+                usuario.setVendedor(vendedor);
+                userFacade.edit(usuario);
+                //venFacade.create(vendedor);
             }else if(str.equals("marketing")){
                 Marketing marketing = new Marketing(usuario.getIdUsuario());
                 marketing.setUsuario(usuario);
-                marFacade.create(marketing);
+                usuario.setMarketing(marketing);
+                userFacade.edit(usuario);
+                //marFacade.create(marketing);
             }
         } else {
             userFacade.edit(usuario);

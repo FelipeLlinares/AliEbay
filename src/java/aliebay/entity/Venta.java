@@ -4,6 +4,8 @@
  */
 package aliebay.entity;
 
+import aliebay.dto.CompradorDTO;
+import aliebay.dto.VentaDTO;
 import java.io.Serializable;
 import java.util.Date;
 import jakarta.persistence.Column;
@@ -125,6 +127,15 @@ public class Venta implements Serializable {
     @Override
     public String toString() {
         return "aliebay.entity.Venta[ ventaPK=" + ventaPK + " ]";
+    }
+
+    public VentaDTO toDTO() {
+        VentaDTO dto = new VentaDTO();
+        dto.setComprador(comprador);
+        dto.setProducto(producto);
+        dto.setPrecioVenta(precioVenta);
+        dto.setFecha(fecha);
+        return dto;
     }
     
 }

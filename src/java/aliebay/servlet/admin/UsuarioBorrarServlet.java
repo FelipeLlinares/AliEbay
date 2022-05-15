@@ -37,6 +37,7 @@ public class UsuarioBorrarServlet extends AliEbaySessionServlet {
             throws ServletException, IOException {
 
         String str = request.getParameter("id");
+        
         Usuario usuario = this.userFacade.find(Integer.parseInt(str));
         this.userFacade.remove(usuario);
         response.sendRedirect(request.getContextPath() + "/AdminServlet");

@@ -43,23 +43,28 @@ public class ProductosBorrarServlet extends AliEbaySessionServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Usuario user = (Usuario) session.getAttribute("usuario");
+      
+        String comp = (String) request.getParameter("comprador");
 
-        Comprador comprador = user.getComprador();
+        Comprador comprador = cf.find(Integer.parseInt(comp));
         
         String producto = request.getParameter("producto");
         Producto prod = pf.find(Integer.parseInt(producto));
         Venta venta = prod.getVenta();
         
         List<Venta> ventas = comprador.getVentaList();
-        ventas.remove(ventas);
+        ventas.remove(venta);
         comprador.setVentaList(ventas);
+        
         cf.edit(comprador);
-        
         vf.remove(venta);
+        prod.setPujaList(null);
+        prod.setVenta(null);
+        prod.setCompradorList(null);
+        pf.edit(prod);
+  
         
-        response.sendRedirect(request.getContextPath() + "/ProductosCompradorServlet");
+        response.sendRedirect(request.getContextPath() + "/ProductosCompradorServlet?id=" + comp);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

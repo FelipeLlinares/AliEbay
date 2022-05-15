@@ -6,16 +6,20 @@
  */
 package aliebay.servlet.comprador;
 
-import aliebay.dao.CategoriaFacade;
 import aliebay.dao.ProductoFacade;
 import aliebay.dao.UsuarioFacade;
 import aliebay.dao.VendedorFacade;
+import aliebay.dto.CategoriaDTO;
+import aliebay.dto.ProductoDTO;
+import aliebay.dto.PujaDTO;
 import aliebay.entity.Categoria;
 import aliebay.entity.Comprador;
 import aliebay.entity.Producto;
 import aliebay.entity.Puja;
 import aliebay.entity.Usuario;
 import aliebay.entity.Vendedor;
+import aliebay.service.CategoriaService;
+import aliebay.service.ProductoService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -42,9 +46,9 @@ public class CompradorServlet extends AliEbaySessionServlet {
     @EJB
     VendedorFacade vf;
     @EJB
-    ProductoFacade pf;
+    ProductoService ps;
     @EJB
-    CategoriaFacade cf;
+    CategoriaService cs;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -66,32 +70,32 @@ public class CompradorServlet extends AliEbaySessionServlet {
             String nombreFiltro = request.getParameter("filtro");
             String categoria = request.getParameter("categorias");
             
-            List<Producto> productos;
+            List<ProductoDTO> productos;
             
             if(nombreFiltro != null && categoria != null && !nombreFiltro.isEmpty() && !categoria.isEmpty()) {
-                Categoria categ = cf.find(categoria);
-                productos = pf.getProductosPorNombreYCategoria(nombreFiltro, categ);
+                CategoriaDTO categ = cs.buscarCategoria(categoria);
+                productos = ps.getProductosPorNombreYCategoria(nombreFiltro, categ);
                 request.setAttribute("filtrado", "por '" + nombreFiltro + "' y por '" + categ.getIdCategoria() + "'");
             } else if(nombreFiltro != null && !nombreFiltro.isEmpty()) {
-                productos = pf.getProductosDisponiblesPorNombre(nombreFiltro);
+                productos = ps.getProductosDisponiblesPorNombre(nombreFiltro);
                 request.setAttribute("filtrado", "por '" + nombreFiltro + "'");
             } else if(categoria != null && !categoria.isEmpty()){
-                Categoria categ = cf.find(categoria);
-                productos = pf.getProductosPorCategoria(categ);
+                CategoriaDTO categ = cs.buscarCategoria(categoria);
+                productos = ps.getProductosPorCategoria(categ);
                 request.setAttribute("filtrado", "por '" + categ.getIdCategoria() + "'");
             } else {
-                productos = pf.getProductosDisponibles();
+                productos = ps.getProductosDisponibles();
             }
 
-            List<Producto> productosPujadosPorComprador = new ArrayList<>();
+            List<ProductoDTO> productosPujadosPorComprador = new ArrayList<>();
             List<String> nombresVendedoresPujados = new ArrayList<>();
-            List<Producto> productosNoPujadosPorComprador = new ArrayList<>();
+            List<ProductoDTO> productosNoPujadosPorComprador = new ArrayList<>();
             List<String> nombresVendedoresNoPujados = new ArrayList<>();
 
-            for (Producto pr : productos) {
-                List<Puja> pujas = pr.getPujaList();
+            for (ProductoDTO pr : productos) {
+                List<PujaDTO> pujas = ps.getPujaList(pr);
                 if (pujas != null && !pujas.isEmpty()) {
-                    Puja puja = pr.getPujaList().get(pr.getPujaList().size() - 1);
+                    PujaDTO puja = pujas.get(pujas.size() - 1);
 
                     if (Objects.equals(puja.getComprador().getIdUsuario(), comprador.getIdUsuario())) {
                         productosPujadosPorComprador.add(pr);
@@ -117,7 +121,7 @@ public class CompradorServlet extends AliEbaySessionServlet {
                 }
             }
 
-            List<Categoria> categorias = cf.findAll();
+            List<CategoriaDTO> categorias = cs.listarCategorias();
 
             request.setAttribute("categorias", categorias);
             request.setAttribute("productosPujadosPorComprador", productosPujadosPorComprador);

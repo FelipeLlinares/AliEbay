@@ -4,6 +4,8 @@
  */
 package aliebay.entity;
 
+import aliebay.dto.CompradorDTO;
+import aliebay.dto.VendedorDTO;
 import java.io.Serializable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -83,6 +85,13 @@ public class Vendedor implements Serializable {
     @Override
     public String toString() {
         return "aliebay.entity.Vendedor[ idUsuario=" + idUsuario + " ]";
+    }
+
+    public VendedorDTO toDTO() {
+        VendedorDTO dto = new VendedorDTO();
+        dto.setIdUsuario(idUsuario);
+        dto.setUsuario(usuario.toDTO());
+        return dto;
     }
     
 }

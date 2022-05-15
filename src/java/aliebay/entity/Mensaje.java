@@ -4,6 +4,8 @@
  */
 package aliebay.entity;
 
+import aliebay.dto.CompradorDTO;
+import aliebay.dto.MensajeDTO;
 import java.io.Serializable;
 import java.util.Date;
 import jakarta.persistence.Column;
@@ -124,6 +126,14 @@ public class Mensaje implements Serializable {
     @Override
     public String toString() {
         return "aliebay.entity.Mensaje[ mensajePK=" + mensajePK + " ]";
+    }
+
+    public MensajeDTO toDTO() {
+        MensajeDTO dto = new MensajeDTO();
+        dto.setDescripcion(descripcion);
+        dto.setMarketing(marketing.toDTO());
+        dto.setFecha(fecha);
+        return dto;
     }
     
 }

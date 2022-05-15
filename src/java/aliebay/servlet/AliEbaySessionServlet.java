@@ -4,18 +4,15 @@
  */
 package aliebay.servlet;
 
-import aliebay.entity.Administrador;
+
 import aliebay.entity.Usuario;
-import jakarta.persistence.Query;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  *
@@ -70,7 +67,7 @@ public abstract class AliEbaySessionServlet extends HttpServlet {
         
         String tipoUsuario = (String) session.getAttribute("tipoUsuario");
         
-        if (!tipoUsuario.equals("Marketing")){
+        if (!tipoUsuario.equals("Marketing") && !tipoUsuario.equals("Admin")){
             String strError = "No tienes permisos de marketing";
             request.setAttribute("error", strError);
             request.getRequestDispatcher("/" + tipoUsuario + "Servlet").forward(request,response);
@@ -86,7 +83,7 @@ public abstract class AliEbaySessionServlet extends HttpServlet {
         
         String tipoUsuario = (String) session.getAttribute("tipoUsuario");
         
-        if (!tipoUsuario.equals("Vendedor")){
+        if (!tipoUsuario.equals("Vendedor") && !tipoUsuario.equals("Admin")){
             String strError = "No tienes permisos de vendedor";
             request.setAttribute("error", strError);
             request.getRequestDispatcher("/" + tipoUsuario + "Servlet").forward(request,response);
@@ -102,7 +99,7 @@ public abstract class AliEbaySessionServlet extends HttpServlet {
         
         String tipoUsuario = (String) session.getAttribute("tipoUsuario");
         
-        if (!tipoUsuario.equals("Comprador")){
+        if (!tipoUsuario.equals("Comprador") && !tipoUsuario.equals("Admin")){
             String strError = "No tienes permisos de comprador";
             request.setAttribute("error", strError);
             request.getRequestDispatcher("/" + tipoUsuario + "Servlet").forward(request,response);

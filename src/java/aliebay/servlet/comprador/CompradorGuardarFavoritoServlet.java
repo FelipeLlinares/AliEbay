@@ -8,7 +8,6 @@ package aliebay.servlet.comprador;
 
 import aliebay.dao.CompradorFacade;
 import aliebay.dao.ProductoFacade;
-import aliebay.dao.PujaFacade;
 import aliebay.entity.Comprador;
 import aliebay.entity.Producto;
 import aliebay.entity.Puja;
