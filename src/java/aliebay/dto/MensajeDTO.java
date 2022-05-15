@@ -19,10 +19,44 @@ import java.util.Date;
  */
 public class MensajeDTO {
     private String descripcion;
-
     private Date fecha;
-    
     private ListacompradorDTO listacomprador;
- 
     private MarketingDTO marketing;
+
+    public MensajeDTO() {
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public ListacompradorDTO getListacomprador() {
+        return listacomprador;
+    }
+
+    public void setListacomprador(ListacompradorDTO listacomprador) {
+        this.listacomprador = listacomprador;
+    }
+
+    public MarketingDTO getMarketing() {
+        return marketing;
+    }
+
+    public void setMarketing(MarketingDTO marketing) {
+        this.marketing = marketing;
+    }
+    
+    
 }

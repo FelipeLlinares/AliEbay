@@ -32,4 +32,113 @@ public class UsuarioDTO {
     private AdministradorDTO administrador;
     private VendedorDTO vendedor;
     private CompradorDTO comprador;
+
+    public UsuarioDTO() {
+    }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    public String getCiudadResidencia() {
+        return ciudadResidencia;
+    }
+
+    public void setCiudadResidencia(String ciudadResidencia) {
+        this.ciudadResidencia = ciudadResidencia;
+    }
+
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public MarketingDTO getMarketing() {
+        return marketing;
+    }
+
+    public void setMarketing(MarketingDTO marketing) {
+        this.marketing = marketing;
+    }
+
+    public AdministradorDTO getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(AdministradorDTO administrador) {
+        this.administrador = administrador;
+    }
+
+    public VendedorDTO getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(VendedorDTO vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public CompradorDTO getComprador() {
+        return comprador;
+    }
+
+    public void setComprador(CompradorDTO comprador) {
+        this.comprador = comprador;
+    }
+    
+    
 }

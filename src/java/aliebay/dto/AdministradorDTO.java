@@ -13,6 +13,28 @@ import jakarta.persistence.OneToOne;
  * @author felip
  */
 public class AdministradorDTO {
-    private Integer idUsuario;
+    
+
+    public AdministradorDTO() {
+    }
     private UsuarioDTO usuario;
+    private Integer idUsuario;
+
+    public UsuarioDTO getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioDTO usuario) {
+        this.usuario = usuario;
+    }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+    
+    
 }

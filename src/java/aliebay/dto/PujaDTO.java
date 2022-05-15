@@ -22,4 +22,41 @@ public class PujaDTO {
     private Date fecha;
     private CompradorDTO comprador;
     private ProductoDTO producto;
+
+    public PujaDTO() {
+    }
+
+    public Float getPuja() {
+        return puja;
+    }
+
+    public void setPuja(Float puja) {
+        this.puja = puja;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public CompradorDTO getComprador() {
+        return comprador;
+    }
+
+    public void setComprador(CompradorDTO comprador) {
+        this.comprador = comprador;
+    }
+
+    public ProductoDTO getProducto() {
+        return producto;
+    }
+
+    public void setProducto(ProductoDTO producto) {
+        this.producto = producto;
+    }
+    
+    
 }

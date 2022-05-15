@@ -15,4 +15,25 @@ import jakarta.persistence.OneToOne;
 public class VendedorDTO {
     private Integer idUsuario;
     private UsuarioDTO usuario;
+
+    public VendedorDTO() {
+    }
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public UsuarioDTO getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioDTO usuario) {
+        this.usuario = usuario;
+    }
+    
+    
 }

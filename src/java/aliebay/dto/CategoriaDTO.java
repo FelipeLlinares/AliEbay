@@ -15,4 +15,25 @@ import java.util.List;
 public class CategoriaDTO {
     private String idCategoria; 
     private List<ProductoDTO> productoList;
+
+    public CategoriaDTO() {
+    }
+
+    public String getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(String idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public List<ProductoDTO> getProductoList() {
+        return productoList;
+    }
+
+    public void setProductoList(List<ProductoDTO> productoList) {
+        this.productoList = productoList;
+    }
+    
+    
 }

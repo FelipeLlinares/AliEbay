@@ -24,4 +24,42 @@ public class VentaDTO {
     private Float precioVenta;
     private Comprador comprador;
     private Producto producto;
+
+    public VentaDTO() {
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public Float getPrecioVenta() {
+        return precioVenta;
+    }
+
+    public void setPrecioVenta(Float precioVenta) {
+        this.precioVenta = precioVenta;
+    }
+
+    public Comprador getComprador() {
+        return comprador;
+    }
+
+    public void setComprador(Comprador comprador) {
+        this.comprador = comprador;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+    
+    
+    
 }
