@@ -4,6 +4,8 @@
  */
 package aliebay.entity;
 
+import aliebay.dto.CompradorDTO;
+import aliebay.dto.UsuarioDTO;
 import java.io.Serializable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
@@ -211,6 +213,24 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "aliebay.entity.Usuario[ idUsuario=" + idUsuario + " ]";
+    }
+
+    public UsuarioDTO toDTO() {
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setIdUsuario(idUsuario);
+        dto.setAdministrador(administrador.toDTO());
+        dto.setApellidos(apellidos);
+        dto.setCiudadResidencia(ciudadResidencia);
+        dto.setComprador(comprador.toDTO());
+        dto.setDomicilio(domicilio);
+        dto.setEdad(edad);
+        dto.setMarketing(marketing.toDTO());
+        dto.setNombre(nombre);
+        dto.setPassword(password);
+        dto.setSexo(sexo);
+        dto.setUserName(userName);
+        dto.setVendedor(vendedor.toDTO());
+        return dto;
     }
     
 }

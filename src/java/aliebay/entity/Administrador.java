@@ -4,6 +4,8 @@
  */
 package aliebay.entity;
 
+import aliebay.dto.AdministradorDTO;
+import aliebay.dto.CompradorDTO;
 import java.io.Serializable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -83,6 +85,13 @@ public class Administrador implements Serializable {
     @Override
     public String toString() {
         return "aliebay.entity.Administrador[ idUsuario=" + idUsuario + " ]";
+    }
+
+    public AdministradorDTO toDTO() {
+        AdministradorDTO dto = new AdministradorDTO();
+        dto.setIdUsuario(idUsuario);
+        dto.setUsuario(usuario.toDTO());
+        return dto;
     }
     
 }
