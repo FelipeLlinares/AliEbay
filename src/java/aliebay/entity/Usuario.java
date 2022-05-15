@@ -221,15 +221,12 @@ public class Usuario implements Serializable {
         dto.setAdministrador(administrador.toDTO());
         dto.setApellidos(apellidos);
         dto.setCiudadResidencia(ciudadResidencia);
-        dto.setComprador(comprador.toDTO());
         dto.setDomicilio(domicilio);
-        dto.setEdad(edad);
-        dto.setMarketing(marketing.toDTO());
+        dto.setEdad(edad);     
         dto.setNombre(nombre);
         dto.setPassword(password);
         dto.setSexo(sexo);
         dto.setUserName(userName);
-        dto.setVendedor(vendedor.toDTO());
         return dto;
     }
     
