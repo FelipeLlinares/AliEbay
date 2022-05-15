@@ -4,6 +4,7 @@
  */
 package aliebay.entity;
 
+import aliebay.dto.ProductoDTO;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -213,6 +214,25 @@ public class Producto implements Serializable {
     @Override
     public String toString() {
         return "aliebay.entity.Producto[ idProducto=" + idProducto + " ]";
+    }
+    
+    public ProductoDTO toDTO(){
+        ProductoDTO dto = new ProductoDTO();
+        dto.setCategoria(categoria.toDTO());
+        dto.setDescripcion(descripcion);
+        dto.setFechaFin(fechaFin);
+        dto.setFechaSalida(fechaSalida);
+        dto.setIdProducto(idProducto);
+        dto.setIdVendedor(idVendedor);
+        dto.setPrecioSalida(precioSalida);
+        dto.setTitulo(titulo);
+        dto.setVenta(venta.toDTO());
+        dto.setuRLFoto(uRLFoto);
+        
+        //dto.setCompradorList(compradorList);
+        //dto.setPujaList(pujaList);
+        
+        return dto;
     }
     
 }
