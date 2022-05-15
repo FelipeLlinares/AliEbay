@@ -4,9 +4,13 @@
  */
 package aliebay.servlet;
 
+import aliebay.dao.CategoriaFacade;
 import aliebay.dao.ProductoFacade;
+import aliebay.entity.Categoria;
+import aliebay.entity.Comprador;
+import aliebay.entity.Marketing;
 import aliebay.entity.Producto;
-import aliebay.entity.Usuario;
+import aliebay.entity.Vendedor;
 import jakarta.ejb.EJB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,17 +19,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author alvar
  */
-@WebServlet(name = "VendedorServlet", urlPatterns = {"/VendedorServlet"})
-public class VendedorServlet extends AliEbaySessionServlet {
+@WebServlet(name = "EditarNuevoProductoServlet", urlPatterns = {"/EditarNuevoProductoServlet"})
+public class EditarNuevoProductoServlet extends AliEbaySessionServlet {
     @EJB ProductoFacade pf;
+    @EJB CategoriaFacade cf;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,27 +42,20 @@ public class VendedorServlet extends AliEbaySessionServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (super.comprobarSesion(request,response)){
+          
+            String str = request.getParameter("producto");
+            List<Categoria> categorias = cf.findAll() ;
             
-            HttpSession session = request.getSession();
-            Usuario user = (Usuario) session.getAttribute("usuario");
-            int id = user.getIdUsuario();
+            request.setAttribute("categorias",categorias);
             
-            List<Producto> productos = pf.getProductos(id);
-            
-             List<Producto> productosVendidos = new ArrayList<>();
-            List<Producto> productosNoVendidos  = new ArrayList<>();
-        
-            for(Producto p:productos){
-                if(p.getVenta() == null){
-                    productosNoVendidos.add(p);
-                }else{
-                    productosVendidos.add(p);
-                }
+            if (str != null){
+                Producto producto = pf.find(Integer.parseInt(str));
+                request.setAttribute("producto", producto);
+            }else{
+                String vendedor = request.getParameter("id");
+                request.setAttribute("vendedor", vendedor);
             }
-        request.setAttribute("productosVendidos", productosVendidos);
-        request.setAttribute("productosNoVendidos", productosNoVendidos);
-
-        request.getRequestDispatcher("/WEB-INF/jsp/vendedor.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/nuevoProducto.jsp").forward(request, response);
         }
     }
 
