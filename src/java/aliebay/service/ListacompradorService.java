@@ -10,6 +10,7 @@ import aliebay.dto.ListacompradorDTO;
 import aliebay.entity.Comprador;
 import aliebay.entity.Listacomprador;
 import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
  *
  * @author Jose Maria Tapia Catena
  */
+@Stateless
 public class ListacompradorService {
     
     @EJB ListacompradorFacade listacompradorf;
@@ -72,6 +74,15 @@ public class ListacompradorService {
     public List<ListacompradorDTO> getListListaComprador(int idComprador) {
         Comprador c = cf.find(idComprador);
         return this.listaEntityADTO(c.getListacompradorList());
+    }
+
+    public void añadirComprador(Integer idLista, int compradorID) {
+        Listacomprador lc = listacompradorf.find(idLista);
+        Comprador c = cf.find(compradorID);
+        List<Comprador> compradores = lc.getCompradorList();
+        compradores.add(c);
+        lc.setCompradorList(compradores);
+        listacompradorf.edit(lc);
     }
     
 }

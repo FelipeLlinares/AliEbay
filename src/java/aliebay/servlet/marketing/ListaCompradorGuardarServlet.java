@@ -51,14 +51,15 @@ public class ListaCompradorGuardarServlet extends AliEbaySessionServlet {
             lcS.editar(lComprador.getIdLista(), nombre);
         }
 
-        List <CompradorDTO> c = new ArrayList();
-        List <ListacompradorDTO> a = new ArrayList();
+        
+        List <CompradorDTO> c = new ArrayList();  
         for (CompradorDTO comprador : compradorS.listarComprador()){
             int compradorID = comprador.getIdUsuario(); 
+            List <ListacompradorDTO> a = lcS.getListListaComprador(compradorID);
             str = request.getParameter(Integer.toString(compradorID));
             if (str != null){ //Aqui entro si he seleccionado el comprador
-                c.add(comprador);
-                
+                //c.add(comprador);
+                lcS.añadirComprador(lComprador.getIdLista(),compradorID);
                 //actualizar la referencia de comprador
                 if (!a.contains(lComprador)){
                     compradorS.añadirLista(lComprador, comprador.getIdUsuario());
