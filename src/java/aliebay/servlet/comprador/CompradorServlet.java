@@ -6,20 +6,15 @@
  */
 package aliebay.servlet.comprador;
 
-import aliebay.dao.ProductoFacade;
-import aliebay.dao.UsuarioFacade;
-import aliebay.dao.VendedorFacade;
 import aliebay.dto.CategoriaDTO;
+import aliebay.dto.CompradorDTO;
 import aliebay.dto.ProductoDTO;
 import aliebay.dto.PujaDTO;
-import aliebay.entity.Categoria;
-import aliebay.entity.Comprador;
-import aliebay.entity.Producto;
-import aliebay.entity.Puja;
-import aliebay.entity.Usuario;
-import aliebay.entity.Vendedor;
+import aliebay.dto.UsuarioDTO;
+import aliebay.dto.VendedorDTO;
 import aliebay.service.CategoriaService;
 import aliebay.service.ProductoService;
+import aliebay.service.VendedorService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -40,11 +35,7 @@ import java.util.Objects;
  */
 @WebServlet(name = "CompradorServlet", urlPatterns = {"/CompradorServlet"})
 public class CompradorServlet extends AliEbaySessionServlet {
-
-    @EJB
-    UsuarioFacade uf;
-    @EJB
-    VendedorFacade vf;
+    @EJB VendedorService vs;
     @EJB
     ProductoService ps;
     @EJB
@@ -63,9 +54,9 @@ public class CompradorServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request, response)) {
 
             HttpSession session = request.getSession();
-            Usuario user = (Usuario) session.getAttribute("usuario");
+            UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
 
-            Comprador comprador = user.getComprador();
+            CompradorDTO comprador = user.getComprador();
 
             String nombreFiltro = request.getParameter("filtro");
             String categoria = request.getParameter("categorias");
@@ -100,13 +91,13 @@ public class CompradorServlet extends AliEbaySessionServlet {
                     if (Objects.equals(puja.getComprador().getIdUsuario(), comprador.getIdUsuario())) {
                         productosPujadosPorComprador.add(pr);
 
-                        Vendedor vendedor = vf.find(pr.getIdVendedor());
+                        VendedorDTO vendedor = vs.buscarVendedor(pr.getIdVendedor());
                         String vendedorNombre = vendedor.getUsuario().getUserName();
 
                         nombresVendedoresPujados.add(vendedorNombre);
                     } else {
                         productosNoPujadosPorComprador.add(pr);
-                        Vendedor vendedor = vf.find(pr.getIdVendedor());
+                        VendedorDTO vendedor = vs.buscarVendedor(pr.getIdVendedor());
                         String vendedorNombre = vendedor.getUsuario().getUserName();
 
                         nombresVendedoresNoPujados.add(vendedorNombre);
@@ -114,7 +105,7 @@ public class CompradorServlet extends AliEbaySessionServlet {
 
                 } else {
                     productosNoPujadosPorComprador.add(pr);
-                    Vendedor vendedor = vf.find(pr.getIdVendedor());
+                    VendedorDTO vendedor = vs.buscarVendedor(pr.getIdVendedor());
                     String vendedorNombre = vendedor.getUsuario().getUserName();
 
                     nombresVendedoresNoPujados.add(vendedorNombre);

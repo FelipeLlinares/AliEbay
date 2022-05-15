@@ -4,15 +4,14 @@
  */
 package aliebay.servlet.comprador;
 
-import aliebay.dao.ProductoFacade;
-import aliebay.dao.UsuarioFacade;
-import aliebay.dao.VendedorFacade;
-import aliebay.entity.Categoria;
-import aliebay.entity.Comprador;
-import aliebay.entity.Producto;
-import aliebay.entity.Puja;
-import aliebay.entity.Usuario;
-import aliebay.entity.Vendedor;
+import aliebay.dto.CompradorDTO;
+import aliebay.dto.ProductoDTO;
+import aliebay.dto.PujaDTO;
+import aliebay.dto.UsuarioDTO;
+import aliebay.dto.VendedorDTO;
+import aliebay.service.CompradorService;
+import aliebay.service.ProductoService;
+import aliebay.service.VendedorService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import jakarta.servlet.http.HttpSession;
@@ -33,8 +32,9 @@ import java.util.Objects;
  */
 @WebServlet(name = "FavoritoServlet", urlPatterns = {"/FavoritoServlet"})
 public class FavoritoServlet extends AliEbaySessionServlet {
-    @EJB VendedorFacade vf;
-    @EJB ProductoFacade pf;
+    @EJB VendedorService vs;
+    @EJB ProductoService ps;
+    @EJB CompradorService cs;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,35 +49,37 @@ public class FavoritoServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request, response)) {
 
             HttpSession session = request.getSession();
-            Usuario user = (Usuario) session.getAttribute("usuario");
+            UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
 
-            Comprador comprador = user.getComprador();
+            CompradorDTO comprador = user.getComprador();
 
             if (comprador != null) {
 
-                List<Producto> productos = comprador.getProductoList();
+                List<ProductoDTO> productos = ps.getProductosFavoritos(comprador.getIdUsuario());
 
-                List<Producto> productosPujadosPorComprador = new ArrayList<>();
+                List<ProductoDTO> productosPujadosPorComprador = new ArrayList<>();
                 List<String> nombresVendedoresPujados = new ArrayList<>();
-                List<Producto> productosNoPujadosPorComprador = new ArrayList<>();
+                List<ProductoDTO> productosNoPujadosPorComprador = new ArrayList<>();
                 List<String> nombresVendedoresNoPujados = new ArrayList<>();
 
-                for (Producto prod : productos) {
-                    Producto pr = pf.find(prod.getIdProducto());
-                    List<Puja> pujas = pr.getPujaList();
+                for (ProductoDTO prod : productos) {
+                    ProductoDTO pr = ps.buscarProducto(prod.getIdProducto());
+                    
+                    List<PujaDTO> pujas = ps.getPujaList(pr);
+                    
                     if (pujas != null && !pujas.isEmpty()) {
-                        Puja puja = pr.getPujaList().get(pr.getPujaList().size() - 1);
+                        PujaDTO puja = pujas.get(pujas.size() - 1);
 
                         if (Objects.equals(puja.getComprador().getIdUsuario(), comprador.getIdUsuario())) {
                             productosPujadosPorComprador.add(pr);
 
-                            Vendedor vendedor = vf.find(pr.getIdVendedor());
+                            VendedorDTO vendedor = vs.buscarVendedor(pr.getIdVendedor());
                             String vendedorNombre = vendedor.getUsuario().getUserName();
 
                             nombresVendedoresPujados.add(vendedorNombre);
                         } else {
                             productosNoPujadosPorComprador.add(pr);
-                            Vendedor vendedor = vf.find(pr.getIdVendedor());
+                            VendedorDTO vendedor = vs.buscarVendedor(pr.getIdVendedor());
                             String vendedorNombre = vendedor.getUsuario().getUserName();
 
                             nombresVendedoresNoPujados.add(vendedorNombre);
@@ -85,7 +87,7 @@ public class FavoritoServlet extends AliEbaySessionServlet {
 
                     } else {
                         productosNoPujadosPorComprador.add(pr);
-                        Vendedor vendedor = vf.find(pr.getIdVendedor());
+                        VendedorDTO vendedor = vs.buscarVendedor(pr.getIdVendedor());
                         String vendedorNombre = vendedor.getUsuario().getUserName();
 
                         nombresVendedoresNoPujados.add(vendedorNombre);
