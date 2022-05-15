@@ -4,13 +4,6 @@
  */
 package aliebay.dto;
 
-import aliebay.entity.Listacomprador;
-import aliebay.entity.Marketing;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import java.util.Date;
 
 /**
@@ -18,10 +11,20 @@ import java.util.Date;
  * @author felip
  */
 public class MensajeDTO {
+    private int idMensaje;
+
+    public int getIdMensaje() {
+        return idMensaje;
+    }
+
+    public void setIdMensaje(int idMensaje) {
+        this.idMensaje = idMensaje;
+    }
     private String descripcion;
     private Date fecha;
     private ListacompradorDTO listacomprador;
     private MarketingDTO marketing;
+    
 
     public MensajeDTO() {
     }

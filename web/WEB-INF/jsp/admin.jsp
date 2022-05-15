@@ -4,10 +4,10 @@
     Author     : Cate
 --%>
 
-<%@page import="aliebay.entity.Marketing"%>
-<%@page import="aliebay.entity.Vendedor"%>
-<%@page import="aliebay.entity.Comprador"%>
-<%@page import="aliebay.entity.Usuario"%>
+<%@page import="aliebay.dto.MarketingDTO"%>
+<%@page import="aliebay.dto.VendedorDTO"%>
+<%@page import="aliebay.dto.UsuarioDTO"%>
+<%@page import="aliebay.dto.CompradorDTO"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -34,9 +34,9 @@
                 <th></th><!-- Productos -->
             </tr>
         <%
-            List<Comprador> compradores = (List)request.getAttribute("compradores");
-            for (Comprador c: compradores) { 
-                Usuario u = c.getUsuario();
+            List<CompradorDTO> compradores = (List)request.getAttribute("compradores");
+            for (CompradorDTO c: compradores) { 
+                UsuarioDTO u = c.getUsuario();
         %>    
         <tr>
             <td><%= u.getIdUsuario()%></td>
@@ -72,9 +72,9 @@
                 <th></th><!-- Productos -->
             </tr>
         <%
-            List<Vendedor> vendedores = (List)request.getAttribute("vendedores");
-            for (Vendedor v: vendedores) {
-                Usuario u = v.getUsuario();
+            List<VendedorDTO> vendedores = (List)request.getAttribute("vendedores");
+            for (VendedorDTO v: vendedores) {
+                UsuarioDTO u = v.getUsuario();
         %>    
         <tr>
            <td><%= u.getIdUsuario()%></td>
@@ -108,9 +108,9 @@
                 <th></th><!-- Editar -->
             </tr>
         <%
-            List<Marketing> marketings = (List)request.getAttribute("marketings");
-            for (Marketing m: marketings) {
-                Usuario u = m.getUsuario();
+            List<MarketingDTO> marketings = (List)request.getAttribute("marketings");
+            for (MarketingDTO m: marketings) {
+                UsuarioDTO u = m.getUsuario();
         %>    
         <tr>
            <td><%= u.getIdUsuario()%></td>

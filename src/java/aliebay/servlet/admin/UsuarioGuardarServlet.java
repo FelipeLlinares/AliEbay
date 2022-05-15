@@ -41,7 +41,7 @@ public class UsuarioGuardarServlet extends AliEbaySessionServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String strId,str;
+        String strId;
         UsuarioDTO usuario;
         
         strId = request.getParameter("id");

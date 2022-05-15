@@ -4,10 +4,9 @@
     Author     : alvar
 --%>
 
+<%@page import="aliebay.dto.CategoriaDTO"%>
+<%@page import="aliebay.dto.ProductoDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="aliebay.entity.Producto" %>
-<%@page import="aliebay.entity.Vendedor" %>
-<%@page import="aliebay.entity.Categoria" %>
 <%@page import="java.util.List"%>
 
 <!DOCTYPE html>
@@ -17,7 +16,7 @@
         <title>Nuevo producto</title>
     </head>
     <% 
-        Producto producto = (Producto)request.getAttribute("producto");
+        ProductoDTO producto = (ProductoDTO)request.getAttribute("producto");
         String vendedor = (String)request.getAttribute("vendedor");
         
         %>
@@ -51,14 +50,14 @@
                 <td><input type="text" name="fechaFin" value="<%= producto == null ? "" : producto.getFechaFin()%>" /></td>
             </tr>
             <%
-                List<Categoria> categorias = (List)request.getAttribute("categorias");
+                List<CategoriaDTO> categorias = (List)request.getAttribute("categorias");
               %>
             <tr>
                 <td> <label for="categorias">Categoría:</label>
                         <select name="categorias" id="categorias">
                             <option value="" selected disabled hidden></option>
                         <%
-                            for(Categoria c : categorias) {
+                            for(CategoriaDTO c : categorias) {
                         %>
                                 <option value="<%= c.getIdCategoria()%>"><%= c.getIdCategoria()%></option>
                         <%

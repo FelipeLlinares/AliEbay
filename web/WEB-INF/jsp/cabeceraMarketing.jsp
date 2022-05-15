@@ -5,11 +5,11 @@
 --%>
 
 
-<%@page import="aliebay.entity.Usuario"%>
+<%@page import="aliebay.dto.UsuarioDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-    Usuario user = (Usuario) session.getAttribute("usuario");
+    UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
     if (user == null){
         response.sendRedirect(request.getContextPath());
     }     
