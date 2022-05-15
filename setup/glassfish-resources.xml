@@ -8,6 +8,6 @@
     <property name="URL" value="jdbc:mysql://localhost:3306/aliebay?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
     <property name="User" value="AliEbay"/>
     <property name="Password" value="AliEbay"/>
-    <property name="useSSL" value="false"/>    
+    <property name="useSSL" value="false"/>
   </jdbc-connection-pool>
 </resources>
