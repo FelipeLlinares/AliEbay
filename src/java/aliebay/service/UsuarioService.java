@@ -33,7 +33,7 @@ public class UsuarioService {
         return this.listaEntityADTO(usuarios);
     }
     
-    private List<UsuarioDTO> listaEntityADTO (List<Usuario> lista) {
+    public List<UsuarioDTO> listaEntityADTO (List<Usuario> lista) {
         List<UsuarioDTO> listaDTO = null;
         if (lista != null) {
             listaDTO = new ArrayList<>();

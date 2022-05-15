@@ -4,6 +4,7 @@
     Author     : Cate
 --%>
 
+<%@page import="aliebay.entity.Usuario"%>
 <%@page import="aliebay.dto.MarketingDTO"%>
 <%@page import="aliebay.dto.VendedorDTO"%>
 <%@page import="aliebay.dto.UsuarioDTO"%>
@@ -34,9 +35,8 @@
                 <th></th><!-- Productos -->
             </tr>
         <%
-            List<CompradorDTO> compradores = (List)request.getAttribute("compradores");
-            for (CompradorDTO c: compradores) { 
-                UsuarioDTO u = c.getUsuario();
+            List<UsuarioDTO> compradores = (List)request.getAttribute("compradores");
+            for (UsuarioDTO u: compradores) {    
         %>    
         <tr>
             <td><%= u.getIdUsuario()%></td>
@@ -72,9 +72,8 @@
                 <th></th><!-- Productos -->
             </tr>
         <%
-            List<VendedorDTO> vendedores = (List)request.getAttribute("vendedores");
-            for (VendedorDTO v: vendedores) {
-                UsuarioDTO u = v.getUsuario();
+            List<UsuarioDTO> vendedores = (List)request.getAttribute("vendedores");
+            for (UsuarioDTO u: vendedores) {
         %>    
         <tr>
            <td><%= u.getIdUsuario()%></td>

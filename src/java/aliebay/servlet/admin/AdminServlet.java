@@ -6,6 +6,7 @@ package aliebay.servlet.admin;
 
 import aliebay.dto.CompradorDTO;
 import aliebay.dto.MarketingDTO;
+import aliebay.dto.UsuarioDTO;
 import aliebay.dto.VendedorDTO;
 import aliebay.service.CompradorService;
 import aliebay.service.MarketingService;
@@ -43,9 +44,9 @@ public class AdminServlet extends AliEbaySessionServlet {
             throws ServletException, IOException {
         
         if (super.comprobarSesion(request,response) && super.comprobarAdmin(request,response)){
-            List<CompradorDTO> compradores = cs.listarComprador();
-            List<VendedorDTO> vendedores = vs.listarVendedor();
-            List<MarketingDTO> marketings = ms.listarMarketing();
+            List<UsuarioDTO> compradores = cs.listarComprador();
+            List<UsuarioDTO> vendedores = vs.listarVendedor();
+            List<UsuarioDTO> marketings = ms.listarMarketing();
         
             request.setAttribute("compradores", compradores);
             request.setAttribute("vendedores", vendedores);

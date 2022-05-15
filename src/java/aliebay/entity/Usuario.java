@@ -220,6 +220,7 @@ public class Usuario implements Serializable {
         dto.setIdUsuario(idUsuario);
         dto.setApellidos(apellidos);
         dto.setCiudadResidencia(ciudadResidencia);
+
         if(comprador != null) {
             dto.setComprador(comprador.toDTO());
         } else if(vendedor != null) {
@@ -229,6 +230,7 @@ public class Usuario implements Serializable {
         } else if(marketing != null) {
             dto.setMarketing(marketing.toDTO());
         }
+
         dto.setDomicilio(domicilio);
         dto.setEdad(edad);
         dto.setDomicilio(domicilio);

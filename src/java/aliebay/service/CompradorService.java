@@ -12,12 +12,14 @@ import aliebay.dto.CompradorDTO;
 import aliebay.dto.ListacompradorDTO;
 
 import aliebay.dto.ProductoDTO;
+import aliebay.dto.UsuarioDTO;
 import aliebay.dto.VentaDTO;
 import aliebay.entity.Categoria;
 
 import aliebay.entity.Comprador;
 import aliebay.entity.Listacomprador;
 import aliebay.entity.Producto;
+import aliebay.entity.Usuario;
 import aliebay.entity.Venta;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
@@ -34,13 +36,18 @@ public class CompradorService {
     @EJB ListacompradorFacade lcf;
     @EJB ProductoFacade pf;
     @EJB VentaFacade vf;
+    @EJB UsuarioService us;
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 
-    public List<CompradorDTO> listarComprador() {
+    public List<UsuarioDTO> listarComprador() {
         List<Comprador> compradores = cf.findAll();
-
-        return this.listaEntityADTO(compradores);
+        List<Usuario> usuarios = new ArrayList<>();
+        for(Comprador c:compradores){
+            usuarios.add(c.getUsuario());
+        }
+        
+        return us.listaEntityADTO(usuarios);
     }
 
     private List<CompradorDTO> listaEntityADTO(List<Comprador> lista) {

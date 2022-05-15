@@ -6,6 +6,7 @@ package aliebay.servlet.marketing;
 
 import aliebay.dto.CompradorDTO;
 import aliebay.dto.ListacompradorDTO;
+import aliebay.dto.UsuarioDTO;
 import aliebay.service.CompradorService;
 import aliebay.service.ListacompradorService;
 import aliebay.servlet.AliEbaySessionServlet;
@@ -53,7 +54,7 @@ public class ListaCompradorGuardarServlet extends AliEbaySessionServlet {
 
         
         List <CompradorDTO> c = new ArrayList();  
-        for (CompradorDTO comprador : compradorS.listarComprador()){
+        for (UsuarioDTO comprador : compradorS.listarComprador()){
             int compradorID = comprador.getIdUsuario(); 
             List <ListacompradorDTO> a = lcS.getListListaComprador(compradorID);
             str = request.getParameter(Integer.toString(compradorID));
