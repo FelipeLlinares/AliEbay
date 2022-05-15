@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  *
- * @author Cate
+ * @author Jose Maria Tapia Catena
  */
 @WebServlet(name = "AdminServlet", urlPatterns = {"/AdminServlet"})
 public class AdminServlet extends AliEbaySessionServlet {

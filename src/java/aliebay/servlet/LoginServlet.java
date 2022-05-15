@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  *
- * @author Cate
+ * @author Jose Maria Tapia Catena
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends AliEbaySessionServlet {

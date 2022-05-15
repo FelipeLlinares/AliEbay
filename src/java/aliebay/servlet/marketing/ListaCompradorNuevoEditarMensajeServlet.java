@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  *
- * @author Cate
+ * @author Jose Maria Tapia Catena
  */
 @WebServlet(name = "ListaCompradorNuevoEditarMensajeServlet", urlPatterns = {"/ListaCompradorNuevoEditarMensajeServlet"})
 public class ListaCompradorNuevoEditarMensajeServlet extends AliEbaySessionServlet {
