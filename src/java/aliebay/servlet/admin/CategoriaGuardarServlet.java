@@ -4,8 +4,6 @@
  */
 package aliebay.servlet.admin;
 
-import aliebay.dao.CategoriaFacade;
-import aliebay.entity.Categoria;
 import aliebay.service.CategoriaService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;

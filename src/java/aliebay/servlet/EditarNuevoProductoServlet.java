@@ -6,11 +6,15 @@ package aliebay.servlet;
 
 import aliebay.dao.CategoriaFacade;
 import aliebay.dao.ProductoFacade;
+import aliebay.dto.CategoriaDTO;
+import aliebay.dto.ProductoDTO;
 import aliebay.entity.Categoria;
 import aliebay.entity.Comprador;
 import aliebay.entity.Marketing;
 import aliebay.entity.Producto;
 import aliebay.entity.Vendedor;
+import aliebay.service.CategoriaService;
+import aliebay.service.ProductoService;
 import jakarta.ejb.EJB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,8 +31,8 @@ import java.util.List;
  */
 @WebServlet(name = "EditarNuevoProductoServlet", urlPatterns = {"/EditarNuevoProductoServlet"})
 public class EditarNuevoProductoServlet extends AliEbaySessionServlet {
-    @EJB ProductoFacade pf;
-    @EJB CategoriaFacade cf;
+    @EJB ProductoService ps;
+    @EJB CategoriaService cs;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,12 +48,12 @@ public class EditarNuevoProductoServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request,response)){
           
             String str = request.getParameter("producto");
-            List<Categoria> categorias = cf.findAll() ;
+            List<CategoriaDTO> categorias = cs.listarCategorias();
             
             request.setAttribute("categorias",categorias);
             
             if (str != null){
-                Producto producto = pf.find(Integer.parseInt(str));
+                ProductoDTO producto = ps.buscarProducto(Integer.parseInt(str));
                 request.setAttribute("producto", producto);
             }else{
                 String vendedor = request.getParameter("id");

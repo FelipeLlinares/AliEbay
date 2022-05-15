@@ -4,14 +4,11 @@
  */
 package aliebay.servlet.admin;
 
-import aliebay.dao.CompradorFacade;
-import aliebay.dao.MarketingFacade;
-import aliebay.dao.UsuarioFacade;
-import aliebay.dao.VendedorFacade;
-import aliebay.entity.Comprador;
-import aliebay.entity.Marketing;
-import aliebay.entity.Usuario;
-import aliebay.entity.Vendedor;
+import aliebay.dto.UsuarioDTO;
+import aliebay.service.CompradorService;
+import aliebay.service.MarketingService;
+import aliebay.service.UsuarioService;
+import aliebay.service.VendedorService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -22,15 +19,15 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Jose Maria Tapia Catena
+ * @author felip
  */
 @WebServlet(name = "UsuarioGuardarServlet", urlPatterns = {"/UsuarioGuardarServlet"})
 public class UsuarioGuardarServlet extends AliEbaySessionServlet {
 
-    @EJB UsuarioFacade userFacade;
-    @EJB CompradorFacade comFacade;
-    @EJB VendedorFacade venFacade;
-    @EJB MarketingFacade marFacade;
+    @EJB UsuarioService userService;
+    @EJB CompradorService comService;
+    @EJB VendedorService venService;
+    @EJB MarketingService marService;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,68 +42,43 @@ public class UsuarioGuardarServlet extends AliEbaySessionServlet {
             throws ServletException, IOException {
 
         String strId,str;
-        Usuario usuario;
+        UsuarioDTO usuario;
         
         strId = request.getParameter("id");
         
         if (strId == null ||strId.isEmpty()){
-            usuario = new Usuario();
+            usuario = new UsuarioDTO();
         } else{
-            usuario = this.userFacade.find(Integer.parseInt(strId));
+            usuario = this.userService.buscarUsuario(Integer.parseInt(strId));
         }
         
-        str = request.getParameter("nombre");
-        usuario.setNombre(str);
-        
-        str = request.getParameter("apellidos");
-        usuario.setApellidos(str);
-        
-        str = request.getParameter("domicilio");
-        usuario.setDomicilio(str);
-        
-        str = request.getParameter("ciudad");
-        usuario.setCiudadResidencia(str);
-        
-        str = request.getParameter("edad");
-        usuario.setEdad(Integer.parseInt(str));
-        
-        str = request.getParameter("sexo");
-        usuario.setSexo(str);
-        
-        str = request.getParameter("usuario");
-        usuario.setUserName(str);
-        
-        str = request.getParameter("password");
-        usuario.setPassword(str);
-        
-        str = request.getParameter("tipoUsuario");
+        String nombre = request.getParameter("nombre");
+        String apellidos = request.getParameter("apellidos");
+        String domicilio = request.getParameter("domicilio");
+        String ciudad = request.getParameter("ciudad");
+        int edad = Integer.parseInt(request.getParameter("edad"));
+        String sexo = request.getParameter("sexo");
+        String user = request.getParameter("usuario");
+        String password = request.getParameter("password");
+        String tipoUsuario = request.getParameter("tipoUsuario");
         
         String servlet = request.getParameter("admin");
         servlet = servlet != null?"/AdminServlet":"/LoginServlet";
         
         if (strId == null || strId.isEmpty()){
-            userFacade.create(usuario);
-            if(str.equals("comprador")){
-                Comprador comprador = new Comprador(usuario.getIdUsuario());
-                comprador.setUsuario(usuario);
-                usuario.setComprador(comprador);
-                userFacade.edit(usuario);
+            UsuarioDTO u = userService.crearUsuario(nombre,apellidos,domicilio,ciudad,edad,sexo,user,password);
+            if(tipoUsuario.equals("comprador")){
+                userService.añadirComprador(u);
                 //comFacade.create(comprador);
-            }else if(str.equals("vendedor")){
-                Vendedor vendedor = new Vendedor(usuario.getIdUsuario());
-                vendedor.setUsuario(usuario);
-                usuario.setVendedor(vendedor);
-                userFacade.edit(usuario);
+            }else if(tipoUsuario.equals("vendedor")){
+                userService.añadirComprador(u);
                 //venFacade.create(vendedor);
-            }else if(str.equals("marketing")){
-                Marketing marketing = new Marketing(usuario.getIdUsuario());
-                marketing.setUsuario(usuario);
-                usuario.setMarketing(marketing);
-                userFacade.edit(usuario);
+            }else if(tipoUsuario.equals("marketing")){
+                userService.añadirComprador(u);;
                 //marFacade.create(marketing);
             }
         } else {
-            userFacade.edit(usuario);
+            userService.modificarUsuario(usuario.getIdUsuario(),nombre,apellidos,domicilio,ciudad,edad,sexo,user,password);
             servlet = "/AdminServlet";
         }
         

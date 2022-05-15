@@ -5,7 +5,6 @@
 package aliebay.servlet.admin;
 
 import aliebay.dto.CategoriaDTO;
-import aliebay.entity.Categoria;
 import aliebay.service.CategoriaService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
