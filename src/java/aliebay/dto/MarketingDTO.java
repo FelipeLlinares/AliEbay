@@ -19,7 +19,6 @@ import java.util.List;
 public class MarketingDTO {
     private Integer idUsuario;
     private UsuarioDTO usuario;
-    private List<MensajeDTO> mensajeList;
 
     public MarketingDTO() {
     }
@@ -39,14 +38,4 @@ public class MarketingDTO {
     public void setUsuario(UsuarioDTO usuario) {
         this.usuario = usuario;
     }
-
-    public List<MensajeDTO> getMensajeList() {
-        return mensajeList;
-    }
-
-    public void setMensajeList(List<MensajeDTO> mensajeList) {
-        this.mensajeList = mensajeList;
-    }
-    
-    
 }

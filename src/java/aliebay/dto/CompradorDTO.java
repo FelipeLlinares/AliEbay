@@ -23,10 +23,6 @@ import java.util.List;
  */
 public class CompradorDTO {
     private Integer idUsuario;
-    private List<ProductoDTO> productoList;
-    private List<ListacompradorDTO> listacompradorList;
-    private List<VentaDTO> ventaList;
-    private List<PujaDTO> pujaList;
     private UsuarioDTO usuario;
 
     public CompradorDTO() {
@@ -38,38 +34,6 @@ public class CompradorDTO {
 
     public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
-    }
-
-    public List<ProductoDTO> getProductoList() {
-        return productoList;
-    }
-
-    public void setProductoList(List<ProductoDTO> productoList) {
-        this.productoList = productoList;
-    }
-
-    public List<ListacompradorDTO> getListacompradorList() {
-        return listacompradorList;
-    }
-
-    public void setListacompradorList(List<ListacompradorDTO> listacompradorList) {
-        this.listacompradorList = listacompradorList;
-    }
-
-    public List<VentaDTO> getVentaList() {
-        return ventaList;
-    }
-
-    public void setVentaList(List<VentaDTO> ventaList) {
-        this.ventaList = ventaList;
-    }
-
-    public List<PujaDTO> getPujaList() {
-        return pujaList;
-    }
-
-    public void setPujaList(List<PujaDTO> pujaList) {
-        this.pujaList = pujaList;
     }
 
     public UsuarioDTO getUsuario() {

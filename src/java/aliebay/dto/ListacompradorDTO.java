@@ -20,8 +20,6 @@ import java.util.List;
 public class ListacompradorDTO {
     private Integer idLista;
     private String nombre;
-    private List<CompradorDTO> compradorList;
-    private List<MensajeDTO> mensajeList;
 
     public ListacompradorDTO() {
     }
@@ -40,23 +38,5 @@ public class ListacompradorDTO {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public List<CompradorDTO> getCompradorList() {
-        return compradorList;
-    }
-
-    public void setCompradorList(List<CompradorDTO> compradorList) {
-        this.compradorList = compradorList;
-    }
-
-    public List<MensajeDTO> getMensajeList() {
-        return mensajeList;
-    }
-
-    public void setMensajeList(List<MensajeDTO> mensajeList) {
-        this.mensajeList = mensajeList;
-    }
-    
-    
+    } 
 }

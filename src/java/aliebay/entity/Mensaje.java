@@ -133,6 +133,7 @@ public class Mensaje implements Serializable {
         dto.setDescripcion(descripcion);
         dto.setMarketing(marketing.toDTO());
         dto.setFecha(fecha);
+        dto.setListacomprador(listacomprador.toDTO());
         return dto;
     }
     

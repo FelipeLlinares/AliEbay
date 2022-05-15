@@ -228,10 +228,7 @@ public class Producto implements Serializable {
         dto.setTitulo(titulo);
         dto.setVenta(venta.toDTO());
         dto.setuRLFoto(uRLFoto);
-        
-        //dto.setCompradorList(compradorList);
-        //dto.setPujaList(pujaList);
-        
+       
         return dto;
     }
     

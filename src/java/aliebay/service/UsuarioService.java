@@ -59,4 +59,14 @@ public class UsuarioService {
 
         this.uf.create(u);
     }
+
+    public UsuarioDTO comprobarUsuario(String usuario, String clave) {
+        return uf.comprobarUsuario(usuario, clave).toDTO();
+    }
+
+    public String getTipoUsuario(UsuarioDTO user) {
+        return uf.getTipoUsuario(uf.find(user.getIdUsuario()));
+    }
+    
+
 }

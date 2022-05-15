@@ -34,9 +34,7 @@ public class ProductoDTO {
     private String uRLFoto;
     private Date fechaSalida;
     private Date fechaFin;
-    private List<CompradorDTO> compradorList;
     private VentaDTO venta;
-    private List<PujaDTO> pujaList;
     private CategoriaDTO categoria;
 
     public ProductoDTO() {
@@ -106,28 +104,12 @@ public class ProductoDTO {
         this.fechaFin = fechaFin;
     }
 
-    public List<CompradorDTO> getCompradorList() {
-        return compradorList;
-    }
-
-    public void setCompradorList(List<CompradorDTO> compradorList) {
-        this.compradorList = compradorList;
-    }
-
     public VentaDTO getVenta() {
         return venta;
     }
 
     public void setVenta(VentaDTO venta) {
         this.venta = venta;
-    }
-
-    public List<PujaDTO> getPujaList() {
-        return pujaList;
-    }
-
-    public void setPujaList(List<PujaDTO> pujaList) {
-        this.pujaList = pujaList;
     }
 
     public CategoriaDTO getCategoria() {

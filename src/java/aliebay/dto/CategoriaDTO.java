@@ -14,7 +14,6 @@ import java.util.List;
  */
 public class CategoriaDTO {
     private String idCategoria; 
-    private List<ProductoDTO> productoList;
 
     public CategoriaDTO() {
     }
@@ -27,13 +26,4 @@ public class CategoriaDTO {
         this.idCategoria = idCategoria;
     }
 
-    public List<ProductoDTO> getProductoList() {
-        return productoList;
-    }
-
-    public void setProductoList(List<ProductoDTO> productoList) {
-        this.productoList = productoList;
-    }
-    
-    
 }

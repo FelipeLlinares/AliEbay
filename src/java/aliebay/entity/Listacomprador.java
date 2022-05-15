@@ -4,6 +4,7 @@
  */
 package aliebay.entity;
 
+import aliebay.dto.ListacompradorDTO;
 import java.io.Serializable;
 import java.util.List;
 import jakarta.persistence.Basic;
@@ -117,6 +118,13 @@ public class Listacomprador implements Serializable {
     @Override
     public String toString() {
         return "aliebay.entity.Listacomprador[ idLista=" + idLista + " ]";
+    }
+    
+    public ListacompradorDTO toDTO(){
+        ListacompradorDTO dto = new ListacompradorDTO();
+        dto.setIdLista(idLista);
+        dto.setNombre(nombre);
+        return dto;
     }
     
 }

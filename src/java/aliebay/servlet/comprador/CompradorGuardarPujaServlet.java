@@ -9,11 +9,16 @@ package aliebay.servlet.comprador;
 import aliebay.dao.CompradorFacade;
 import aliebay.dao.ProductoFacade;
 import aliebay.dao.PujaFacade;
+import aliebay.dto.CompradorDTO;
+import aliebay.dto.ProductoDTO;
 import aliebay.dto.PujaDTO;
+import aliebay.dto.UsuarioDTO;
 import aliebay.entity.Comprador;
 import aliebay.entity.Producto;
 import aliebay.entity.Puja;
 import aliebay.entity.Usuario;
+import aliebay.service.CompradorService;
+import aliebay.service.ProductoService;
 import aliebay.service.PujaService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
@@ -36,11 +41,11 @@ import java.util.List;
 public class CompradorGuardarPujaServlet extends AliEbaySessionServlet {
 
     @EJB
-    ProductoFacade pf;
+    ProductoService ps;
     @EJB
     PujaService pjs;
     @EJB
-    CompradorFacade cf;
+    CompradorService cs;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,19 +60,19 @@ public class CompradorGuardarPujaServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request, response)) {
 
             HttpSession session = request.getSession();
-            Usuario user = (Usuario) session.getAttribute("usuario");
+            UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
 
-            Comprador comprador = user.getComprador();
+            CompradorDTO comprador = user.getComprador();
 
             String producto = request.getParameter("id");
             String puja = request.getParameter("puja");
 
-            Producto prod = pf.find(Integer.valueOf(producto));
+            ProductoDTO prod = ps.buscarProducto(Integer.valueOf(producto));
             request.setAttribute("producto", prod);
 
             if (puja != null && !puja.isEmpty()) {
 
-                List<Puja> pujas = prod.getPujaList();
+                List<PujaDTO> pujas = ps.getPujaList(prod);
                 float pujaUltima = 0;
                 if (pujas != null && !pujas.isEmpty()) {
                     pujaUltima = pujas.get(pujas.size() - 1).getPuja();
@@ -88,7 +93,7 @@ public class CompradorGuardarPujaServlet extends AliEbaySessionServlet {
                         Date date = new Date();
                         nuevaPuja.setFecha(date);
 
-                        pjf.edit(nuevaPuja);
+                        pjs.editarPuja(nuevaPuja);
 
                         List<Puja> pujasComprador = comprador.getPujaList();
                         pujasComprador.add(nuevaPuja);

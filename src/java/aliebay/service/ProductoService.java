@@ -44,12 +44,12 @@ public class ProductoService {
         return this.listaEntityADTO(productos);                
     } 
     
-    public ProductoDTO buscarCliente (Integer id) {
+    public ProductoDTO buscarProducto (Integer id) {
         Producto p = this.pf.find(id);
         return p.toDTO();
     }
     
-    public void borrarCliente (Integer id) {
+    public void borrarProducto (Integer id) {
         Producto p = this.pf.find(id);
 
         this.pf.remove(p);        
@@ -78,5 +78,9 @@ public class ProductoService {
     public List<PujaDTO> getPujaList(ProductoDTO pr) {
         Producto p = pf.find(pr.getIdProducto());
         return ps.listaEntityADTO(p.getPujaList());
+    }
+
+    public List<ProductoDTO> getProductosVendidos() {
+        return this.listaEntityADTO(pf.getProductosVendidos());
     }
 }

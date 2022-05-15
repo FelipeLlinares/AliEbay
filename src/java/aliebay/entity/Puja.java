@@ -132,5 +132,6 @@ public class Puja implements Serializable {
         dto.setFecha(fecha);
         dto.setProducto(producto.toDTO());
         dto.setPuja(puja);
+        return dto;
     }
 }

@@ -5,14 +5,19 @@
 package aliebay.service;
 
 import aliebay.dao.CompradorFacade;
+import aliebay.dao.ProductoFacade;
 import aliebay.dao.VentaFacade;
 import aliebay.dto.CompradorDTO;
+import aliebay.dto.ProductoDTO;
 import aliebay.dto.VentaDTO;
 import aliebay.entity.Comprador;
+import aliebay.entity.Producto;
 import aliebay.entity.Venta;
+import aliebay.entity.VentaPK;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +27,9 @@ import java.util.List;
 @Stateless
 public class VentaService {
     @EJB VentaFacade vf; 
+    @EJB CompradorFacade cf;
+    @EJB ProductoFacade pf;
+    @EJB VentaService vs;
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     
@@ -53,9 +61,34 @@ public class VentaService {
         this.vf.remove(c);        
     }
     
-    public void crearVenta(int nueva) {
-        Venta c = new Venta();
-
-        this.vf.create(c);
+    public void crearVenta(Integer idUsuario, Integer idProducto, CompradorDTO comprador, Date fechaFin, Float puja) {
+        VentaPK ventaPK = new VentaPK();
+        ventaPK.setIdComprador(idUsuario);
+        ventaPK.setIdProducto(idProducto);
+        Venta v = new Venta();
+        v.setVentaPK(ventaPK);
+        v.setComprador(cf.find(idUsuario));
+        v.setProducto(pf.find(idProducto));
+        v.setFecha(fechaFin);
+        v.setPrecioVenta(puja);
+        
+        this.vf.create(v);
+        
+        Comprador c = cf.find(comprador.getIdUsuario());
+        List<Venta> ventas = c.getVentaList();
+        ventas.add(v);
+        c.setVentaList(ventas);
+        cf.edit(c);
+        
+        Producto p = pf.find(idProducto);
+        p.setVenta(v);
+        pf.edit(p);
     }
+
+    public List<VentaDTO> getVentaList(CompradorDTO comprador) {
+        Comprador c = cf.find(comprador.getIdUsuario());
+        return vs.listaEntityADTO(c.getVentaList()); 
+    }
+    
+    
 }
