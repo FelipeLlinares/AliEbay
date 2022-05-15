@@ -47,7 +47,7 @@ public class EditarNuevoProductoServlet extends AliEbaySessionServlet {
             throws ServletException, IOException {
         if (super.comprobarSesion(request,response)){
           
-            String str = request.getParameter("idprod");
+            String str = request.getParameter("id");
             List<CategoriaDTO> categorias = cs.listarCategorias();
             
             request.setAttribute("categorias",categorias);

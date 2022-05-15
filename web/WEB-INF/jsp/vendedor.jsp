@@ -73,16 +73,15 @@
             <td><a href="verFotoServlet?url=<%= p.getuRLFoto() %>">Ver Foto</a></td>
             <td><%=  sdf.format(p.getFechaSalida()) %></td>
             <td><%= sdf.format(p.getFechaFin()) %></td>
-            <td><a href="EditarNuevoProductoServlet?id=<%=p.getIdProducto()%>&titulo=<%=p.getTitulo()%>&descripcion=<%=p.getDescripcion()%>&precioSalida=<%=p.getPrecioSalida()%>&urlFoto=<%=p.getuRLFoto()%>&fechaSalida=<%=p.getFechaSalida()%>&fechaFin=<%=p.getFechaFin()%>">Editar</a></td>
+            <td><a href="EditarNuevoProductoServlet?id=<%=p.getIdProducto()%>">Editar</a></td>
             <td><a href="BorrarProductoServlet?id=<%=p.getIdProducto()%>">Borrar</a></td>
         </tr>
-        </table>
         <%
                     }
                 } 
                 if(!productosVendidos.isEmpty()){
         %>
-                    
+                     </table>       
         <h3>Productos vendidos:</h3>
             <table border="1" width="80%" style="text-align:center">
             <tr>

@@ -66,6 +66,7 @@
                         </select></td>
             </tr>
             <input type="hidden" name="id" value="<%= vendedor == null ? "" : producto.getIdVendedor() %>"/>
+            <td><input type="submit" value="Aplicar cambios" /></td>
         </form>
         </body>
 </html>

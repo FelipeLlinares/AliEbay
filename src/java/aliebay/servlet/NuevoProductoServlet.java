@@ -30,8 +30,10 @@ import java.util.logging.Logger;
 @WebServlet(name = "NuevoProductoServlet", urlPatterns = {"/NuevoProductoServlet"})
 public class NuevoProductoServlet extends AliEbaySessionServlet {
 
-    @EJB CategoriaService cs;
-    @EJB ProductoService ps;
+    @EJB
+    CategoriaService cs;
+    @EJB
+    ProductoService ps;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -66,15 +68,14 @@ public class NuevoProductoServlet extends AliEbaySessionServlet {
             str = request.getParameter("fechaSalida");
             SimpleDateFormat sdt = new SimpleDateFormat("dd-MM-YYYY");
             Date fechaSalida = sdt.parse(str);
-  
+
             str = request.getParameter("fechaFin");
             Date fechafinal = sdt.parse(str);
 
             String categoria = request.getParameter("categorias");
             String vendedor = request.getParameter("vendedor");
-            
-            ps.crearProducto(titulo,descripcion,precioinicio,urlFoto,fechaSalida,fechafinal,categoria,vendedor);
-           
+
+            ps.crearProducto(titulo, descripcion, precioinicio, urlFoto, fechaSalida, fechafinal, categoria, vendedor);
             response.sendRedirect(request.getContextPath() + "/VendedorServlet");
         }
     }
