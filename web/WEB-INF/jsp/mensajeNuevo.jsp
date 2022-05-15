@@ -4,10 +4,10 @@
     Author     : Cate
 --%>
 
-<%@page import="aliebay.entity.Mensaje"%>
-<%@page import="aliebay.entity.Comprador"%>
+<%@page import="aliebay.dto.MensajeDTO"%>
+<%@page import="aliebay.dto.CompradorDTO"%>
 <%@page import="java.util.List"%>
-<%@page import="aliebay.entity.Listacomprador"%>
+<%@page import="aliebay.dto.ListacompradorDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,8 +22,8 @@
         <title>Mensaje Nuevo</title>
     </head>
        <%
-        Listacomprador listaComprador = (Listacomprador) request.getAttribute("listaComprador");
-        Mensaje mensaje = (Mensaje) request.getAttribute("mensaje");
+        ListacompradorDTO listaComprador = (ListacompradorDTO) request.getAttribute("listaComprador");
+        MensajeDTO mensaje = (MensajeDTO) request.getAttribute("mensaje");
         %>
     <body>
         <h1>Mensaje nuevo para la lista:  <%= listaComprador.getNombre() %></h1>

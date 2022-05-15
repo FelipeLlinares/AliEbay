@@ -5,9 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="aliebay.entity.Producto"%>
-<%@page import="aliebay.entity.Puja"%>
-<%@page import="aliebay.entity.Categoria"%>
+<%@page import="aliebay.dto.ProductoDTO"%>
+<%@page import="aliebay.dto.PujaDTO"%>
+<%@page import="aliebay.dto.CategoriaDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <!DOCTYPE html>
@@ -29,7 +29,7 @@
         
         
         <%
-            List<Producto> productosFavoritos = (List)request.getAttribute("productos");
+            List<ProductoDTO> productosFavoritos = (List)request.getAttribute("productos");
             if(productosFavoritos == null || productosFavoritos.isEmpty()) {
                 
         %>
@@ -40,7 +40,7 @@
         
         <h2>Productos cuya puja es tuya</h2>
         <%
-                List<Producto> productos = (List)request.getAttribute("productosPujadosPorComprador");
+                List<ProductoDTO> productos = (List)request.getAttribute("productosPujadosPorComprador");
                 List<String> vendedores = (List) request.getAttribute("nombresVendedoresPujados");
             
                 if(productos != null && !productos.isEmpty()) {
@@ -62,13 +62,13 @@
             <%
                 
                 for (int i=0; i < productos.size(); i++) {
-                    Producto pc = productos.get(i);
+                    ProductoDTO pc = productos.get(i);
                 
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     String fechaTotal = "Desde " + sdf.format(pc.getFechaSalida()) + " hasta " + sdf.format(pc.getFechaFin());
                 
                     String pujaUltima = "No hay pujas";
-                    List<Puja> pujas = pc.getPujaList();
+                    List<PujaDTO> pujas = pc.getPujaList();
                     if(pujas != null && !pujas.isEmpty()) {
                         pujaUltima = String.valueOf(pujas.get(pujas.size() - 1).getPuja()) + " €";
                     }
@@ -123,13 +123,13 @@
                 productos = (List)request.getAttribute("productosNoPujadosPorComprador");
                 vendedores = (List) request.getAttribute("nombresVendedoresNoPujados");
                 for (int i=0; i < productos.size(); i++) {
-                    Producto pc = productos.get(i);
+                    ProductoDTO pc = productos.get(i);
                 
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     String fechaTotal = "Desde " + sdf.format(pc.getFechaSalida()) + " hasta " + sdf.format(pc.getFechaFin());
                 
                     String pujaUltima = "No hay pujas";
-                    List<Puja> pujas = pc.getPujaList();
+                    List<PujaDTO> pujas = pc.getPujaList();
                     if(pujas != null && !pujas.isEmpty()) {
                         pujaUltima = String.valueOf(pujas.get(pujas.size() - 1).getPuja()) + " €";
                     }
