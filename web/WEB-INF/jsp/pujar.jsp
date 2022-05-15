@@ -5,9 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="aliebay.entity.Producto"%>
-<%@page import="aliebay.entity.Puja"%>
-<%@page import="aliebay.entity.Categoria"%>
+<%@page import="aliebay.dto.ProductoDTO"%>
+<%@page import="aliebay.dto.PujaDTO"%>
+<%@page import="aliebay.dto.CategoriaDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <!DOCTYPE html>
@@ -21,13 +21,13 @@
         <h1>Realizar puja</h1>
         <%
             
-                Producto pc = (Producto) request.getAttribute("producto");
+                ProductoDTO pc = (ProductoDTO) request.getAttribute("producto");
             
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 String fechaTotal = "Desde " + sdf.format(pc.getFechaSalida()) + " hasta " + sdf.format(pc.getFechaFin());
                 
                 String pujaUltima = "No hay pujas";
-                List<Puja> pujas = pc.getPujaList();
+                List<PujaDTO> pujas = pc.getPujaList();
                 if(pujas != null && !pujas.isEmpty()) {
                     pujaUltima = String.valueOf(pujas.get(pujas.size() - 1).getPuja()) + " €";
                 }

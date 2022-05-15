@@ -4,7 +4,7 @@
     Author     : Cate
 --%>
 
-<%@page import="aliebay.entity.Usuario"%>
+<%@page import="aliebay.dto.UsuarioDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,7 +14,7 @@
     </head>
     <%
         
-        Usuario usuario = (Usuario) request.getAttribute("usuario");
+        UsuarioDTO usuario = (UsuarioDTO) request.getAttribute("usuario");
         
         String h = "";
         String m = "";

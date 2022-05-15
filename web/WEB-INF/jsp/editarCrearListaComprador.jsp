@@ -5,10 +5,10 @@
 --%>
 
 <%@page import="java.util.ArrayList"%>
-<%@page import="aliebay.entity.Usuario"%>
-<%@page import="aliebay.entity.Comprador"%>
+<%@page import="aliebay.dto.UsuarioDTO"%>
+<%@page import="aliebay.dto.CompradorDTO"%>
 <%@page import="java.util.List"%>
-<%@page import="aliebay.entity.Listacomprador"%>
+<%@page import="aliebay.dto.ListacompradorDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

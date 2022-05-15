@@ -4,7 +4,7 @@
     Author     : felip
 --%>
 <%@page import="java.util.List"%>
-<%@page import="aliebay.entity.Categoria"%>
+<%@page import="aliebay.dto.CategoriaDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,8 +22,8 @@
                 <th></th><!-- Mostrar Productos -->
             </tr>
         <%
-            List<Categoria> categorias = (List)request.getAttribute("categorias");
-            for (Categoria c: categorias) {
+            List<CategoriaDTO> categorias = (List)request.getAttribute("categorias");
+            for (CategoriaDTO c: categorias) {
         %>    
         <tr>
             <td><%= c.getIdCategoria() %></td>            

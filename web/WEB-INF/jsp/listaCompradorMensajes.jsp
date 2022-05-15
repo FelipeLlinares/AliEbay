@@ -4,11 +4,11 @@
     Author     : Cate
 --%>
 
+<%@page import="aliebay.dto.ListacompradorDTO"%>
+<%@page import="aliebay.dto.MensajeDTO"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="aliebay.entity.Mensaje"%>
 <%@page import="java.util.List"%>
-<%@page import="aliebay.entity.Listacomprador"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,8 +17,8 @@
         <title>Mensajes Lista Comprador</title>
     </head>
     <%
-    Listacomprador lc = (Listacomprador) request.getAttribute("listaComprador");
-    List<Mensaje> mensajes = (List) request.getAttribute("mensajes");  
+    ListacompradorDTO lc = (ListacompradorDTO) request.getAttribute("listaComprador");
+    List<MensajeDTO> mensajes = (List) request.getAttribute("mensajes");  
     SimpleDateFormat fecha = new SimpleDateFormat ("dd/MM/yyyy HH:mm:ss");
     %>   
     
@@ -47,7 +47,7 @@
             </tr>
 
         <%
-            }for (Mensaje m: mensajes) {
+            }for (MensajeDTO m: mensajes) {
                 String [] parts = m.getDescripcion().split(";");
                 if (parts.length > 2 ){
         %>  
@@ -66,8 +66,8 @@
             }
         %>
             <td> <%= fecha.format(m.getFecha())%></td>
-            <td><a href="ListaCompradorNuevoEditarMensajeServlet?id=<%= m.getMensajePK().getId() %>&idLista=<%= lc.getIdLista() %>">Editar</a></td>
-            <td><a href="ListaCompradorBorrarMensajeServlet?id=<%= m.getMensajePK().getId() %>&idLista=<%= lc.getIdLista() %>">Borrar</a></td>
+            <td><a href="ListaCompradorNuevoEditarMensajeServlet?id=<%= m.getIdMensaje() %>&idLista=<%= lc.getIdLista() %>">Editar</a></td>
+            <td><a href="ListaCompradorBorrarMensajeServlet?id=<%= m.getIdMensaje() %>&idLista=<%= lc.getIdLista() %>">Borrar</a></td>
         </tr>
         <%
             }

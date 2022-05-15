@@ -4,7 +4,7 @@
     Author     : Cate
 --%>
 
-<%@page import="aliebay.entity.Listacomprador"%>
+<%@page import="aliebay.dto.ListacompradorDTO"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,8 +25,8 @@
             </tr>
         <a href="ListaCompradorNuevoEditarServlet">Crear nueva lista comprador....</a>
         <%
-            List<Listacomprador> listaCompradores = (List)request.getAttribute("listaCompradores");
-            for (Listacomprador lc: listaCompradores) {
+            List<ListacompradorDTO> listaCompradores = (List)request.getAttribute("listaCompradores");
+            for (ListacompradorDTO lc: listaCompradores) {
         %>  
         <tr>
             <td><%= lc.getNombre()%></td>

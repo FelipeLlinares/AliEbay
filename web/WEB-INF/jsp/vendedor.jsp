@@ -6,9 +6,9 @@
 
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
-<%@page import="aliebay.entity.Producto"%>
-<%@page import="aliebay.entity.Usuario"%>
-<%@page import="aliebay.entity.Vendedor"%>
+<%@page import="aliebay.dto.ProductoDTO"%>
+<%@page import="aliebay.dto.UsuarioDTO"%>
+<%@page import="aliebay.dto.VendedorDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -26,8 +26,8 @@
         <a href="EditarNuevoProductoServlet?id=<%=v.getIdUsuario()%>">Añadir nuevo producto</a><br>
         
         <%
-            List<Producto> productosVendidos = (List)request.getAttribute("productosVendidos");
-            List<Producto> productosNoVendidos = (List)request.getAttribute("productosNoVendidos");
+            List<ProductoDTO> productosVendidos = (List)request.getAttribute("productosVendidos");
+            List<ProductoDTO> productosNoVendidos = (List)request.getAttribute("productosNoVendidos");
             
             String categoria = (String)request.getAttribute("categoria");
             
@@ -62,7 +62,7 @@
                 <th></th><!-- Editar -->
             </tr>
         <%
-                for (Producto p: productosNoVendidos) {
+                for (ProductoDTO p: productosNoVendidos) {
         %>
         <tr>
             <td><%= p.getTitulo()%></td>
@@ -92,7 +92,7 @@
                 <th>Fecha compra</th>
             </tr>
         <%
-                for (Producto p: productosNoVendidos) {
+                for (ProductoDTO p: productosNoVendidos) {
         %>
         <tr>
             <td><%= p.getTitulo()%></td>

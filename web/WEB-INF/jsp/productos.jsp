@@ -6,7 +6,7 @@
 
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
-<%@page import="aliebay.entity.Producto"%>
+<%@page import="aliebay.dto.ProductoDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -18,8 +18,8 @@
     <body>
         <jsp:include page="/WEB-INF/jsp/cabecera.jsp" />
         <%
-            List<Producto> productosVendidos = (List)request.getAttribute("productosVendidos");
-            List<Producto> productosNoVendidos = (List)request.getAttribute("productosNoVendidos");
+            List<ProductoDTO> productosVendidos = (List)request.getAttribute("productosVendidos");
+            List<ProductoDTO> productosNoVendidos = (List)request.getAttribute("productosNoVendidos");
             
             String categoria = (String)request.getAttribute("categoria");
             
@@ -53,7 +53,7 @@
                 <th>Fecha de fin:</th>
             </tr>
         <%
-                for (Producto p: productosNoVendidos) {
+                for (ProductoDTO p: productosNoVendidos) {
         %>
         <tr>
             <td><%= p.getTitulo()%></td>
@@ -82,7 +82,7 @@
                 <th>Fecha compra</th>
             </tr>
         <%
-                for (Producto p: productosNoVendidos) {
+                for (ProductoDTO p: productosNoVendidos) {
         %>
         <tr>
             <td><%= p.getTitulo()%></td>

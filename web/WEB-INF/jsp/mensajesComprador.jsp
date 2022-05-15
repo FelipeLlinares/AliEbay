@@ -4,10 +4,10 @@
     Author     : Cate
 --%>
 
+<%@page import="aliebay.dto.MensajeDTO"%>
+<%@page import="aliebay.dto.ListacompradorDTO"%>
+<%@page import="aliebay.dto.CompradorDTO"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="aliebay.entity.Mensaje"%>
-<%@page import="aliebay.entity.Listacomprador"%>
-<%@page import="aliebay.entity.Comprador"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,7 +19,7 @@
      <jsp:include page="/WEB-INF/jsp/cabeceraComprador.jsp" />
         <h1>Lista de mensajes</h1>
         <%
-            Comprador comprador = (Comprador) request.getAttribute("comprador");
+            CompradorDTO comprador = (CompradorDTO) request.getAttribute("comprador");
             SimpleDateFormat fecha = new SimpleDateFormat  ("dd/MM/yyyy HH:mm:ss");
             if (comprador.getListacompradorList().isEmpty()){
          %>
@@ -35,9 +35,9 @@
                 <th>Fecha</th>
             </tr>
             <%
-            for (Listacomprador lc : comprador.getListacompradorList()){
+            for (ListacompradorDTO lc : comprador.getListacompradorList()){
                 if (!lc.getMensajeList().isEmpty()){
-                for (Mensaje m : lc.getMensajeList()) {            
+                for (MensajeDTO m : lc.getMensajeList()) {            
               String [] parts = m.getDescripcion().split(";");
               if (parts != null && parts.length > 2 ){
         %>  
