@@ -6,6 +6,7 @@ package aliebay.servlet.admin;
 
 import aliebay.dao.CategoriaFacade;
 import aliebay.entity.Categoria;
+import aliebay.service.CategoriaService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -20,7 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "CategoriaGuardarServlet", urlPatterns = {"/CategoriaGuardarServlet"})
 public class CategoriaGuardarServlet extends AliEbaySessionServlet {
-    @EJB CategoriaFacade cf;
+    @EJB CategoriaService cs;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,8 +37,7 @@ public class CategoriaGuardarServlet extends AliEbaySessionServlet {
             
             String nueva = request.getParameter("nuevaCategoria");
 
-            Categoria categoria = new Categoria(nueva);
-            cf.create(categoria);
+            cs.crearCategoria(nueva);
 
             response.sendRedirect(request.getContextPath() + "/GestionarCategoriasServlet");
      

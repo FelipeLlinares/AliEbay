@@ -4,9 +4,9 @@
  */
 package aliebay.servlet.admin;
 
-import aliebay.dao.CategoriaFacade;
 import aliebay.dao.ProductoFacade;
 import aliebay.entity.Producto;
+import aliebay.service.CategoriaService;
 import jakarta.ejb.EJB;
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 @WebServlet(name = "ProductosPorCartegoriaServlet", urlPatterns = {"/ProductosPorCartegoriaServlet"})
 public class ProductosPorCartegoriaServlet extends HttpServlet {
     @EJB ProductoFacade pf;
-    @EJB CategoriaFacade cf;
+    @EJB CategoriaService cs;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,7 +37,7 @@ public class ProductosPorCartegoriaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String categoria = (String) request.getParameter("id");
-        List<Producto> productos = pf.getTodosProductosPorCategoria(cf.find(categoria));
+        List<Producto> productos = pf.getTodosProductosPorCategoria(cs.buscarCategoria(categoria));
         
         List<Producto> productosVendidos = new ArrayList<>();
         List<Producto> productosNoVendidos  = new ArrayList<>();

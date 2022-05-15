@@ -5,7 +5,9 @@
 package aliebay.servlet.admin;
 
 import aliebay.dao.CategoriaFacade;
+import aliebay.dto.CategoriaDTO;
 import aliebay.entity.Categoria;
+import aliebay.service.CategoriaService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -22,7 +24,7 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "CategoriaBorrarServlet", urlPatterns = {"/CategoriaBorrarServlet"})
 public class CategoriaBorrarServlet extends AliEbaySessionServlet {
-    @EJB CategoriaFacade cf;
+    @EJB CategoriaService cs;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,8 +39,8 @@ public class CategoriaBorrarServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request,response) && super.comprobarAdmin(request,response)){
             
             String str = request.getParameter("id");
-            Categoria c = cf.find(str);
-            this.cf.remove(c);
+            CategoriaDTO c = cs.buscarCategoria(str);
+            this.cs.borrarCategoria(str);
             response.sendRedirect(request.getContextPath() + "/GestionarCategoriasServlet");
             
         }

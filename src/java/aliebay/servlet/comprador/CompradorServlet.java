@@ -10,12 +10,14 @@ import aliebay.dao.CategoriaFacade;
 import aliebay.dao.ProductoFacade;
 import aliebay.dao.UsuarioFacade;
 import aliebay.dao.VendedorFacade;
+import aliebay.dto.CategoriaDTO;
 import aliebay.entity.Categoria;
 import aliebay.entity.Comprador;
 import aliebay.entity.Producto;
 import aliebay.entity.Puja;
 import aliebay.entity.Usuario;
 import aliebay.entity.Vendedor;
+import aliebay.service.CategoriaService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -44,7 +46,7 @@ public class CompradorServlet extends AliEbaySessionServlet {
     @EJB
     ProductoFacade pf;
     @EJB
-    CategoriaFacade cf;
+    CategoriaService cs;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -69,14 +71,14 @@ public class CompradorServlet extends AliEbaySessionServlet {
             List<Producto> productos;
             
             if(nombreFiltro != null && categoria != null && !nombreFiltro.isEmpty() && !categoria.isEmpty()) {
-                Categoria categ = cf.find(categoria);
+                CategoriaDTO categ = cs.buscarCategoria(categoria);
                 productos = pf.getProductosPorNombreYCategoria(nombreFiltro, categ);
                 request.setAttribute("filtrado", "por '" + nombreFiltro + "' y por '" + categ.getIdCategoria() + "'");
             } else if(nombreFiltro != null && !nombreFiltro.isEmpty()) {
                 productos = pf.getProductosDisponiblesPorNombre(nombreFiltro);
                 request.setAttribute("filtrado", "por '" + nombreFiltro + "'");
             } else if(categoria != null && !categoria.isEmpty()){
-                Categoria categ = cf.find(categoria);
+                CategoriaDTO categ = cs.buscarCategoria(categoria);
                 productos = pf.getProductosPorCategoria(categ);
                 request.setAttribute("filtrado", "por '" + categ.getIdCategoria() + "'");
             } else {
@@ -117,7 +119,7 @@ public class CompradorServlet extends AliEbaySessionServlet {
                 }
             }
 
-            List<Categoria> categorias = cf.findAll();
+            List<CategoriaDTO> categorias = cs.listarCategorias();
 
             request.setAttribute("categorias", categorias);
             request.setAttribute("productosPujadosPorComprador", productosPujadosPorComprador);

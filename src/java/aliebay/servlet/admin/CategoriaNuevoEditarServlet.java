@@ -4,8 +4,8 @@
  */
 package aliebay.servlet.admin;
 
-import aliebay.dao.CategoriaFacade;
 import aliebay.entity.Categoria;
+import aliebay.service.CategoriaService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -22,7 +22,6 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "CategoriaNuevoEditarServlet", urlPatterns = {"/CategoriaNuevoEditarServlet"})
 public class CategoriaNuevoEditarServlet extends AliEbaySessionServlet {
-    @EJB CategoriaFacade cf;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
