@@ -4,19 +4,12 @@
  */
 package aliebay.servlet.marketing;
 
-import aliebay.dao.CompradorFacade;
 import aliebay.dto.CompradorDTO;
-
 import aliebay.dto.ListacompradorDTO;
 import aliebay.dto.MensajeDTO;
-import aliebay.entity.Comprador;
-import aliebay.service.CompradorService;
 import aliebay.service.ListacompradorService;
 import aliebay.service.MensajeService;
-
-import aliebay.entity.Comprador;
 import aliebay.service.CompradorService;
-
 import jakarta.ejb.EJB;
 import java.io.IOException;
 import jakarta.servlet.ServletException;

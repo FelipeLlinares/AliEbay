@@ -4,14 +4,13 @@
  */
 package aliebay.servlet.marketing;
 
-import aliebay.dao.ListacompradorFacade;
-import aliebay.dao.MarketingFacade;
-import aliebay.dao.MensajeFacade;
-import aliebay.entity.Listacomprador;
-import aliebay.entity.Marketing;
-import aliebay.entity.Mensaje;
-import aliebay.entity.MensajePK;
-import aliebay.entity.Usuario;
+import aliebay.dto.ListacompradorDTO;
+import aliebay.dto.MarketingDTO;
+import aliebay.dto.MensajeDTO;
+import aliebay.dto.UsuarioDTO;
+import aliebay.service.ListacompradorService;
+import aliebay.service.MarketingService;
+import aliebay.service.MensajeService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -25,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
 import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,9 +34,9 @@ import java.util.logging.Logger;
  */
 @WebServlet(name = "ListaCompradorGuardarMensajeServlet", urlPatterns = {"/ListaCompradorGuardarMensajeServlet"})
 public class ListaCompradorGuardarMensajeServlet extends AliEbaySessionServlet {
-    @EJB ListacompradorFacade lcf;
-    @EJB MensajeFacade mensajef;
-    @EJB MarketingFacade marketingf;
+    @EJB ListacompradorService lcs;
+    @EJB MensajeService mensajes;
+    @EJB MarketingService marketings;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,18 +53,9 @@ public class ListaCompradorGuardarMensajeServlet extends AliEbaySessionServlet {
      if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
         
         String strIdLista,strID,str;
-        Mensaje mensaje;
-        MensajePK mPK;
-
         strID = request.getParameter("id");
         
-        if (strID == null || strID.isEmpty()){
-            mensaje = new Mensaje();
-            mPK = new MensajePK();
-        } else{
-            mensaje = this.mensajef.findById(Integer.parseInt(strID));
-            mPK = mensaje.getMensajePK();
-        }
+        MensajeDTO mensaje = new MensajeDTO();
         
         StringJoiner sj = new StringJoiner(";");
         str = request.getParameter("asunto");
@@ -77,11 +66,7 @@ public class ListaCompradorGuardarMensajeServlet extends AliEbaySessionServlet {
         
         str = request.getParameter("description");
         sj.add(str);
-        mensaje.setDescripcion(sj.toString());
-        
-        strIdLista = request.getParameter("idLista");
-        Listacomprador lc = lcf.find(Integer.parseInt(strIdLista));
-        mensaje.setListacomprador(lc);
+        String descripcion = sj.toString();
         
         //Fecha
             LocalDateTime myDateObj = LocalDateTime.now();
@@ -89,32 +74,28 @@ public class ListaCompradorGuardarMensajeServlet extends AliEbaySessionServlet {
             String formattedDate = myDateObj.format(myFormatObj);
         
             SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            Date fecha = new Date();
          try {
-             mensaje.setFecha(format.parse(formattedDate));
+             fecha = format.parse(formattedDate);
          } catch (ParseException ex) {
              Logger.getLogger(ListaCompradorGuardarMensajeServlet.class.getName()).log(Level.SEVERE, null, ex);
          }
-        
+         
+        strIdLista = request.getParameter("idLista");
+        ListacompradorDTO lc = lcs.buscarListacomprador(Integer.parseInt(strIdLista));
         
         HttpSession session = request.getSession();
-        Usuario user = (Usuario) session.getAttribute("usuario");
-        Marketing marketing = marketingf.find(user.getIdUsuario());
-        mensaje.setMarketing(marketing);
-        
-        mPK.setIdListaComprador(lc.getIdLista());
-        mPK.setIdMarketing(marketing.getIdUsuario());
-        
-        mensaje.setMensajePK(mPK);
+        UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
+        MarketingDTO marketing = marketings.buscarMarketing(user.getIdUsuario());
         
         if (strID == null || strID.isEmpty()){
-            mensajef.create(mensaje);
-            List<Mensaje> mensajes = lc.getMensajeList();
-            mensajes.add(mensaje);
-            lc.setMensajeList(mensajes);
-            this.lcf.edit(lc);
-        } else {
-            mensajef.edit(mensaje);
+            mensajes.crearMensaje(descripcion,fecha,lc,marketing.getIdUsuario());
+        } else{
+            mensajes.editarMensaje(Integer.parseInt(strID),descripcion,fecha,lc,marketing.getIdUsuario());
         }
+        
+        
+       
         
         response.sendRedirect(request.getContextPath() + "/ListaCompradorMensajeServlet?id=" + mensaje.getListacomprador().getIdLista());
         }

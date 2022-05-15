@@ -4,8 +4,7 @@
  */
 package aliebay.servlet.marketing;
 
-import aliebay.dto.ListacompradorDTO;
-import aliebay.dto.MensajeDTO;
+
 import aliebay.service.ListacompradorService;
 import aliebay.service.MensajeService;
 import aliebay.servlet.AliEbaySessionServlet;
@@ -15,7 +14,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
@@ -39,20 +37,12 @@ public class ListaCompradorBorrarMensajeServlet extends AliEbaySessionServlet {
 
         if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
             String str = request.getParameter("id");
+            
             String strIdLista = request.getParameter("idLista");
+            int idLista = Integer.parseInt(strIdLista);   
             
-            int idLista = Integer.parseInt(strIdLista);     
-                       
-            MensajeDTO mensaje = this.mensajeS.buscarMensaje(Integer.parseInt(str));
+            mensajeS.eliminarMensaje(Integer.parseInt(str));
             
-            ListacompradorDTO lc = listacompradorS.buscarListacomprador(idLista);
-            
-            List<MensajeDTO> mensajes = lc.getMensajeList();
-            mensajes.remove(mensaje);
-            lc.setMensajeList(mensajes);
-            
-            this.listacompradorf.edit(lc);
-            this.mensajef.remove(mensaje);
         
             response.sendRedirect(request.getContextPath() + "/ListaCompradorMensajeServlet?id=" + idLista);
         }

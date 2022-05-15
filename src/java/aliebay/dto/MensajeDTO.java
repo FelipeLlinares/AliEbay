@@ -24,7 +24,6 @@ public class MensajeDTO {
     private Date fecha;
     private ListacompradorDTO listacomprador;
     private MarketingDTO marketing;
-    
 
     public MensajeDTO() {
     }

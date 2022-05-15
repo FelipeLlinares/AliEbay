@@ -46,7 +46,14 @@ public class ListacompradorService {
     
     public void borrarListacomprador(int listaComprador) {
         Listacomprador lc = this.listacompradorf.find(listaComprador);
-
+        List<Comprador> compradores = lc.getCompradorList();
+            for (Comprador c : compradores){
+                List<Listacomprador> lista = c.getListacompradorList();
+                lista.remove(lc);
+                c.setListacompradorList(lista);
+                cf.edit(c);
+            }
+            
         this.listacompradorf.remove(lc);        
     }
 
