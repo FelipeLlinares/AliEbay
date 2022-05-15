@@ -55,7 +55,13 @@ public class ListaCompradorGuardarMensajeServlet extends AliEbaySessionServlet {
         String strIdLista,strID,str;
         strID = request.getParameter("id");
         
-        MensajeDTO mensaje = new MensajeDTO();
+        MensajeDTO mensaje = null;
+        if (strID == null || strID.isEmpty()){
+           mensaje = new MensajeDTO();
+        } else {
+           mensaje = mensajes.buscarMensaje(Integer.parseInt(strID));
+        }
+        
         
         StringJoiner sj = new StringJoiner(";");
         str = request.getParameter("asunto");
@@ -89,14 +95,11 @@ public class ListaCompradorGuardarMensajeServlet extends AliEbaySessionServlet {
         MarketingDTO marketing = marketings.buscarMarketing(user.getIdUsuario());
         
         if (strID == null || strID.isEmpty()){
-            mensajes.crearMensaje(descripcion,fecha,lc,marketing.getIdUsuario());
+           mensaje = mensajes.crearMensaje(descripcion,fecha,lc,marketing.getIdUsuario());
         } else{
-            mensajes.editarMensaje(Integer.parseInt(strID),descripcion,fecha,lc,marketing.getIdUsuario());
+           mensaje = mensajes.editarMensaje(Integer.parseInt(strID),descripcion);
         }
-        
-        
-       
-        
+              
         response.sendRedirect(request.getContextPath() + "/ListaCompradorMensajeServlet?id=" + mensaje.getListacomprador().getIdLista());
         }
     }

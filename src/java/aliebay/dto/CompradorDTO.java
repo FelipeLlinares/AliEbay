@@ -4,18 +4,7 @@
  */
 package aliebay.dto;
 
-import aliebay.entity.Listacomprador;
-import aliebay.entity.Producto;
-import aliebay.entity.Puja;
-import aliebay.entity.Usuario;
-import aliebay.entity.Venta;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -42,6 +31,28 @@ public class CompradorDTO {
 
     public void setUsuario(UsuarioDTO usuario) {
         this.usuario = usuario;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.idUsuario);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CompradorDTO other = (CompradorDTO) obj;
+        return Objects.equals(this.idUsuario, other.idUsuario);
     }
     
     

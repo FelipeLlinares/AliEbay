@@ -6,6 +6,7 @@ package aliebay.service;
 
 import aliebay.dao.CompradorFacade;
 import aliebay.dao.ListacompradorFacade;
+import aliebay.dto.CompradorDTO;
 import aliebay.dto.ListacompradorDTO;
 import aliebay.entity.Comprador;
 import aliebay.entity.Listacomprador;
@@ -59,10 +60,13 @@ public class ListacompradorService {
         this.listacompradorf.remove(lc);        
     }
 
-    public void crear(String nombre) {
+    public ListacompradorDTO crear(String nombre) {
         Listacomprador lc = new Listacomprador();
         lc.setNombre(nombre);
+        lc.setCompradorList(new ArrayList());
+        lc.setMensajeList(new ArrayList());
         this.listacompradorf.create(lc);
+        return lc.toDTO();
     }
 
     public void editar(Integer idLista, String nombre) {
@@ -76,13 +80,26 @@ public class ListacompradorService {
         return this.listaEntityADTO(c.getListacompradorList());
     }
 
-    public void añadirComprador(Integer idLista, int compradorID) {
-        Listacomprador lc = listacompradorf.find(idLista);
+    public void añadirComprador(ListacompradorDTO ldto, int compradorID) {
+        Listacomprador lc = listacompradorf.find(ldto.getIdLista());
         Comprador c = cf.find(compradorID);
         List<Comprador> compradores = lc.getCompradorList();
         compradores.add(c);
         lc.setCompradorList(compradores);
+       
         listacompradorf.edit(lc);
+    }
+
+    public void editar(Integer idLista, String nombre, List<CompradorDTO> c) {
+        Listacomprador lc = listacompradorf.find(idLista);
+        List<Comprador> compradoresParaLista = new ArrayList();
+        
+        for (CompradorDTO comprador : c){
+            Comprador comp = this.cf.find(comprador.getIdUsuario());
+            compradoresParaLista.add(comp);
+        }
+        lc.setCompradorList(compradoresParaLista);
+        this.listacompradorf.edit(lc);
     }
     
 }

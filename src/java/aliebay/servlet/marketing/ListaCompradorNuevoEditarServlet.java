@@ -45,7 +45,7 @@ public class ListaCompradorNuevoEditarServlet extends AliEbaySessionServlet {
                 ListacompradorDTO listacomprador = lcS.buscarListacomprador(Integer.parseInt(str));
                 request.setAttribute("listaComprador", listacomprador);
                 
-                List<CompradorDTO> compradoresListaComprador = compradorS.getCompradoresListaComprador(Integer.parseInt(str));
+                List<UsuarioDTO> compradoresListaComprador = compradorS.getCompradoresListaComprador(Integer.parseInt(str));
                 request.setAttribute("compradoresListaComprador", compradoresListaComprador);
                 
             }

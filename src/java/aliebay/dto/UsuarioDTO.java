@@ -12,6 +12,7 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToOne;
+import java.util.Objects;
 
 /**
  *
@@ -138,6 +139,28 @@ public class UsuarioDTO {
 
     public void setComprador(CompradorDTO comprador) {
         this.comprador = comprador;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.idUsuario);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final UsuarioDTO other = (UsuarioDTO) obj;
+        return Objects.equals(this.idUsuario, other.idUsuario);
     }
     
     

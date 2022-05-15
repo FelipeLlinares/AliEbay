@@ -79,8 +79,13 @@ public class CompradorService {
         this.cf.create(c);
     }
 
-    public List<CompradorDTO> getCompradoresListaComprador(int idLista) {
-        return this.listaEntityADTO(this.cf.getCompradoresListaComprador(idLista));
+    public List<UsuarioDTO> getCompradoresListaComprador(int idLista) {
+       List<Comprador> compradores = this.cf.getCompradoresListaComprador(idLista);
+       List<Usuario> usuarios = new ArrayList<>();
+        for(Comprador c:compradores){
+            usuarios.add(c.getUsuario());
+        }
+        return us.listaEntityADTO(usuarios);
     }
     
     public void añadirLista(ListacompradorDTO lComprador, int id) {
@@ -153,4 +158,5 @@ public class CompradorService {
         p.setCompradorList(null);
         pf.edit(p);
     }
+        
 }

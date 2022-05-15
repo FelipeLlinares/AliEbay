@@ -48,7 +48,7 @@ public class MensajeService {
     }
     
     public MensajeDTO buscarMensaje(int mensaje){
-        Mensaje m = mf.find(mensaje);
+        Mensaje m = mf.findById(mensaje);
         return m.toDTO();
     }
     
@@ -68,7 +68,7 @@ public class MensajeService {
     }
 
     public void eliminarMensaje(int mensaje) {
-        Mensaje m = mf.find(mensaje);
+        Mensaje m = mf.findById(mensaje);
         
         Listacomprador lc = lcf.find(m.getListacomprador().getIdLista());
         List<Mensaje> mensajes = lc.getMensajeList();
@@ -81,27 +81,12 @@ public class MensajeService {
 
 
 
-    public void crearMensaje(String descripcion, Date fecha, ListacompradorDTO lc, Integer idUsuario) {
+    public MensajeDTO crearMensaje(String descripcion, Date fecha, ListacompradorDTO lc, Integer idUsuario) {
         MensajePK mpk = new MensajePK();
         mpk.setIdListaComprador(lc.getIdLista());
         mpk.setIdMarketing(idUsuario);
+        
         Mensaje m = new Mensaje(mpk);
-        Listacomprador lista = lcf.find(lc.getIdLista());
-        m.setDescripcion(descripcion);
-        m.setFecha(fecha);
-        m.setListacomprador(lcf.find(lc.getIdLista()));
-        m.setMarketing(marf.find(idUsuario));
-        
-        List<Mensaje> ms = lista.getMensajeList();
-        ms.add(m);
-        lista.setMensajeList(ms);
-        lcf.edit(lista);
-        
-        mf.create(m);
-    }
-
-    public void editarMensaje(int id, String descripcion, Date fecha, ListacompradorDTO lc, Integer idUsuario) {
-        Mensaje m = mf.findById(id);
         Listacomprador lista = lcf.find(lc.getIdLista());
         m.setDescripcion(descripcion);
         m.setFecha(fecha);
@@ -113,6 +98,14 @@ public class MensajeService {
         lista.setMensajeList(ms);
         lcf.edit(lista);
         
+        mf.create(m);
+        return m.toDTO();
+    }
+
+    public MensajeDTO editarMensaje(int id, String descripcion) {
+        Mensaje m = mf.findById(id);                
+        m.setDescripcion(descripcion);        
         mf.edit(m);
+        return m.toDTO();
     }
 }

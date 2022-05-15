@@ -28,7 +28,7 @@
     <body>
         <h1>Mensaje nuevo para la lista:  <%= listaComprador.getNombre() %></h1>
         <form action="ListaCompradorGuardarMensajeServlet" method="POST">      
-        <input type="hidden" name="id" value="<%= mensaje == null ? "" : mensaje.getMensajePK().getId() %>"/>
+        <input type="hidden" name="id" value="<%= mensaje == null ? "" : mensaje.getIdMensaje() %>"/>
         <input type="hidden" name="idLista" value="<%= listaComprador == null ? "" : listaComprador.getIdLista()%>"/>
         <table>
        <%  

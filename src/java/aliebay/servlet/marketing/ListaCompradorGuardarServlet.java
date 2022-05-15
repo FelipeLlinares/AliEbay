@@ -47,11 +47,10 @@ public class ListaCompradorGuardarServlet extends AliEbaySessionServlet {
         String nombre = request.getParameter("nombre");
         
         if (strId == null || strId.isEmpty()){
-            lcS.crear(nombre);
+            lComprador = lcS.crear(nombre);
         } else {
             lcS.editar(lComprador.getIdLista(), nombre);
         }
-
         
         List <CompradorDTO> c = new ArrayList();  
         for (UsuarioDTO comprador : compradorS.listarComprador()){
@@ -59,18 +58,20 @@ public class ListaCompradorGuardarServlet extends AliEbaySessionServlet {
             List <ListacompradorDTO> a = lcS.getListListaComprador(compradorID);
             str = request.getParameter(Integer.toString(compradorID));
             if (str != null){ //Aqui entro si he seleccionado el comprador
-                //c.add(comprador);
-                lcS.añadirComprador(lComprador.getIdLista(),compradorID);
                 //actualizar la referencia de comprador
+                c.add(comprador.getComprador());
                 if (!a.contains(lComprador)){
-                    compradorS.añadirLista(lComprador, comprador.getIdUsuario());
+                    compradorS.añadirLista(lComprador, compradorID);
+                    //this.lcS.añadirComprador(lComprador, compradorID);
                 }
             } else {
                 if (a.contains(lComprador)){
-                    compradorS.eliminarLista(lComprador, comprador.getIdUsuario());
+                    compradorS.eliminarLista(lComprador, compradorID);
                 }
             }
         }
+        
+        if (!c.isEmpty()) this.lcS.editar(lComprador.getIdLista(), nombre, c);
                
         response.sendRedirect(request.getContextPath() + "/MarketingServlet");
         }

@@ -18,8 +18,8 @@
     </head>
        <%
         ListacompradorDTO listaComprador = (ListacompradorDTO) request.getAttribute("listaComprador");
-        List<CompradorDTO> compradoresListaComprador = (List)request.getAttribute("compradoresListaComprador");
-        List<CompradorDTO> compradores = (List) request.getAttribute("compradores");
+        List<UsuarioDTO> compradoresListaComprador = (List)request.getAttribute("compradoresListaComprador");
+        List<UsuarioDTO> compradores = (List) request.getAttribute("compradores");
         %>
     <body>
             <jsp:include page="/WEB-INF/jsp/cabeceraMarketing.jsp" />
@@ -30,13 +30,13 @@
         Nombre: <input type="text" name="nombre" value="<%= listaComprador == null ? "" : listaComprador.getNombre()%>" /> </br>
         Compradores: <br/>
         <%
-        for (CompradorDTO comprador : compradores){ 
+        for (UsuarioDTO comprador : compradores){ 
             String checked = "";
             if (compradoresListaComprador != null && compradoresListaComprador.contains(comprador)){
                 checked = "checked";
             }
         %>
-        <input type="checkbox" name="<%= comprador.getIdUsuario() %>" value="<%= comprador.getIdUsuario() %>" <%=checked%> /><%= comprador.getUsuario().getNombre() %><br/>    
+        <input type="checkbox" name="<%= comprador.getIdUsuario() %>" value="<%= comprador.getIdUsuario() %>" <%=checked%> /><%= comprador.getNombre() %><br/>    
         <%
             }
         %>
