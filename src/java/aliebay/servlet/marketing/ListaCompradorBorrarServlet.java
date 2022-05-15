@@ -4,7 +4,9 @@
  */
 package aliebay.servlet.marketing;
 
+import aliebay.dao.CompradorFacade;
 import aliebay.dao.ListacompradorFacade;
+import aliebay.entity.Comprador;
 import aliebay.entity.Listacomprador;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
@@ -13,6 +15,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
@@ -22,6 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ListaCompradorBorrarServlet extends AliEbaySessionServlet {
 
     @EJB ListacompradorFacade lcf;
+    @EJB CompradorFacade compradorf;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,6 +42,12 @@ public class ListaCompradorBorrarServlet extends AliEbaySessionServlet {
             String str = request.getParameter("id");
         
             Listacomprador listacompra = this.lcf.find(Integer.parseInt(str));
+            
+            List<Comprador> compradores = listacompra.getCompradorList();
+            for (Comprador c : compradores){
+                c.getListacompradorList().remove(listacompra);
+                this.compradorf.edit(c);
+            }
             
             this.lcf.remove(listacompra);
         

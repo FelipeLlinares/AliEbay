@@ -22,6 +22,8 @@
         List<Comprador> compradores = (List) request.getAttribute("compradores");
         %>
     <body>
+            <jsp:include page="/WEB-INF/jsp/cabeceraMarketing.jsp" />
+
         <h1>Listas de compradores</h1>
         <form action="ListaCompradorGuardarServlet" method="POST">        
         <input type="hidden" name="id" value="<%= listaComprador == null ? "" : listaComprador.getIdLista()%>"/>

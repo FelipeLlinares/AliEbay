@@ -1,8 +1,9 @@
 <%-- 
-    Document   : cabeceraComprador
-    Created on : 13 may. 2022, 13:00:24
-    Author     : Enrique Cañadas Cobo
+    Document   : cabeceraMarketing
+    Created on : 15 may. 2022, 12:46:41
+    Author     : Cate
 --%>
+
 
 <%@page import="aliebay.entity.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -23,10 +24,7 @@
     <tr width="80%">
         <td>Bievenido, <%= user.getNombre()%></td>
         <td>Session ID, <%= user.getIdUsuario() %></td>
-        <td><a href="FavoritoServlet">Favoritos</a></td>
-        <td><a href="ProductosCompradorServlet?id=<%= user.getIdUsuario()%>">Productos comprados</a></td>
-        <td><a href="CompradorServlet">Volver a Inicio</a></td>
-        <td><a href="CompradorMensajesServlet?id=<%= user.getIdUsuario()%>">Mensajes</a></td>
+        <td><a href="MarketingServlet">Inicio</a></td>
         <td><a href="LogoutServlet">Salir</a></td>
     </tr>
 </table>

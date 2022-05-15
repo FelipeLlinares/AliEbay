@@ -39,5 +39,18 @@ public class MensajeFacade extends AbstractFacade<Mensaje> {
       return q.getResultList();
                 
     }
+
+    public Mensaje findById(int parseInt) {
+       Query q;
+       
+       q = this.getEntityManager().createNamedQuery("Mensaje.findById").setParameter("id", parseInt);
+       
+       List<Mensaje> lista = q.getResultList();
+       if (lista == null || lista.isEmpty()){
+           return null;
+       } else {
+           return lista.get(0);
+       }
+    }
     
 }

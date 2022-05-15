@@ -99,6 +99,7 @@ public class Mensaje implements Serializable {
     public void setMarketing(Marketing marketing) {
         this.marketing = marketing;
     }
+    
 
     @Override
     public int hashCode() {

@@ -5,12 +5,7 @@
 package aliebay.servlet.marketing;
 
 import aliebay.dao.CompradorFacade;
-import aliebay.dao.ListacompradorFacade;
-import aliebay.dao.MensajeFacade;
 import aliebay.entity.Comprador;
-import aliebay.entity.Listacomprador;
-import aliebay.entity.Mensaje;
-import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,16 +14,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author Jose Maria Tapia Catena
  */
-@WebServlet(name = "ListaCompradorNuevoEditarMensajeServlet", urlPatterns = {"/ListaCompradorNuevoEditarMensajeServlet"})
-public class ListaCompradorNuevoEditarMensajeServlet extends AliEbaySessionServlet {
-     @EJB ListacompradorFacade lcf;
-     @EJB MensajeFacade mensajef;
+@WebServlet(name = "CompradorMensajesServlet", urlPatterns = {"/CompradorMensajesServlet"})
+public class CompradorMensajesServlet extends HttpServlet {
+    @EJB CompradorFacade compradorf;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,23 +34,13 @@ public class ListaCompradorNuevoEditarMensajeServlet extends AliEbaySessionServl
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            
+        String id = request.getParameter("id");
         
-        if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
-       
-            String str = request.getParameter("id");
-            String strIdLista = request.getParameter("idLista");
-            
-            Listacomprador listacomprador = lcf.find(Integer.parseInt(strIdLista));
-            request.setAttribute("listaComprador", listacomprador);
-            
-            
-            if (str != null){
-                Mensaje m = mensajef.findById(Integer.parseInt(str));
-                request.setAttribute("mensaje", m);
-            }
-          
-            request.getRequestDispatcher("/WEB-INF/jsp/mensajeNuevo.jsp").forward(request,response);
-        }
+        Comprador comprador = this.compradorf.find(Integer.parseInt(id));
+        request.setAttribute("comprador", comprador);
+        
+        request.getRequestDispatcher("/WEB-INF/jsp/mensajesComprador.jsp").forward(request,response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

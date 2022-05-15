@@ -25,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
+import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,12 +64,20 @@ public class ListaCompradorGuardarMensajeServlet extends AliEbaySessionServlet {
             mensaje = new Mensaje();
             mPK = new MensajePK();
         } else{
-            mensaje = this.mensajef.find(Integer.parseInt(strID));
+            mensaje = this.mensajef.findById(Integer.parseInt(strID));
             mPK = mensaje.getMensajePK();
         }
-       
+        
+        StringJoiner sj = new StringJoiner(";");
+        str = request.getParameter("asunto");
+        sj.add(str);
+        
+        str = request.getParameter("productos");
+        sj.add(str);
+        
         str = request.getParameter("description");
-        mensaje.setDescripcion(str);
+        sj.add(str);
+        mensaje.setDescripcion(sj.toString());
         
         strIdLista = request.getParameter("idLista");
         Listacomprador lc = lcf.find(Integer.parseInt(strIdLista));
@@ -98,11 +108,15 @@ public class ListaCompradorGuardarMensajeServlet extends AliEbaySessionServlet {
         
         if (strID == null || strID.isEmpty()){
             mensajef.create(mensaje);
+            List<Mensaje> mensajes = lc.getMensajeList();
+            mensajes.add(mensaje);
+            lc.setMensajeList(mensajes);
+            this.lcf.edit(lc);
         } else {
             mensajef.edit(mensaje);
         }
         
-        response.sendRedirect(request.getContextPath() + "/MarketingServlet");
+        response.sendRedirect(request.getContextPath() + "/ListaCompradorMensajeServlet?id=" + mensaje.getListacomprador().getIdLista());
         }
     }
 

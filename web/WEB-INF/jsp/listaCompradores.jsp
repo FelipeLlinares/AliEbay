@@ -14,7 +14,7 @@
         <title>Marketing</title>
     </head>
     <body>
-        <jsp:include page="/WEB-INF/jsp/cabecera.jsp" />
+        <jsp:include page="/WEB-INF/jsp/cabeceraMarketing.jsp" />
         <h1>Lista de compradores</h1>
         <table border="1" width="80%">
             <tr>

@@ -16,6 +16,7 @@
         <title>Mensaje Nuevo</title>
     </head>
     <body>
+    <jsp:include page="/WEB-INF/jsp/cabeceraMarketing.jsp" />
             <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Mensaje Nuevo</title>
@@ -29,8 +30,45 @@
         <form action="ListaCompradorGuardarMensajeServlet" method="POST">      
         <input type="hidden" name="id" value="<%= mensaje == null ? "" : mensaje.getMensajePK().getId() %>"/>
         <input type="hidden" name="idLista" value="<%= listaComprador == null ? "" : listaComprador.getIdLista()%>"/>
-        Descripcion del mensaje:<br/>
-        <textarea name="description" rows="4" cols="50"></textarea><br/>
+        <table>
+       <%  
+           if (mensaje != null){
+               String [] parts = mensaje.getDescripcion().split(";");
+           if (parts != null && parts.length > 2 ){
+       %>  
+            <tr>
+                <td> Asunto: </td>    
+                <td><input type="text" name="asunto" value="<%= parts[0] %>" /></td>
+            </tr> 
+            <tr>
+                <td>Productos:</td>
+                <td><input type="text" name="productos" value="<%= parts[1] %>" /></td>
+            </tr>
+            <tr>
+                <td>Descripcion del mensaje:</td>
+                <td><textarea name="description" rows="4" cols="50"><%= parts[2] %></textarea></td>
+            </tr>
+            <% 
+        }
+                }else{
+            %>
+            <tr>
+                <td> Asunto: </td>    
+                <td><input type="text" name="asunto" value="" /></td>
+            </tr> 
+            <tr>
+                <td>Productos:</td>
+                <td><input type="text" name="productos" value="" /></td>
+            </tr>
+            <tr>
+                <td>Descripcion del mensaje:</td>
+                <td><textarea name="description" rows="4" cols="50"><%= mensaje == null ? "" : mensaje.getDescripcion() %></textarea></td>
+            </tr>
+            <%
+                }
+            %>
+        </table>
+        
         <input type="submit" value="Enviar" />
         </form>
     </body>

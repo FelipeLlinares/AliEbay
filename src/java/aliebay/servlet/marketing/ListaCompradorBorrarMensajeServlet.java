@@ -6,6 +6,7 @@ package aliebay.servlet.marketing;
 
 import aliebay.dao.ListacompradorFacade;
 import aliebay.dao.MensajeFacade;
+import aliebay.entity.Comprador;
 import aliebay.entity.Listacomprador;
 import aliebay.entity.Marketing;
 import aliebay.entity.Mensaje;
@@ -21,6 +22,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
@@ -29,6 +31,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "ListaCompradorBorrarMensajeServlet", urlPatterns = {"/ListaCompradorBorrarMensajeServlet"})
 public class ListaCompradorBorrarMensajeServlet extends AliEbaySessionServlet {
     @EJB MensajeFacade mensajef;
+    @EJB ListacompradorFacade listacompradorf;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,19 +47,20 @@ public class ListaCompradorBorrarMensajeServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
             String str = request.getParameter("id");
             String strIdLista = request.getParameter("idLista");
-            HttpSession session = request.getSession();
-            Usuario user = (Usuario) session.getAttribute("usuario");
             
-            int idMensaje = Integer.parseInt(str);
             int idLista = Integer.parseInt(strIdLista);     
+                       
+            Mensaje mensaje = this.mensajef.findById(Integer.parseInt(str));
             
-            MensajePK mensajePK = new MensajePK(idMensaje, idLista, user.getIdUsuario());
-           
-            Mensaje mensaje = this.mensajef.find(mensajePK);
+            Listacomprador lc = listacompradorf.find(idLista);
+            List<Mensaje> mensajes = lc.getMensajeList();
+            mensajes.remove(mensaje);
+            lc.setMensajeList(mensajes);
             
+            this.listacompradorf.edit(lc);
             this.mensajef.remove(mensaje);
         
-            response.sendRedirect(request.getContextPath() + "/MarketingServlet");
+            response.sendRedirect(request.getContextPath() + "/ListaCompradorMensajeServlet?id=" + idLista);
         }
     }
 
