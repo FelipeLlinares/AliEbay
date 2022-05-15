@@ -35,7 +35,7 @@
             if(categoria != null){
                 llamada = "categoria " + categoria;
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             
             if(productosVendidos.isEmpty() && productosNoVendidos.isEmpty()){
         %>
@@ -73,15 +73,15 @@
             <td><a href="verFotoServlet?url=<%= p.getuRLFoto() %>">Ver Foto</a></td>
             <td><%=  sdf.format(p.getFechaSalida()) %></td>
             <td><%= sdf.format(p.getFechaFin()) %></td>
-            <td><a href="EditarNuevoProductoServlet?id=<%=p.getIdProducto()%>">Editar</a></td>
-            <td><a href="BorrarProductoServlet?id=<%=p.getIdProducto()%>">Borrar</a></td>
+            <td><a href="EditarNuevoProductoServlet?id=<%=v.getIdUsuario()%>">Editar</a></td>
+            <td><a href="BorrarProductoServlet?id=<%=v.getIdUsuario()%>">Borrar</a></td>
         </tr>
         <%
                     }
                 } 
                 if(!productosVendidos.isEmpty()){
         %>
-                     </table>       
+        </table>       
         <h3>Productos vendidos:</h3>
             <table border="1" width="80%" style="text-align:center">
             <tr>

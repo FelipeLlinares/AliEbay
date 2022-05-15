@@ -36,11 +36,8 @@
             </tr>
         <%
             List<UsuarioDTO> compradores = (List)request.getAttribute("compradores");
-<<<<<<< HEAD
-            for (UsuarioDTO u: compradores) { 
-=======
             for (UsuarioDTO u: compradores) {    
->>>>>>> accf5327be2ef4407a7bb395a39feedd64292262
+
         %>    
         <tr>
             <td><%= u.getIdUsuario()%></td>

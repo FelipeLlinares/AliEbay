@@ -50,7 +50,10 @@ public class ProductoService {
     
     public ProductoDTO buscarProducto (Integer id) {
         Producto p = this.pf.find(id);
-        return p.toDTO();
+        if ( p != null ){
+            p.toDTO();
+        }
+        return null;
     }
     
     public void borrarProducto (Integer id) {
@@ -116,5 +119,25 @@ public class ProductoService {
     public List<ProductoDTO> getProductosFavoritos(int id) {
         Comprador c = comf.find(id);
         return this.listaEntityADTO(c.getProductoList());
+    }
+
+    public void editarProducto(int idproducto, String titulo, String descripcion, Float precioinicio, String urlFoto, Date fechaSalida, Date fechafinal, String categoria, String vendedor) {
+        Producto p = pf.find(idproducto);
+        p.setCategoria(cf.find(categoria));
+        p.setDescripcion(descripcion);
+        p.setFechaFin(fechafinal);
+        p.setFechaSalida(fechaSalida);
+        p.setURLFoto(urlFoto);
+        p.setTitulo(titulo);
+        p.setPrecioSalida(precioinicio);
+        p.setIdVendedor(Integer.parseInt(vendedor));
+        pf.edit(p);
+        
+        Categoria cat = cf.find(categoria);
+        List<Producto> prods = cat.getProductoList();
+        prods.add(p);
+        cat.setProductoList(prods);
+
+        cf.edit(cat);
     }
 }

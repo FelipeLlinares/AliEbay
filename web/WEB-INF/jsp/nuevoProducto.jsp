@@ -17,12 +17,12 @@
     </head>
     <% 
         ProductoDTO producto = (ProductoDTO)request.getAttribute("idprod");
-        String vendedor = (String)request.getAttribute("vendedor");
+        String vendedor = (String)request.getAttribute("id");
         
         %>
     <body>
         <h1>Datos producto</h1>
-        <form action="NuevoProductoServlet" method="POST">
+        <form action="NuevoProductoServlet?id=<%=vendedor%>" method="POST">
         <input type="hidden" name="idprod" value="<%= producto == null ? "" : producto.getIdProducto() %>"/>
         <table>
             <tr>
@@ -65,7 +65,7 @@
                         %>
                         </select></td>
             </tr>
-            <input type="hidden" name="id" value="<%= vendedor == null ? "" : producto.getIdVendedor() %>"/>
+            <input type="hidden" name="id" value="<%= vendedor == null ? "" : vendedor %>"/>
             <td><input type="submit" value="Aplicar cambios" /></td>
         </form>
         </body>

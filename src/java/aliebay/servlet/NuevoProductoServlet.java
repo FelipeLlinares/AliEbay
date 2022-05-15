@@ -48,7 +48,7 @@ public class NuevoProductoServlet extends AliEbaySessionServlet {
             throws ServletException, IOException, ParseException {
         if (super.comprobarSesion(request, response)) {
             
-            SimpleDateFormat sdt = new SimpleDateFormat("EE MM d HH:mm:ss zz YYYY");
+            SimpleDateFormat sdt = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             ProductoDTO producto = new ProductoDTO();
             String str;
 
@@ -57,6 +57,9 @@ public class NuevoProductoServlet extends AliEbaySessionServlet {
 
             List<CategoriaDTO> categorias = cs.listarCategorias();
             request.setAttribute("categorias", categorias);
+            
+            str = request.getParameter("idprod");
+            int idproducto = Integer.parseInt("idprod");
 
             String titulo = request.getParameter("titulo");
             String descripcion = request.getParameter("descripcion");
@@ -68,14 +71,20 @@ public class NuevoProductoServlet extends AliEbaySessionServlet {
 
             str = request.getParameter("fechaSalida");
             Date fechaSalida = sdt.parse(str);
+            Date date = new Date();
 
             str = request.getParameter("fechaFin");
             Date fechafinal = sdt.parse(str);
-
+            
             String categoria = request.getParameter("categorias");
-            String vendedor = request.getParameter("vendedor");
-
-            ps.crearProducto(titulo, descripcion, precioinicio, urlFoto, fechaSalida, fechafinal, categoria, vendedor);
+            String vendedor = request.getParameter("id");
+            
+            if (str == null){
+                ps.crearProducto(titulo, descripcion, precioinicio, urlFoto, fechaSalida, fechafinal, categoria, vendedor);
+            }else{
+               ps.editarProducto(idproducto,titulo, descripcion, precioinicio, urlFoto, fechaSalida, fechafinal, categoria, vendedor); 
+            }
+            
             response.sendRedirect(request.getContextPath() + "/VendedorServlet");
         }
     }
