@@ -82,6 +82,10 @@ public class CompradorServlet extends AliEbaySessionServlet {
             List<String> nombresVendedoresPujados = new ArrayList<>();
             List<ProductoDTO> productosNoPujadosPorComprador = new ArrayList<>();
             List<String> nombresVendedoresNoPujados = new ArrayList<>();
+            List<Float> mayoresPujasVendidos = new ArrayList<>();
+            List<Float> mayoresPujasNoVendidos = new ArrayList<>();
+            
+            List<ProductoDTO> productosFavoritos = ps.getProductosFavoritos(comprador.getIdUsuario());
 
             for (ProductoDTO pr : productos) {
                 List<PujaDTO> pujas = ps.getPujaList(pr);
@@ -102,6 +106,8 @@ public class CompradorServlet extends AliEbaySessionServlet {
 
                         nombresVendedoresNoPujados.add(vendedorNombre);
                     }
+                    
+                    mayoresPujasVendidos.add(puja.getPuja());
 
                 } else {
                     productosNoPujadosPorComprador.add(pr);
@@ -109,6 +115,8 @@ public class CompradorServlet extends AliEbaySessionServlet {
                     String vendedorNombre = vendedor.getUsuario().getUserName();
 
                     nombresVendedoresNoPujados.add(vendedorNombre);
+                    
+                    mayoresPujasNoVendidos.add(0f);
                 }
             }
 
@@ -119,6 +127,9 @@ public class CompradorServlet extends AliEbaySessionServlet {
             request.setAttribute("nombresVendedoresPujados", nombresVendedoresPujados);
             request.setAttribute("productosNoPujadosPorComprador", productosNoPujadosPorComprador);
             request.setAttribute("nombresVendedoresNoPujados", nombresVendedoresNoPujados);
+            request.setAttribute("mayoresPujasVendidos", mayoresPujasVendidos);
+            request.setAttribute("mayoresPujasNoVendidos", mayoresPujasNoVendidos);
+            request.setAttribute("favoritos", mayoresPujasNoVendidos);
 
             request.getRequestDispatcher("/WEB-INF/jsp/comprador.jsp").forward(request, response);
         }

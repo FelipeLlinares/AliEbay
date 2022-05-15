@@ -61,6 +61,8 @@ public class FavoritoServlet extends AliEbaySessionServlet {
                 List<String> nombresVendedoresPujados = new ArrayList<>();
                 List<ProductoDTO> productosNoPujadosPorComprador = new ArrayList<>();
                 List<String> nombresVendedoresNoPujados = new ArrayList<>();
+                List<Float> mayoresPujasVendidos = new ArrayList<>();
+                List<Float> mayoresPujasNoVendidos = new ArrayList<>();
 
                 for (ProductoDTO prod : productos) {
                     ProductoDTO pr = ps.buscarProducto(prod.getIdProducto());
@@ -84,6 +86,8 @@ public class FavoritoServlet extends AliEbaySessionServlet {
 
                             nombresVendedoresNoPujados.add(vendedorNombre);
                         }
+                        
+                        mayoresPujasVendidos.add(puja.getPuja());
 
                     } else {
                         productosNoPujadosPorComprador.add(pr);
@@ -91,6 +95,8 @@ public class FavoritoServlet extends AliEbaySessionServlet {
                         String vendedorNombre = vendedor.getUsuario().getUserName();
 
                         nombresVendedoresNoPujados.add(vendedorNombre);
+                        
+                        mayoresPujasNoVendidos.add(0f);
                     }
                 }
 
@@ -99,6 +105,8 @@ public class FavoritoServlet extends AliEbaySessionServlet {
                 request.setAttribute("nombresVendedoresPujados", nombresVendedoresPujados);
                 request.setAttribute("productosNoPujadosPorComprador", productosNoPujadosPorComprador);
                 request.setAttribute("nombresVendedoresNoPujados", nombresVendedoresNoPujados);
+                request.setAttribute("mayoresPujasVendidos", mayoresPujasVendidos);
+                request.setAttribute("mayoresPujasNoVendidos", mayoresPujasNoVendidos);
 
                 request.getRequestDispatcher("/WEB-INF/jsp/favoritosComprador.jsp").forward(request, response);
             }

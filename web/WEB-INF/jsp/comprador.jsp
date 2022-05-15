@@ -74,7 +74,7 @@
                 List<String> vendedores = (List) request.getAttribute("nombresVendedoresPujados");
             
                 UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
-                List<ProductoDTO> productosFavoritos = user.getComprador().getProductoList();
+                List<ProductoDTO> productosFavoritos = (List) request.getAttribute("favoritos");;
             
                 if(productos != null && !productos.isEmpty()) {
         %>
@@ -94,6 +94,7 @@
             </tr>
             <%
                 
+                List<Float> pujas = (List) request.getAttribute("mayoresPujasVendidos");
                 for (int i=0; i < productos.size(); i++) {
                     ProductoDTO pc = productos.get(i);
                 
@@ -101,13 +102,12 @@
                     String fechaTotal = "Desde " + sdf.format(pc.getFechaSalida()) + " hasta " + sdf.format(pc.getFechaFin());
                 
                     String pujaUltima = "No hay pujas";
-                    List<PujaDTO> pujas = pc.getPujaList();
-                    if(pujas != null && !pujas.isEmpty()) {
-                        pujaUltima = String.valueOf(pujas.get(pujas.size() - 1).getPuja()) + " €";
+                    if(pujas.get(i) != 0) {
+                        pujaUltima = String.valueOf(pujas.get(i)) + " €";
                     }
             %>  
             <tr>
-                <td><a href="verFotoServlet?url=<%= pc.getURLFoto() %>">Ver Foto</a></td>
+                <td><a href="verFotoServlet?url=<%= pc.getuRLFoto() %>">Ver Foto</a></td>
                 <td><%= pc.getTitulo()%></td>
                 <td><%= pc.getDescripcion()%></td>
                 <td><%= vendedores.get(i)%></td>
@@ -165,6 +165,7 @@
             <%
                 productos = (List)request.getAttribute("productosNoPujadosPorComprador");
                 vendedores = (List) request.getAttribute("nombresVendedoresNoPujados");
+                List<Float> pujas = (List) request.getAttribute("mayoresPujasNoVendidos");
                 for (int i=0; i < productos.size(); i++) {
                     ProductoDTO pc = productos.get(i);
                 
@@ -172,13 +173,12 @@
                     String fechaTotal = "Desde " + sdf.format(pc.getFechaSalida()) + " hasta " + sdf.format(pc.getFechaFin());
                 
                     String pujaUltima = "No hay pujas";
-                    List<PujaDTO> pujas = pc.getPujaList();
-                    if(pujas != null && !pujas.isEmpty()) {
-                        pujaUltima = String.valueOf(pujas.get(pujas.size() - 1).getPuja()) + " €";
+                    if(pujas.get(i) != 0) {
+                        pujaUltima = String.valueOf(pujas.get(i)) + " €";
                     }
             %>  
             <tr>
-                <td><a href="verFotoServlet?url=<%= pc.getURLFoto() %>">Ver Foto</a></td>
+                <td><a href="verFotoServlet?url=<%= pc.getuRLFoto() %>">Ver Foto</a></td>
                 <td><%= pc.getTitulo()%></td>
                 <td><%= pc.getDescripcion()%></td>
                 <td><%= vendedores.get(i)%></td>
