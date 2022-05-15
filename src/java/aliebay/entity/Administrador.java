@@ -90,7 +90,6 @@ public class Administrador implements Serializable {
     public AdministradorDTO toDTO() {
         AdministradorDTO dto = new AdministradorDTO();
         dto.setIdUsuario(idUsuario);
-        dto.setUsuario(usuario.toDTO());
         return dto;
     }
     

@@ -231,6 +231,8 @@ public class Usuario implements Serializable {
         }
         dto.setDomicilio(domicilio);
         dto.setEdad(edad);
+        dto.setDomicilio(domicilio);
+        dto.setEdad(edad);     
         dto.setNombre(nombre);
         dto.setPassword(password);
         dto.setSexo(sexo);
