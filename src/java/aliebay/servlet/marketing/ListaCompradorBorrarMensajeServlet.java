@@ -4,24 +4,17 @@
  */
 package aliebay.servlet.marketing;
 
-import aliebay.dao.ListacompradorFacade;
-import aliebay.dao.MensajeFacade;
-import aliebay.entity.Comprador;
-import aliebay.entity.Listacomprador;
-import aliebay.entity.Marketing;
-import aliebay.entity.Mensaje;
-import aliebay.entity.MensajePK;
-import aliebay.entity.Usuario;
+import aliebay.dto.ListacompradorDTO;
+import aliebay.dto.MensajeDTO;
+import aliebay.service.ListacompradorService;
+import aliebay.service.MensajeService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -30,8 +23,8 @@ import java.util.List;
  */
 @WebServlet(name = "ListaCompradorBorrarMensajeServlet", urlPatterns = {"/ListaCompradorBorrarMensajeServlet"})
 public class ListaCompradorBorrarMensajeServlet extends AliEbaySessionServlet {
-    @EJB MensajeFacade mensajef;
-    @EJB ListacompradorFacade listacompradorf;
+    @EJB MensajeService mensajeS;
+    @EJB ListacompradorService listacompradorS;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,10 +43,11 @@ public class ListaCompradorBorrarMensajeServlet extends AliEbaySessionServlet {
             
             int idLista = Integer.parseInt(strIdLista);     
                        
-            Mensaje mensaje = this.mensajef.findById(Integer.parseInt(str));
+            MensajeDTO mensaje = this.mensajeS.buscarMensaje(Integer.parseInt(str));
             
-            Listacomprador lc = listacompradorf.find(idLista);
-            List<Mensaje> mensajes = lc.getMensajeList();
+            ListacompradorDTO lc = listacompradorS.buscarListacomprador(idLista);
+            
+            List<MensajeDTO> mensajes = lc.getMensajeList();
             mensajes.remove(mensaje);
             lc.setMensajeList(mensajes);
             

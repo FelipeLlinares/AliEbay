@@ -5,10 +5,11 @@
 package aliebay.servlet.marketing;
 
 import aliebay.dao.CompradorFacade;
+import aliebay.dto.CompradorDTO;
 import aliebay.entity.Comprador;
+import aliebay.service.CompradorService;
 import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -21,7 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "CompradorMensajesServlet", urlPatterns = {"/CompradorMensajesServlet"})
 public class CompradorMensajesServlet extends HttpServlet {
-    @EJB CompradorFacade compradorf;
+    @EJB CompradorService compradorS;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,7 +38,7 @@ public class CompradorMensajesServlet extends HttpServlet {
             
         String id = request.getParameter("id");
         
-        Comprador comprador = this.compradorf.find(Integer.parseInt(id));
+        CompradorDTO comprador = this.compradorS.buscarComprador(Integer.parseInt(id));
         request.setAttribute("comprador", comprador);
         
         request.getRequestDispatcher("/WEB-INF/jsp/mensajesComprador.jsp").forward(request,response);

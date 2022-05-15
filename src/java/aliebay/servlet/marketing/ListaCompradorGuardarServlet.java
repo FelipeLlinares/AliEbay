@@ -56,7 +56,7 @@ public class ListaCompradorGuardarServlet extends AliEbaySessionServlet {
         for (CompradorDTO comprador : compradorS.listarComprador()){
             int compradorID = comprador.getIdUsuario(); 
             str = request.getParameter(Integer.toString(compradorID));
-            if (str != null){ //en el caso que no esten seleccionados el checkbox no devuelve nada por lo que str es null
+            if (str != null){ //Aqui entro si he seleccionado el comprador
                 c.add(comprador);
                 
                 //actualizar la referencia de comprador
