@@ -4,23 +4,20 @@
  */
 package aliebay.servlet;
 
-import aliebay.dao.CategoriaFacade;
-import aliebay.dao.ProductoFacade;
-import aliebay.entity.Categoria;
-import aliebay.entity.Producto;
-import aliebay.entity.Usuario;
+import aliebay.dto.CategoriaDTO;
+import aliebay.dto.ProductoDTO;
+import aliebay.dto.UsuarioDTO;
+import aliebay.service.CategoriaService;
+import aliebay.service.ProductoService;
 import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,9 +30,8 @@ import java.util.logging.Logger;
 @WebServlet(name = "NuevoProductoServlet", urlPatterns = {"/NuevoProductoServlet"})
 public class NuevoProductoServlet extends AliEbaySessionServlet {
 
-    @EJB
-    CategoriaFacade cf;
-    @EJB ProductoFacade pf;
+    @EJB CategoriaService cs;
+    @EJB ProductoService ps;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,52 +46,35 @@ public class NuevoProductoServlet extends AliEbaySessionServlet {
             throws ServletException, IOException, ParseException {
         if (super.comprobarSesion(request, response)) {
 
-            Producto producto = new Producto();
+            ProductoDTO producto = new ProductoDTO();
             String str;
 
             HttpSession session = request.getSession();
-            Usuario user = (Usuario) session.getAttribute("usuario");
+            UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
 
-            List<Categoria> categorias = cf.findAll();
+            List<CategoriaDTO> categorias = cs.listarCategorias();
             request.setAttribute("categorias", categorias);
 
-            str = request.getParameter("titulo");
-            producto.setTitulo(str);
-
-            str = request.getParameter("descripcion");
-            producto.setDescripcion(str);
+            String titulo = request.getParameter("titulo");
+            String descripcion = request.getParameter("descripcion");
 
             str = request.getParameter("precioSalida");
             Float precioinicio = Float.parseFloat(str);
-            producto.setPrecioSalida(precioinicio);
 
-            str = request.getParameter("urlFoto");
-            producto.setURLFoto(str);
+            String urlFoto = request.getParameter("urlFoto");
 
             str = request.getParameter("fechaSalida");
             SimpleDateFormat sdt = new SimpleDateFormat("dd-MM-YYYY");
-            Date fecha = sdt.parse(str);
-            producto.setFechaSalida(fecha);
-
+            Date fechaSalida = sdt.parse(str);
+  
             str = request.getParameter("fechaFin");
-            SimpleDateFormat sdt2 = new SimpleDateFormat("dd-MM-YYYY");
-            Date fechafinal = sdt2.parse(str);
-            producto.setFechaFin(fechafinal);
+            Date fechafinal = sdt.parse(str);
 
-            str = request.getParameter("categorias");
-            Categoria categoria = cf.find(str);
-            producto.setCategoria(categoria);
-            List<Producto> productos = categoria.getProductoList();
-            productos.add(producto);
-            categoria.setProductoList(productos);
+            String categoria = request.getParameter("categorias");
+            String vendedor = request.getParameter("vendedor");
             
-            
-            str = request.getParameter("vendedor");
-            producto.setIdVendedor(Integer.parseInt(str));
-            
-            cf.edit(categoria);
-            pf.create(producto);
-
+            ps.crearProducto(titulo,descripcion,precioinicio,urlFoto,fechaSalida,fechafinal,categoria,vendedor);
+           
             response.sendRedirect(request.getContextPath() + "/VendedorServlet");
         }
     }

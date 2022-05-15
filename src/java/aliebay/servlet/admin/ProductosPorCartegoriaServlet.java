@@ -5,6 +5,7 @@
 package aliebay.servlet.admin;
 
 import aliebay.dao.ProductoFacade;
+import aliebay.dto.ProductoDTO;
 import aliebay.entity.Producto;
 import aliebay.service.CategoriaService;
 import aliebay.service.ProductoService;
@@ -38,12 +39,12 @@ public class ProductosPorCartegoriaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String categoria = (String) request.getParameter("id");
-        List<ProductoDTO> productos = ps.getTodosProductosPorCategoria(cs.buscarCategoria(categoria));
+        List<ProductoDTO> productos = ps.getProductosPorCategoria(cs.buscarCategoria(categoria));
         
-        List<Producto> productosVendidos = new ArrayList<>();
-        List<Producto> productosNoVendidos  = new ArrayList<>();
+        List<ProductoDTO> productosVendidos = new ArrayList<>();
+        List<ProductoDTO> productosNoVendidos  = new ArrayList<>();
         
-        for(Producto p:productos){
+        for(ProductoDTO p:productos){
             if(p.getVenta() == null){
                 productosNoVendidos.add(p);
             }else{

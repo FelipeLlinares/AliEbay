@@ -42,12 +42,12 @@ public class AdministradorService {
         return listaDTO;
     }
     
-    public AdministradorDTO buscarAdministrador(String administrador){
+    public AdministradorDTO buscarAdministrador(int administrador){
         Administrador a = af.find(administrador);
         return a.toDTO();
     }
     
-    public void borrarAdministrador(String administrador) {
+    public void borrarAdministrador(int administrador) {
         Administrador c = this.af.find(administrador);
 
         this.af.remove(c);        

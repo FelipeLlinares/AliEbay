@@ -4,11 +4,9 @@
  */
 package aliebay.servlet;
 
-import aliebay.dto.CompradorDTO;
 import aliebay.dto.ProductoDTO;
 import aliebay.dto.PujaDTO;
 import aliebay.dto.UsuarioDTO;
-import aliebay.dto.VentaDTO;
 import aliebay.service.CompradorService;
 import aliebay.service.ProductoService;
 import aliebay.service.UsuarioService;

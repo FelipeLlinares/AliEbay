@@ -4,14 +4,12 @@
  */
 package aliebay.servlet.comprador;
 
-import aliebay.dao.CompradorFacade;
-import aliebay.dao.ProductoFacade;
-import aliebay.dao.UsuarioFacade;
-import aliebay.dao.VentaFacade;
-import aliebay.entity.Comprador;
-import aliebay.entity.Producto;
-import aliebay.entity.Usuario;
-import aliebay.entity.Venta;
+import aliebay.dto.CompradorDTO;
+import aliebay.dto.ProductoDTO;
+import aliebay.dto.VentaDTO;
+import aliebay.service.CompradorService;
+import aliebay.service.ProductoService;
+import aliebay.service.VentaService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import jakarta.servlet.http.HttpSession;
@@ -30,9 +28,9 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ProductosBorrarServlet", urlPatterns = {"/ProductosBorrarServlet"})
 public class ProductosBorrarServlet extends AliEbaySessionServlet {
-    @EJB ProductoFacade pf;
-    @EJB VentaFacade vf;
-    @EJB CompradorFacade cf;
+    @EJB ProductoService ps;
+    @EJB VentaService vs;
+    @EJB CompradorService cs;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,23 +44,12 @@ public class ProductosBorrarServlet extends AliEbaySessionServlet {
       
         String comp = (String) request.getParameter("comprador");
 
-        Comprador comprador = cf.find(Integer.parseInt(comp));
+        CompradorDTO comprador = cs.buscarComprador(Integer.parseInt(comp));
         
         String producto = request.getParameter("producto");
-        Producto prod = pf.find(Integer.parseInt(producto));
-        Venta venta = prod.getVenta();
+        ProductoDTO prod = ps.buscarProducto(Integer.parseInt(producto));
         
-        List<Venta> ventas = comprador.getVentaList();
-        ventas.remove(venta);
-        comprador.setVentaList(ventas);
-        
-        cf.edit(comprador);
-        vf.remove(venta);
-        prod.setPujaList(null);
-        prod.setVenta(null);
-        prod.setCompradorList(null);
-        pf.edit(prod);
-  
+        cs.quitarProducto(comprador.getIdUsuario(), prod.getIdProducto());
         
         response.sendRedirect(request.getContextPath() + "/ProductosCompradorServlet?id=" + comp);
     }

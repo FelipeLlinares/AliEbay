@@ -59,6 +59,7 @@
                 <th>Foto del producto</th>
                 <th>Fecha de salida</th>
                 <th>Fecha de fin:</th>
+                <th></th><!-- Editar -->
             </tr>
         <%
                 for (Producto p: productosNoVendidos) {
@@ -71,6 +72,7 @@
             <td><a href="verFotoServlet?url=<%= p.getURLFoto() %>">Ver Foto</a></td>
             <td><%=  sdf.format(p.getFechaSalida()) %></td>
             <td><%= sdf.format(p.getFechaFin()) %></td>
+            <td><a href="EditarNuevoProductoServlet?id=<%=p.getIdProducto()%>&titulo=<%=p.getTitulo()%>&descripcion=<%=p.getDescripcion%>&precioSalida=<%=p.getPrecioSalida()%>&urlFoto=<%=p.getURLFoto()%>&fechaSalida=<%=p.getFechaSalida()%>&fechaFin=<%=p.getFechaFin()%>">Editar</a></td>
         </tr>
         </table>
         <%

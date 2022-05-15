@@ -4,14 +4,12 @@
  */
 package aliebay.servlet.admin;
 
-import aliebay.dao.UsuarioFacade;
-import aliebay.entity.Usuario;
+import aliebay.service.UsuarioService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -22,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "UsuarioBorrarServlet", urlPatterns = {"/UsuarioBorrarServlet"})
 public class UsuarioBorrarServlet extends AliEbaySessionServlet {
 
-    @EJB UsuarioFacade userFacade;
+    @EJB UsuarioService userS;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,9 +35,7 @@ public class UsuarioBorrarServlet extends AliEbaySessionServlet {
             throws ServletException, IOException {
 
         String str = request.getParameter("id");
-        
-        Usuario usuario = this.userFacade.find(Integer.parseInt(str));
-        this.userFacade.remove(usuario);
+        this.userS.borrarUsuario(Integer.parseInt(str));
         response.sendRedirect(request.getContextPath() + "/AdminServlet");
         
     }

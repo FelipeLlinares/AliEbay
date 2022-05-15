@@ -5,10 +5,8 @@
 package aliebay.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -32,9 +30,9 @@ public class verFotoServlet extends AliEbaySessionServlet {
             throws ServletException, IOException {
         if (super.comprobarSesion(request,response)){
             String url = (String)request.getParameter("url");
-        request.setAttribute("url", url);
+            request.setAttribute("url", url);
         
-        request.getRequestDispatcher("/WEB-INF/jsp/verFoto.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/verFoto.jsp").forward(request, response);
         }
         
     }

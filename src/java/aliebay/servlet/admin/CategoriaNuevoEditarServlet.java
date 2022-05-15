@@ -4,15 +4,10 @@
  */
 package aliebay.servlet.admin;
 
-import aliebay.entity.Categoria;
-import aliebay.service.CategoriaService;
 import aliebay.servlet.AliEbaySessionServlet;
-import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

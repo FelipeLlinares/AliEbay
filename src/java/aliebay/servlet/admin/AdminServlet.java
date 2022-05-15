@@ -4,28 +4,19 @@
  */
 package aliebay.servlet.admin;
 
-import aliebay.dao.AdministradorFacade;
-import aliebay.dao.CompradorFacade;
-import aliebay.dao.MarketingFacade;
-import aliebay.dao.UsuarioFacade;
-import aliebay.dao.VendedorFacade;
-import aliebay.entity.Comprador;
-import aliebay.entity.Marketing;
-import aliebay.entity.Usuario;
-import aliebay.entity.Vendedor;
-import aliebay.servlet.AliEbaySessionServlet;
-import aliebay.servlet.AliEbaySessionServlet;
+import aliebay.dto.CompradorDTO;
+import aliebay.dto.MarketingDTO;
+import aliebay.dto.VendedorDTO;
+import aliebay.service.CompradorService;
+import aliebay.service.MarketingService;
+import aliebay.service.VendedorService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,9 +26,9 @@ import java.util.List;
 @WebServlet(name = "AdminServlet", urlPatterns = {"/AdminServlet"})
 public class AdminServlet extends AliEbaySessionServlet {
 
-    @EJB CompradorFacade cf;
-    @EJB VendedorFacade vf;
-    @EJB MarketingFacade  mf;
+    @EJB CompradorService cs;
+    @EJB VendedorService vs;
+    @EJB MarketingService  ms;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -52,9 +43,9 @@ public class AdminServlet extends AliEbaySessionServlet {
             throws ServletException, IOException {
         
         if (super.comprobarSesion(request,response) && super.comprobarAdmin(request,response)){
-            List<Comprador> compradores = cf.findAll();
-            List<Vendedor> vendedores = vf.findAll();
-            List<Marketing> marketings = mf.findAll();
+            List<CompradorDTO> compradores = cs.listarComprador();
+            List<VendedorDTO> vendedores = vs.listarVendedor();
+            List<MarketingDTO> marketings = ms.listarMarketing();
         
             request.setAttribute("compradores", compradores);
             request.setAttribute("vendedores", vendedores);

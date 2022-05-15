@@ -42,12 +42,12 @@ public class VendedorService {
         return listaDTO;
     }
     
-    public VendedorDTO buscarVendedor(String vendedor){
+    public VendedorDTO buscarVendedor(int vendedor){
         Vendedor v = vf.find(vendedor);
         return v.toDTO();
     }
     
-    public void borrarVendedor(String vendedor) {
+    public void borrarVendedor(int vendedor) {
         Vendedor v = this.vf.find(vendedor);
 
         this.vf.remove(v);        

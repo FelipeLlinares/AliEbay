@@ -4,13 +4,12 @@
  */
 package aliebay.servlet.comprador;
 
-import aliebay.dao.CompradorFacade;
-import aliebay.dao.VendedorFacade;
-import aliebay.entity.Comprador;
-import aliebay.entity.Producto;
-import aliebay.entity.Usuario;
-import aliebay.entity.Vendedor;
-import aliebay.entity.Venta;
+import aliebay.dto.CompradorDTO;
+import aliebay.dto.VendedorDTO;
+import aliebay.dto.VentaDTO;
+import aliebay.service.CompradorService;
+import aliebay.service.VendedorService;
+import aliebay.service.VentaService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import jakarta.servlet.http.HttpSession;
@@ -30,8 +29,9 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ProductosCompradorServlet", urlPatterns = {"/ProductosCompradorServlet"})
 public class ProductosCompradorServlet extends AliEbaySessionServlet {
-    @EJB VendedorFacade vf;
-    @EJB CompradorFacade cf;
+    @EJB VendedorService vs;
+    @EJB CompradorService cs;
+    @EJB VentaService vts;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,18 +45,18 @@ public class ProductosCompradorServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request,response)){
             
             String usuario = request.getParameter("id");
-            Comprador comprador = cf.find(Integer.parseInt(usuario));
+            CompradorDTO comprador = cs.buscarComprador(Integer.parseInt(usuario));
             
             if(comprador != null) {
                 
-                List<Venta> ventas = comprador.getVentaList();
+                List<VentaDTO> ventas = vts.getVentaList(comprador);
                 
                 request.setAttribute("ventas", ventas);
                 
                 List<String> nombresVendedores = new ArrayList<>();
                 
-                for(Venta ve : ventas) {
-                    Vendedor vendedor = vf.find(ve.getProducto().getIdVendedor());
+                for(VentaDTO ve : ventas) {
+                    VendedorDTO vendedor = vs.buscarVendedor(ve.getProducto().getIdVendedor());
                     String vendedorNombre = vendedor.getUsuario().getUserName();
 
                     nombresVendedores.add(vendedorNombre);

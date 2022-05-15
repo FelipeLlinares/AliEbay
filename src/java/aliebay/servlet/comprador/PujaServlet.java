@@ -6,10 +6,10 @@
  */
 package aliebay.servlet.comprador;
 
-import aliebay.dao.ProductoFacade;
-import aliebay.dao.VendedorFacade;
-import aliebay.entity.Producto;
-import aliebay.entity.Vendedor;
+import aliebay.dto.ProductoDTO;
+import aliebay.dto.VendedorDTO;
+import aliebay.service.ProductoService;
+import aliebay.service.VendedorService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -26,8 +26,8 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "PujaServlet", urlPatterns = {"/PujaServlet"})
 public class PujaServlet extends AliEbaySessionServlet {
-    @EJB ProductoFacade pf;
-    @EJB VendedorFacade vf;
+    @EJB ProductoService ps;
+    @EJB VendedorService vs;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +44,10 @@ public class PujaServlet extends AliEbaySessionServlet {
             String producto = (String) request.getParameter("producto");
             
             if(producto != null) {
-                Producto prod = pf.find(Integer.valueOf(producto));
+                ProductoDTO prod = ps.buscarProducto(Integer.valueOf(producto));
                 request.setAttribute("producto", prod);
                 
-                Vendedor vendedor = vf.find(prod.getIdVendedor());
+                VendedorDTO vendedor = vs.buscarVendedor(prod.getIdVendedor());
                 String vendedorNombre = vendedor.getUsuario().getNombre() + " " + vendedor.getUsuario().getApellidos();
                 request.setAttribute("vendedor", vendedorNombre);
                 

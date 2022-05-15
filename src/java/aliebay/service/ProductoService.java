@@ -5,15 +5,18 @@
 package aliebay.service;
 
 import aliebay.dao.CategoriaFacade;
+import aliebay.dao.CompradorFacade;
 import aliebay.dao.ProductoFacade;
 import aliebay.dto.CategoriaDTO;
 import aliebay.dto.ProductoDTO;
 import aliebay.dto.PujaDTO;
 import aliebay.entity.Categoria;
+import aliebay.entity.Comprador;
 import aliebay.entity.Producto;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +29,7 @@ public class ProductoService {
     @EJB ProductoFacade pf;
     @EJB CategoriaFacade cf;
     @EJB PujaService ps;
+    @EJB CompradorFacade comf;
     
     private List<ProductoDTO> listaEntityADTO (List<Producto> lista) {
         List<ProductoDTO> listaDTO = null;
@@ -82,5 +86,35 @@ public class ProductoService {
 
     public List<ProductoDTO> getProductosVendidos() {
         return this.listaEntityADTO(pf.getProductosVendidos());
+    }
+    
+    public List<ProductoDTO> getProductosVendedor(int id){
+        return this.listaEntityADTO(pf.getProductos(id));
+    }
+
+    public void crearProducto(String titulo, String descripcion, Float precioinicio, String urlFoto, Date fechaSalida, Date fechafinal, String categoria,String vendedor) {
+        Producto p = new Producto();
+        p.setCategoria(cf.find(categoria));
+        p.setDescripcion(descripcion);
+        p.setFechaFin(fechafinal);
+        p.setFechaSalida(fechaSalida);
+        p.setURLFoto(urlFoto);
+        p.setTitulo(titulo);
+        p.setPrecioSalida(precioinicio);
+        p.setIdVendedor(Integer.parseInt(vendedor));
+        pf.create(p);
+        
+        Categoria cat = cf.find(categoria);
+        List<Producto> prods = cat.getProductoList();
+        prods.add(p);
+        cat.setProductoList(prods);
+
+        cf.edit(cat);
+        
+    }
+    
+    public List<ProductoDTO> getProductosFavoritos(int id) {
+        Comprador c = comf.find(id);
+        return this.listaEntityADTO(c.getProductoList());
     }
 }

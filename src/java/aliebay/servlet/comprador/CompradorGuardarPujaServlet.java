@@ -6,17 +6,10 @@
  */
 package aliebay.servlet.comprador;
 
-import aliebay.dao.CompradorFacade;
-import aliebay.dao.ProductoFacade;
-import aliebay.dao.PujaFacade;
 import aliebay.dto.CompradorDTO;
 import aliebay.dto.ProductoDTO;
 import aliebay.dto.PujaDTO;
 import aliebay.dto.UsuarioDTO;
-import aliebay.entity.Comprador;
-import aliebay.entity.Producto;
-import aliebay.entity.Puja;
-import aliebay.entity.Usuario;
 import aliebay.service.CompradorService;
 import aliebay.service.ProductoService;
 import aliebay.service.PujaService;
@@ -82,27 +75,12 @@ public class CompradorGuardarPujaServlet extends AliEbaySessionServlet {
 
                 if (prod.getPrecioSalida() <= nuevoValorPuja) {
                     if (pujaUltima < nuevoValorPuja) {
-                        PujaDTO nuevaPuja = pjs.findPuja(prod.getIdProducto(), comprador.getIdUsuario());
-                        if (nuevaPuja == null) {
-                            nuevaPuja = new PujaDTO(prod.getIdProducto(), comprador.getIdUsuario());
-                            
-                        }
-                        nuevaPuja.setPuja(nuevoValorPuja);
-                        nuevaPuja.setProducto(prod);
-                        nuevaPuja.setComprador(comprador);
+                        
                         Date date = new Date();
-                        nuevaPuja.setFecha(date);
 
-                        pjs.editarPuja(nuevaPuja);
-
-                        List<Puja> pujasComprador = comprador.getPujaList();
-                        pujasComprador.add(nuevaPuja);
-                        comprador.setPujaList(pujas);
-                        cf.edit(comprador);
-
-                        pujas.add(nuevaPuja);
-                        prod.setPujaList(pujas);
-                        pf.edit(prod);
+                        pjs.anyadirPuja(prod.getIdProducto(), comprador.getIdUsuario(), nuevoValorPuja, prod, comprador, date);
+                        
+                        
                         response.sendRedirect(request.getContextPath() + "/" + "CompradorServlet");
                     } else {
 

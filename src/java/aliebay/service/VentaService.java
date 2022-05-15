@@ -50,12 +50,12 @@ public class VentaService {
         return listaDTO;
     }
     
-    public VentaDTO buscarVenta(String venta){
+    public VentaDTO buscarVenta(int venta){
         Venta c = vf.find(venta);
         return c.toDTO();
     }
     
-    public void borrarVenta(String venta) {
+    public void borrarVenta(int venta) {
         Venta c = this.vf.find(venta);
 
         this.vf.remove(c);        

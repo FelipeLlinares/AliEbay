@@ -4,11 +4,13 @@
  */
 package aliebay.servlet.comprador;
 
-import aliebay.dao.CompradorFacade;
-import aliebay.dao.ProductoFacade;
-import aliebay.entity.Comprador;
-import aliebay.entity.Producto;
-import aliebay.entity.Usuario;
+import aliebay.dto.CompradorDTO;
+import aliebay.dto.ProductoDTO;
+import aliebay.dto.UsuarioDTO;
+import aliebay.service.CompradorService;
+import aliebay.service.ProductoService;
+import aliebay.service.UsuarioService;
+import aliebay.service.VentaService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
@@ -30,8 +32,10 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "CompradorBorrarFavoritoServlet", urlPatterns = {"/CompradorBorrarFavoritoServlet"})
 public class CompradorBorrarFavoritoServlet extends AliEbaySessionServlet {
-    @EJB ProductoFacade pf;
-    @EJB CompradorFacade cf;
+    @EJB ProductoService ps;
+    @EJB VentaService vs;
+    @EJB CompradorService cs;
+    @EJB UsuarioService userS;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,25 +49,15 @@ public class CompradorBorrarFavoritoServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request, response)) {
 
             HttpSession session = request.getSession();
-            Usuario user = (Usuario) session.getAttribute("usuario");
+            UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
 
-            Comprador comprador = user.getComprador();
-
+            CompradorDTO comprador = user.getComprador();
             String producto = request.getParameter("producto");
 
             if (producto != null) {
-                Producto prod = pf.find(Integer.valueOf(producto));
 
-                List<Producto> productos = comprador.getProductoList();
-                productos.remove(prod);
-                comprador.setProductoList(productos);
-                cf.edit(comprador);
+                cs.quitarFavorito(comprador.getIdUsuario(), Integer.valueOf(producto));
 
-                List<Comprador> compradores = prod.getCompradorList();
-                compradores.remove(comprador);
-                prod.setCompradorList(compradores);
-                pf.edit(prod);
-                
                 response.sendRedirect(request.getContextPath() + "/" + "FavoritoServlet");
             }
         }
