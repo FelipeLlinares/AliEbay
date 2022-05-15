@@ -6,6 +6,7 @@ package aliebay.servlet.marketing;
 
 import aliebay.dto.CompradorDTO;
 import aliebay.dto.ListacompradorDTO;
+import aliebay.dto.UsuarioDTO;
 import aliebay.service.CompradorService;
 import aliebay.service.ListacompradorService;
 import aliebay.servlet.AliEbaySessionServlet;
@@ -49,7 +50,7 @@ public class ListaCompradorNuevoEditarServlet extends AliEbaySessionServlet {
                 
             }
             
-            List<CompradorDTO> compradores = this.compradorS.listarComprador();
+            List<UsuarioDTO> compradores = this.compradorS.listarComprador();
             request.setAttribute("compradores", compradores);
         
             request.getRequestDispatcher("/WEB-INF/jsp/editarCrearListaComprador.jsp").forward(request,response);

@@ -61,8 +61,7 @@ public class AdminServlet extends AliEbaySessionServlet {
                     marketings.add(usuario);
                 }
             }
-            
-                    
+        
             request.setAttribute("compradores", compradores);
             request.setAttribute("vendedores", vendedores);
             request.setAttribute("marketings", marketings);

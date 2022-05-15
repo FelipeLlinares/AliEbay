@@ -8,8 +8,10 @@ import aliebay.dao.CompradorFacade;
 import aliebay.dao.MarketingFacade;
 import aliebay.dto.CompradorDTO;
 import aliebay.dto.MarketingDTO;
+import aliebay.dto.UsuarioDTO;
 import aliebay.entity.Comprador;
 import aliebay.entity.Marketing;
+import aliebay.entity.Usuario;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import java.util.ArrayList;
@@ -21,14 +23,18 @@ import java.util.List;
  */
 @Stateless
 public class MarketingService {
-    @EJB MarketingFacade mf; 
+    @EJB MarketingFacade mf;
+    @EJB UsuarioService us;
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     
-    public List<MarketingDTO> listarMarketing(){
+    public List<UsuarioDTO> listarMarketing(){
         List<Marketing> marketings = mf.findAll();
-        
-        return this.listaEntityADTO(marketings);
+        List<Usuario> usuarios = new ArrayList<>();
+        for(Marketing c:marketings){
+            usuarios.add(c.getUsuario());
+        }
+        return us.listaEntityADTO(usuarios);
     }
     
     private List<MarketingDTO> listaEntityADTO (List<Marketing> lista) {

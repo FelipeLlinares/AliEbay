@@ -8,6 +8,7 @@ import aliebay.dao.UsuarioFacade;
 import aliebay.dao.VendedorFacade;
 import aliebay.dto.UsuarioDTO;
 import aliebay.dto.VendedorDTO;
+import aliebay.entity.Comprador;
 import aliebay.entity.Usuario;
 import aliebay.entity.Vendedor;
 import jakarta.ejb.EJB;
@@ -21,14 +22,18 @@ import java.util.List;
  */
 @Stateless
 public class VendedorService {
-    @EJB VendedorFacade vf; 
+    @EJB VendedorFacade vf;
+    @EJB UsuarioService us;
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     
-    public List<VendedorDTO> listarVendedor(){
+    public List<UsuarioDTO> listarVendedor(){
         List<Vendedor> vendedores = vf.findAll();
-        
-        return this.listaEntityADTO(vendedores);
+        List<Usuario> usuarios = new ArrayList<>();
+        for(Vendedor c:vendedores){
+            usuarios.add(c.getUsuario());
+        }
+        return us.listaEntityADTO(usuarios);
     }
     
     private List<VendedorDTO> listaEntityADTO (List<Vendedor> lista) {
