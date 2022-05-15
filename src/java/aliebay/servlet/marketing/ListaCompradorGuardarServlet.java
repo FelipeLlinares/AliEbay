@@ -4,10 +4,10 @@
  */
 package aliebay.servlet.marketing;
 
-import aliebay.dao.CompradorFacade;
-import aliebay.dao.ListacompradorFacade;
-import aliebay.entity.Comprador;
-import aliebay.entity.Listacomprador;
+import aliebay.dto.CompradorDTO;
+import aliebay.dto.ListacompradorDTO;
+import aliebay.service.CompradorService;
+import aliebay.service.ListacompradorService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -24,8 +24,8 @@ import java.util.List;
  */
 @WebServlet(name = "ListaCompradorGuardarServlet", urlPatterns = {"/ListaCompradorGuardarServlet"})
 public class ListaCompradorGuardarServlet extends AliEbaySessionServlet {
-    @EJB ListacompradorFacade lcf;
-    @EJB CompradorFacade compradorf;
+    @EJB ListacompradorService lcS;
+    @EJB CompradorService compradorS;
        
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -33,48 +33,41 @@ public class ListaCompradorGuardarServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
         
         String strId,str;
-        Listacomprador lComprador;
+        ListacompradorDTO lComprador;
 
         strId = request.getParameter("id");
         
         if (strId == null || strId.isEmpty()){
-            lComprador = new Listacomprador();
+            lComprador = new ListacompradorDTO();
         } else{
-            lComprador = this.lcf.find(Integer.parseInt(strId));
+            lComprador = this.lcS.buscarListacomprador(Integer.parseInt(strId));
         }
-        
 
-        str = request.getParameter("nombre");
-        lComprador.setNombre(str);
+        String nombre = request.getParameter("nombre");
         
         if (strId == null || strId.isEmpty()){
-            lcf.create(lComprador);
+            lcS.crear(nombre);
         } else {
-            lcf.edit(lComprador);
+            lcS.editar(lComprador.getIdLista(), nombre);
         }
 
-        List <Comprador> c = new ArrayList();
-        List <Listacomprador> a = new ArrayList();
-        for (Comprador comprador : compradorf.findAll()){
+        List <CompradorDTO> c = new ArrayList();
+        List <ListacompradorDTO> a = new ArrayList();
+        for (CompradorDTO comprador : compradorS.listarComprador()){
             int compradorID = comprador.getIdUsuario(); 
             str = request.getParameter(Integer.toString(compradorID));
             if (str != null){ //en el caso que no esten seleccionados el checkbox no devuelve nada por lo que str es null
                 c.add(comprador);
                 
                 //actualizar la referencia de comprador
-                a = comprador.getListacompradorList();
                 if (!a.contains(lComprador)){
-                    a.add(lComprador);
-                    comprador.setListacompradorList(a);
+                    compradorS.añadirLista(lComprador, comprador.getIdUsuario());
                 }
             } else {
-                a = comprador.getListacompradorList();
                 if (a.contains(lComprador)){
-                    a.remove(lComprador);
-                    comprador.setListacompradorList(a);
+                    compradorS.eliminarLista(lComprador, comprador.getIdUsuario());
                 }
             }
-            compradorf.edit(comprador);
         }
                
         response.sendRedirect(request.getContextPath() + "/MarketingServlet");

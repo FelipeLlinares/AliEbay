@@ -39,19 +39,18 @@ public class MensajeService {
         return listaDTO;
     }
     
-    public MensajeDTO buscarMensaje(String comprador){
-        Mensaje m = mf.find(comprador);
+    public MensajeDTO buscarMensaje(int mensaje){
+        Mensaje m = mf.find(mensaje);
         return m.toDTO();
     }
     
-    public void borrarMensaje(String comprador) {
-        Mensaje m = this.mf.find(comprador);
+    public void borrarMensaje(int mensaje) {
+        Mensaje m = this.mf.find(mensaje);
 
         this.mf.remove(m);        
     }
-    
-    public void crearMensaje(int nueva) {
-        Mensaje m = new Mensaje();
-        this.mf.create(m);
+
+    public List<MensajeDTO> mensajesListaComprador(int idLista) {
+        return listaEntityADTO(this.mf.mensajesListaComprador(idLista));
     }
 }

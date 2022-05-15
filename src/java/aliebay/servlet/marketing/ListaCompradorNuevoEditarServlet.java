@@ -4,19 +4,15 @@
  */
 package aliebay.servlet.marketing;
 
-import aliebay.dao.CompradorFacade;
-import aliebay.dao.ListacompradorFacade;
-import aliebay.dao.UsuarioFacade;
-import aliebay.entity.Comprador;
-import aliebay.entity.Listacomprador;
-import aliebay.entity.Usuario;
+import aliebay.dto.CompradorDTO;
+import aliebay.dto.ListacompradorDTO;
+import aliebay.service.CompradorService;
+import aliebay.service.ListacompradorService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -27,8 +23,8 @@ import java.util.List;
  */
 @WebServlet(name = "ListaCompradorNuevoEditarServlet", urlPatterns = {"/ListaCompradorNuevoEditarServlet"})
 public class ListaCompradorNuevoEditarServlet extends AliEbaySessionServlet {
-     @EJB ListacompradorFacade lcf;
-     @EJB CompradorFacade compradorf;
+     @EJB ListacompradorService lcS;
+     @EJB CompradorService compradorS;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,15 +41,15 @@ public class ListaCompradorNuevoEditarServlet extends AliEbaySessionServlet {
        
             String str = request.getParameter("id");
             if (str != null){
-                Listacomprador listacomprador = lcf.find(Integer.parseInt(str));
+                ListacompradorDTO listacomprador = lcS.buscarListacomprador(Integer.parseInt(str));
                 request.setAttribute("listaComprador", listacomprador);
                 
-                List<Comprador> compradoresListaComprador = compradorf.getCompradoresListaComprador(Integer.parseInt(str));
+                List<CompradorDTO> compradoresListaComprador = compradorS.getCompradoresListaComprador(Integer.parseInt(str));
                 request.setAttribute("compradoresListaComprador", compradoresListaComprador);
                 
             }
             
-            List<Comprador> compradores = compradorf.findAll();
+            List<CompradorDTO> compradores = this.compradorS.listarComprador();
             request.setAttribute("compradores", compradores);
         
             request.getRequestDispatcher("/WEB-INF/jsp/editarCrearListaComprador.jsp").forward(request,response);

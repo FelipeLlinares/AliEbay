@@ -4,14 +4,12 @@
  */
 package aliebay.service;
 
-import aliebay.dao.CategoriaFacade;
 import aliebay.dao.CompradorFacade;
-import aliebay.dto.CategoriaDTO;
+import aliebay.dao.ListacompradorFacade;
 import aliebay.dto.CompradorDTO;
-import aliebay.dto.VentaDTO;
-import aliebay.entity.Categoria;
+import aliebay.dto.ListacompradorDTO;
 import aliebay.entity.Comprador;
-import aliebay.entity.Venta;
+import aliebay.entity.Listacomprador;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import java.util.ArrayList;
@@ -24,6 +22,7 @@ import java.util.List;
 @Stateless
 public class CompradorService {
     @EJB CompradorFacade cf; 
+    @EJB ListacompradorFacade lcf;
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     
@@ -60,5 +59,27 @@ public class CompradorService {
         c.setIdUsuario(nueva);
 
         this.cf.create(c);
+    }
+
+    public List<CompradorDTO> getCompradoresListaComprador(int idComprador) {
+        return this.listaEntityADTO(this.cf.getCompradoresListaComprador(idComprador));
+    }
+
+    public void añadirLista(ListacompradorDTO lComprador, int id) {
+        Comprador c = this.cf.find(id);
+        List<Listacomprador> listasComprador = c.getListacompradorList();
+        Listacomprador lc = lcf.find(lComprador.getIdLista());
+        listasComprador.add(lc);
+        c.setListacompradorList(listasComprador);
+        this.cf.edit(c);
+    }
+
+    public void eliminarLista(ListacompradorDTO lComprador, Integer idUsuario) {
+        Comprador c = this.cf.find(idUsuario);
+        List<Listacomprador> listasComprador = c.getListacompradorList();
+        Listacomprador lc = lcf.find(lComprador.getIdLista());
+        listasComprador.remove(lc);
+        c.setListacompradorList(listasComprador);
+        this.cf.edit(c);
     }
 }

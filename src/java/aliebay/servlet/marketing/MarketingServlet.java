@@ -4,8 +4,8 @@
  */
 package aliebay.servlet.marketing;
 
-import aliebay.dao.ListacompradorFacade;
-import aliebay.entity.Listacomprador;
+import aliebay.dto.ListacompradorDTO;
+import aliebay.service.ListacompradorService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @WebServlet(name = "MarketingServlet", urlPatterns = {"/MarketingServlet"})
 public class MarketingServlet extends AliEbaySessionServlet {
-    @EJB ListacompradorFacade lcf;
+    @EJB ListacompradorService lcs;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,7 +35,7 @@ public class MarketingServlet extends AliEbaySessionServlet {
             throws ServletException, IOException {
         
         if (super.comprobarSesion(request,response) && super.comprobarMarketing(request,response)){
-        List<Listacomprador> listacompradores = lcf.findAll();
+        List<ListacompradorDTO> listacompradores = lcs.listarListaComprador();
         
         request.setAttribute("listaCompradores", listacompradores);
         

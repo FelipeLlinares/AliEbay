@@ -4,17 +4,15 @@
  */
 package aliebay.servlet.marketing;
 
-import aliebay.dao.ListacompradorFacade;
-import aliebay.dao.MensajeFacade;
-import aliebay.entity.Listacomprador;
-import aliebay.entity.Mensaje;
+import aliebay.dto.ListacompradorDTO;
+import aliebay.dto.MensajeDTO;
+import aliebay.service.ListacompradorService;
+import aliebay.service.MensajeService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -25,8 +23,8 @@ import java.util.List;
  */
 @WebServlet(name = "ListaCompradorMensajeServlet", urlPatterns = {"/ListaCompradorMensajeServlet"})
 public class ListaCompradorMensajeServlet extends AliEbaySessionServlet {
-    @EJB MensajeFacade mensajef;
-    @EJB ListacompradorFacade listacompradorf;
+    @EJB MensajeService mensajeS;
+    @EJB ListacompradorService listacompradorS;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,10 +41,10 @@ public class ListaCompradorMensajeServlet extends AliEbaySessionServlet {
         String str = request.getParameter("id");
         
         if (str != null){
-         Listacomprador listacomprador = listacompradorf.find(Integer.parseInt(str));
+         ListacompradorDTO listacomprador = this.listacompradorS.buscarListacomprador(Integer.parseInt(str));
          request.setAttribute("listaComprador", listacomprador);
             
-         List<Mensaje> mensajes = mensajef.mensajesListaComprador(Integer.parseInt(str));
+         List<MensajeDTO> mensajes = this.mensajeS.mensajesListaComprador(Integer.parseInt(str));
          request.setAttribute("mensajes", mensajes);
         }    
             

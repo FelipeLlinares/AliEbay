@@ -42,12 +42,12 @@ public class MarketingService {
         return listaDTO;
     }
     
-    public MarketingDTO buscarMarketing(String marketing){
+    public MarketingDTO buscarMarketing(int marketing){
         Marketing m = mf.find(marketing);
         return m.toDTO();
     }
     
-    public void borrarMarketing(String marketing) {
+    public void borrarMarketing(int marketing) {
         Marketing c = this.mf.find(marketing);
 
         this.mf.remove(c);        
