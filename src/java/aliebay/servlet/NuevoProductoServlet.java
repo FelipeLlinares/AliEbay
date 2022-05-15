@@ -47,7 +47,8 @@ public class NuevoProductoServlet extends AliEbaySessionServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {
         if (super.comprobarSesion(request, response)) {
-
+            
+            SimpleDateFormat sdt = new SimpleDateFormat("EE MM d HH:mm:ss zz YYYY");
             ProductoDTO producto = new ProductoDTO();
             String str;
 
@@ -66,7 +67,6 @@ public class NuevoProductoServlet extends AliEbaySessionServlet {
             String urlFoto = request.getParameter("urlFoto");
 
             str = request.getParameter("fechaSalida");
-            SimpleDateFormat sdt = new SimpleDateFormat("dd-MM-YYYY");
             Date fechaSalida = sdt.parse(str);
 
             str = request.getParameter("fechaFin");
