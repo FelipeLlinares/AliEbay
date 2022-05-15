@@ -4,8 +4,10 @@
  */
 package aliebay.service;
 
+import aliebay.dao.CompradorFacade;
 import aliebay.dao.ListacompradorFacade;
 import aliebay.dto.ListacompradorDTO;
+import aliebay.entity.Comprador;
 import aliebay.entity.Listacomprador;
 import jakarta.ejb.EJB;
 import java.util.ArrayList;
@@ -18,7 +20,8 @@ import java.util.List;
 public class ListacompradorService {
     
     @EJB ListacompradorFacade listacompradorf;
-        
+    @EJB CompradorFacade cf;
+    
     public List<ListacompradorDTO> listarListaComprador(){
         List<Listacomprador> listaCompradores = listacompradorf.findAll();
         
@@ -57,6 +60,11 @@ public class ListacompradorService {
         Listacomprador lc = this.listacompradorf.find(idLista);
         lc.setNombre(nombre);
         this.listacompradorf.edit(lc);
+    }
+    
+    public List<ListacompradorDTO> getListListaComprador(int idComprador) {
+        Comprador c = cf.find(idComprador);
+        return this.listaEntityADTO(c.getListacompradorList());
     }
     
 }

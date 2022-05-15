@@ -4,8 +4,10 @@
  */
 package aliebay.service;
 
+import aliebay.dao.ListacompradorFacade;
 import aliebay.dao.MensajeFacade;
 import aliebay.dto.MensajeDTO;
+import aliebay.entity.Listacomprador;
 import aliebay.entity.Mensaje;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
@@ -18,7 +20,8 @@ import java.util.List;
  */
 @Stateless
 public class MensajeService {
-    @EJB MensajeFacade mf; 
+    @EJB MensajeFacade mf;
+    @EJB ListacompradorFacade lcf;
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     
@@ -52,5 +55,10 @@ public class MensajeService {
 
     public List<MensajeDTO> mensajesListaComprador(int idLista) {
         return listaEntityADTO(this.mf.mensajesListaComprador(idLista));
+    }
+
+    public List<MensajeDTO> getMensajesLista(Integer idLista) {
+        Listacomprador lc = lcf.find(idLista);
+        return this.listaEntityADTO(lc.getMensajeList());
     }
 }

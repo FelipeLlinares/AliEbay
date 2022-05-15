@@ -30,13 +30,13 @@ public class CompradorFacade extends AbstractFacade<Comprador> {
     }
     
     
-    public List<Comprador> getCompradoresListaComprador(int idComprador) {
+    public List<Comprador> getCompradoresListaComprador(int idLista) {
       Query q;
 
       q = this.getEntityManager().createQuery("select c from Comprador c join c.listacompradorList lc "
                                                 + "where lc.idLista= :id");
 
-      q.setParameter("id", idComprador);
+      q.setParameter("id", idLista);
       return q.getResultList();
     }
 }

@@ -60,7 +60,7 @@
             <td><%= p.getDescripcion() %></td>
             <td><%= p.getCategoria().getIdCategoria() %></td>
             <td><%= p.getPrecioSalida() %></td>
-            <td><a href="verFotoServlet?url=<%= p.getURLFoto() %>">Ver Foto</a></td>
+            <td><a href="verFotoServlet?url=<%= p.getuRLFoto() %>">Ver Foto</a></td>
             <td><%=  sdf.format(p.getFechaSalida()) %></td>
             <td><%= sdf.format(p.getFechaFin()) %></td>
         </tr>

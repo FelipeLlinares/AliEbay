@@ -20,8 +20,8 @@
     <body>
         <jsp:include page="/WEB-INF/jsp/cabecera.jsp" />
         <%
-            Usuario user = (Usuario) session.getAttribute("usuario");
-            Vendedor v = user.getVendedor();
+            UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
+            VendedorDTO v = user.getVendedor();
          %>
         <a href="EditarNuevoProductoServlet?id=<%=v.getIdUsuario()%>">Añadir nuevo producto</a><br>
         
@@ -69,10 +69,10 @@
             <td><%= p.getDescripcion() %></td>
             <td><%= p.getCategoria().getIdCategoria() %></td>
             <td><%= p.getPrecioSalida() %></td>
-            <td><a href="verFotoServlet?url=<%= p.getURLFoto() %>">Ver Foto</a></td>
+            <td><a href="verFotoServlet?url=<%= p.getuRLFoto() %>">Ver Foto</a></td>
             <td><%=  sdf.format(p.getFechaSalida()) %></td>
             <td><%= sdf.format(p.getFechaFin()) %></td>
-            <td><a href="EditarNuevoProductoServlet?id=<%=p.getIdProducto()%>&titulo=<%=p.getTitulo()%>&descripcion=<%=p.getDescripcion%>&precioSalida=<%=p.getPrecioSalida()%>&urlFoto=<%=p.getURLFoto()%>&fechaSalida=<%=p.getFechaSalida()%>&fechaFin=<%=p.getFechaFin()%>">Editar</a></td>
+            <td><a href="EditarNuevoProductoServlet?id=<%=p.getIdProducto()%>&titulo=<%=p.getTitulo()%>&descripcion=<%=p.getDescripcion()%>&precioSalida=<%=p.getPrecioSalida()%>&urlFoto=<%=p.getuRLFoto()%>&fechaSalida=<%=p.getFechaSalida()%>&fechaFin=<%=p.getFechaFin()%>">Editar</a></td>
         </tr>
         </table>
         <%

@@ -5,7 +5,13 @@
 package aliebay.servlet.marketing;
 
 import aliebay.dao.CompradorFacade;
+import aliebay.dto.CompradorDTO;
+import aliebay.dto.ListacompradorDTO;
+import aliebay.dto.MensajeDTO;
 import aliebay.entity.Comprador;
+import aliebay.service.CompradorService;
+import aliebay.service.ListacompradorService;
+import aliebay.service.MensajeService;
 import jakarta.ejb.EJB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +20,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -21,8 +29,10 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "CompradorMensajesServlet", urlPatterns = {"/CompradorMensajesServlet"})
 public class CompradorMensajesServlet extends HttpServlet {
-    @EJB CompradorFacade compradorf;
-
+    @EJB CompradorService compradors;
+    @EJB ListacompradorService lcs;
+    @EJB MensajeService ms;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,8 +47,16 @@ public class CompradorMensajesServlet extends HttpServlet {
             
         String id = request.getParameter("id");
         
-        Comprador comprador = this.compradorf.find(Integer.parseInt(id));
+        CompradorDTO comprador = this.compradors.buscarComprador(Integer.parseInt(id));
+        List<ListacompradorDTO> listas  = lcs.getListListaComprador(comprador.getIdUsuario());
+        List<List<MensajeDTO>> mensajes = new ArrayList<>();
+        
+        for(ListacompradorDTO lc: listas){
+            mensajes.add(ms.getMensajesLista(lc.getIdLista()));
+        }
         request.setAttribute("comprador", comprador);
+        request.setAttribute("listas",listas);
+        request.setAttribute("mensajes",mensajes);
         
         request.getRequestDispatcher("/WEB-INF/jsp/mensajesComprador.jsp").forward(request,response);
     }

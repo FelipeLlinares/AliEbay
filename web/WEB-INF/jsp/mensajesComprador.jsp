@@ -4,6 +4,8 @@
     Author     : Cate
 --%>
 
+<%@page import="aliebay.entity.Mensaje"%>
+<%@page import="java.util.List"%>
 <%@page import="aliebay.dto.MensajeDTO"%>
 <%@page import="aliebay.dto.ListacompradorDTO"%>
 <%@page import="aliebay.dto.CompradorDTO"%>
@@ -20,8 +22,11 @@
         <h1>Lista de mensajes</h1>
         <%
             CompradorDTO comprador = (CompradorDTO) request.getAttribute("comprador");
+            List<ListacompradorDTO> listas = (List) request.getAttribute("listas");
+            List<List<MensajeDTO>> mensajes  =(List) request.getAttribute("mensajes");
+            
             SimpleDateFormat fecha = new SimpleDateFormat  ("dd/MM/yyyy HH:mm:ss");
-            if (comprador.getListacompradorList().isEmpty()){
+            if (listas.isEmpty()){
          %>
          <h2>No pertenece a ninguna lista de compradores</h2>
           <%
@@ -35,9 +40,9 @@
                 <th>Fecha</th>
             </tr>
             <%
-            for (ListacompradorDTO lc : comprador.getListacompradorList()){
-                if (!lc.getMensajeList().isEmpty()){
-                for (MensajeDTO m : lc.getMensajeList()) {            
+            for (List<MensajeDTO> lm : mensajes){
+                if (!lm.isEmpty()){
+                for (MensajeDTO m : lm) {            
               String [] parts = m.getDescripcion().split(";");
               if (parts != null && parts.length > 2 ){
         %>  

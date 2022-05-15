@@ -7,18 +7,18 @@
 package aliebay.servlet.comprador;
 
 import aliebay.dto.ProductoDTO;
+import aliebay.dto.PujaDTO;
 import aliebay.dto.VendedorDTO;
 import aliebay.service.ProductoService;
 import aliebay.service.VendedorService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
@@ -45,8 +45,9 @@ public class PujaServlet extends AliEbaySessionServlet {
             
             if(producto != null) {
                 ProductoDTO prod = ps.buscarProducto(Integer.valueOf(producto));
+                List<PujaDTO> pujas = ps.getPujaList(prod);
                 request.setAttribute("producto", prod);
-                
+                request.setAttribute("pujas",pujas);
                 VendedorDTO vendedor = vs.buscarVendedor(prod.getIdVendedor());
                 String vendedorNombre = vendedor.getUsuario().getNombre() + " " + vendedor.getUsuario().getApellidos();
                 request.setAttribute("vendedor", vendedorNombre);

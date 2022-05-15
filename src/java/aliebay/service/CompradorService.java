@@ -5,14 +5,17 @@
 package aliebay.service;
 
 import aliebay.dao.CompradorFacade;
+import aliebay.dao.ListacompradorFacade;
 import aliebay.dao.ProductoFacade;
 import aliebay.dao.VentaFacade;
 import aliebay.dto.CategoriaDTO;
 import aliebay.dto.CompradorDTO;
+import aliebay.dto.ListacompradorDTO;
 import aliebay.dto.ProductoDTO;
 import aliebay.dto.VentaDTO;
 import aliebay.entity.Categoria;
 import aliebay.entity.Comprador;
+import aliebay.entity.Listacomprador;
 import aliebay.entity.Producto;
 import aliebay.entity.Venta;
 import jakarta.ejb.EJB;
@@ -68,10 +71,10 @@ public class CompradorService {
         this.cf.create(c);
     }
 
-    public List<CompradorDTO> getCompradoresListaComprador(int idComprador) {
-        return this.listaEntityADTO(this.cf.getCompradoresListaComprador(idComprador));
+    public List<CompradorDTO> getCompradoresListaComprador(int idLista) {
+        return this.listaEntityADTO(this.cf.getCompradoresListaComprador(idLista));
     }
-
+    
     public void añadirLista(ListacompradorDTO lComprador, int id) {
         Comprador c = this.cf.find(id);
         List<Listacomprador> listasComprador = c.getListacompradorList();

@@ -17,9 +17,9 @@
         <title>Editar-Crear Lista Comprador</title>
     </head>
        <%
-        Listacomprador listaComprador = (Listacomprador) request.getAttribute("listaComprador");
-        List<Comprador> compradoresListaComprador = (List)request.getAttribute("compradoresListaComprador");
-        List<Comprador> compradores = (List) request.getAttribute("compradores");
+        ListacompradorDTO listaComprador = (ListacompradorDTO) request.getAttribute("listaComprador");
+        List<CompradorDTO> compradoresListaComprador = (List)request.getAttribute("compradoresListaComprador");
+        List<CompradorDTO> compradores = (List) request.getAttribute("compradores");
         %>
     <body>
             <jsp:include page="/WEB-INF/jsp/cabeceraMarketing.jsp" />
@@ -30,7 +30,7 @@
         Nombre: <input type="text" name="nombre" value="<%= listaComprador == null ? "" : listaComprador.getNombre()%>" /> </br>
         Compradores: <br/>
         <%
-        for (Comprador comprador : compradores){ 
+        for (CompradorDTO comprador : compradores){ 
             String checked = "";
             if (compradoresListaComprador != null && compradoresListaComprador.contains(comprador)){
                 checked = "checked";

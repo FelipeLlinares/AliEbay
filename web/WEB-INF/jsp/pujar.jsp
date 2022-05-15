@@ -27,7 +27,7 @@
                 String fechaTotal = "Desde " + sdf.format(pc.getFechaSalida()) + " hasta " + sdf.format(pc.getFechaFin());
                 
                 String pujaUltima = "No hay pujas";
-                List<PujaDTO> pujas = pc.getPujaList();
+                List<PujaDTO> pujas = (List) request.getAttribute("pujas");
                 if(pujas != null && !pujas.isEmpty()) {
                     pujaUltima = String.valueOf(pujas.get(pujas.size() - 1).getPuja()) + " €";
                 }
@@ -36,7 +36,7 @@
         %>
         <form action="CompradorGuardarPujaServlet" method="POST">
         <table>
-            <tr><td><img src="<%= pc.getURLFoto()%>" width="50px" height="50px"></td></tr>
+            <tr><td><img src="<%= pc.getuRLFoto()%>" width="50px" height="50px"></td></tr>
             <tr><td>Titulo: <%= pc.getTitulo()%></td></tr>
             <tr><td>Descripción: <%= pc.getDescripcion()%></td></tr>
             <tr><td>Vendedor: <%= vendedor%></td></tr>
