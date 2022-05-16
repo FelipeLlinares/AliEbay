@@ -12,6 +12,7 @@ import aliebay.entity.Comprador;
 import aliebay.entity.Listacomprador;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,9 +66,7 @@ public class ListacompradorService {
         lc.setNombre(nombre);
         lc.setCompradorList(new ArrayList());
         lc.setMensajeList(new ArrayList());
-        this.listacompradorf.create(lc);
-        
-        this.listacompradorf.count();
+        this.listacompradorf.create(lc);        
         
         return lc.toDTO();
     }
