@@ -15,7 +15,6 @@ import aliebay.dto.PujaDTO;
 import aliebay.entity.Categoria;
 import aliebay.entity.Comprador;
 import aliebay.entity.Producto;
-import aliebay.entity.Vendedor;
 import aliebay.entity.Venta;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
