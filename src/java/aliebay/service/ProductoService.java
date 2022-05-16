@@ -51,7 +51,7 @@ public class ProductoService {
     public ProductoDTO buscarProducto (Integer id) {
         Producto p = this.pf.find(id);
         if ( p != null ){
-            p.toDTO();
+            return p.toDTO();
         }
         return null;
     }

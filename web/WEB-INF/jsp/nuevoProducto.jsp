@@ -8,6 +8,7 @@
 <%@page import="aliebay.dto.ProductoDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
+<%@page import="java.text.SimpleDateFormat"%>
 
 <!DOCTYPE html>
 <html>
@@ -17,12 +18,15 @@
     </head>
     <% 
         ProductoDTO producto = (ProductoDTO)request.getAttribute("idprod");
+
         String vendedor = (String)request.getAttribute("id");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        
         
         %>
     <body>
         <h1>Datos producto</h1>
-        <form action="NuevoProductoServlet?id=<%=vendedor%>" method="POST">
+        <form action="NuevoProductoServlet?id=<%=vendedor%>&idprod=<%=producto == null ? "" : producto.getIdProducto() %>" method="POST">
         <input type="hidden" name="idprod" value="<%= producto == null ? "" : producto.getIdProducto() %>"/>
         <table>
             <tr>
@@ -43,11 +47,11 @@
             </tr>
             <tr>
                 <td>Fecha de salida: </td>
-                <td><input type="text" name="fechaSalida" value="<%= producto == null ? "" : producto.getFechaSalida()%>" /></td>
+                <td><input type="text" name="fechaSalida" value="<%= producto == null ? "" : sdf.format(producto.getFechaSalida())%>" /></td>
             </tr><!-- comment -->
             <tr>
                 <td>Fecha de fin: </td>
-                <td><input type="text" name="fechaFin" value="<%= producto == null ? "" : producto.getFechaFin()%>" /></td>
+                <td><input type="text" name="fechaFin" value="<%= producto == null ? "" : sdf.format(producto.getFechaFin())%>" /></td>
             </tr>
             <%
                 List<CategoriaDTO> categorias = (List)request.getAttribute("categorias");

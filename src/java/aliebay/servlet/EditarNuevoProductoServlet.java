@@ -53,9 +53,11 @@ public class EditarNuevoProductoServlet extends AliEbaySessionServlet {
             request.setAttribute("categorias",categorias);
             request.setAttribute("id", str);
             
-            ProductoDTO producto = ps.buscarProducto(Integer.parseInt(str));
+            str = request.getParameter("idprod");
             
-            if (producto != null){
+            
+            if (str != null){
+                ProductoDTO producto = ps.buscarProducto(Integer.parseInt(str));
                 request.setAttribute("idprod", producto);
             }
             

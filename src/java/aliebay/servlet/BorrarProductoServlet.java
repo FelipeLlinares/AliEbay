@@ -34,7 +34,8 @@ public class BorrarProductoServlet extends AliEbaySessionServlet {
             throws ServletException, IOException {
         
         String id = request.getParameter("id");
-        this.pfs.borrarProducto(Integer.parseInt(id));
+        String idpro = request.getParameter("idprod");
+        this.pfs.borrarProducto(Integer.parseInt(idpro));
         response.sendRedirect(request.getContextPath() + "/VendedorServlet");
     }
 

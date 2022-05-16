@@ -79,11 +79,12 @@ public class NuevoProductoServlet extends AliEbaySessionServlet {
             
             String categoria = request.getParameter("categorias");
             String vendedor = request.getParameter("id");
+            prod = request.getParameter("idprod");
             
-            if (request.getParameter("idprod") == null){
+            if (prod == ""){
                 ps.crearProducto(titulo, descripcion, precioinicio, urlFoto, fechaSalida, fechafinal, categoria, vendedor);
             }else{
-               ps.editarProducto(Integer.parseInt(request.getParameter("idprod")),titulo, descripcion, precioinicio, urlFoto, fechaSalida, fechafinal, categoria, vendedor); 
+               ps.editarProducto(Integer.parseInt(prod),titulo, descripcion, precioinicio, urlFoto, fechaSalida, fechafinal, categoria, vendedor); 
             }
             
             response.sendRedirect(request.getContextPath() + "/VendedorServlet");
