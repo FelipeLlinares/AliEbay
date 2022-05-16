@@ -70,7 +70,7 @@ public class UsuarioService {
         return uf.getTipoUsuario(uf.find(user.getIdUsuario()));
     }
 
-    public UsuarioDTO crearUsuario(String nombre, String apellidos, String domicilio, String ciudad, int edad, String sexo, String user, String password) {
+    public UsuarioDTO crearUsuario(String tipoUsuario,String nombre, String apellidos, String domicilio, String ciudad, int edad, String sexo, String user, String password) {
         Usuario usuario = new Usuario();
         usuario.setNombre(nombre);
         usuario.setApellidos(apellidos);
@@ -83,31 +83,42 @@ public class UsuarioService {
         
         uf.create(usuario);
         
+        if(tipoUsuario.equals("comprador")){
+                this.añadirComprador(usuario.getUserName());
+                //comFacade.create(comprador);
+            }else if(tipoUsuario.equals("vendedor")){
+                this.añadirVendedor(usuario.getUserName());
+                //venFacade.create(vendedor);
+            }else if(tipoUsuario.equals("marketing")){
+                this.añadirMarketing(usuario.getUserName());
+                //marFacade.create(marketing);
+            }
+ 
         return usuario.toDTO();
     }
     
-    public void añadirComprador(UsuarioDTO user){
+    public void añadirComprador(String userName){
+        Usuario user = uf.getUsuarioPorUserName(userName);
         Comprador comprador = new Comprador(user.getIdUsuario());
-        Usuario usuario = uf.find(user.getIdUsuario());
-        comprador.setUsuario(usuario);
-        usuario.setComprador(comprador);
-        uf.edit(usuario);
+        comprador.setUsuario(user);
+        user.setComprador(comprador);
+        uf.edit(user);
     }
     
-    public void añadirVendedor(UsuarioDTO user){
+    public void añadirVendedor(String userName){
+        Usuario user = uf.getUsuarioPorUserName(userName);
         Vendedor vendedor = new Vendedor(user.getIdUsuario());
-        Usuario usuario = uf.find(user.getIdUsuario());
-        vendedor.setUsuario(usuario);
-        usuario.setVendedor(vendedor);
-        uf.edit(usuario);
+        vendedor.setUsuario(user);
+        user.setVendedor(vendedor);
+        uf.edit(user);
     }
     
-    public void añadirMarketing(UsuarioDTO user){
+    public void añadirMarketing(String userName){
+        Usuario user = uf.getUsuarioPorUserName(userName);
         Marketing marketing = new Marketing(user.getIdUsuario());
-        Usuario usuario = uf.find(user.getIdUsuario());
-        marketing.setUsuario(usuario);
-        usuario.setMarketing(marketing);
-        uf.edit(usuario);
+        marketing.setUsuario(user);
+        user.setMarketing(marketing);
+        uf.edit(user);
     }
 
     public void modificarUsuario(Integer idUsuario, String nombre, String apellidos, String domicilio, String ciudad, int edad, String sexo, String user, String password) {

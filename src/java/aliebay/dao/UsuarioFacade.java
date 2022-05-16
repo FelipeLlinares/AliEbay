@@ -96,4 +96,12 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         return result;
     }
     
+    public Usuario getUsuarioPorUserName(String username){
+        Query q;
+        q = this.getEntityManager().createNamedQuery("Usuario.findByUserName");
+        q.setParameter("userName", username);
+        
+        return (Usuario)q.getResultList().get(0);
+    }
+    
 }
