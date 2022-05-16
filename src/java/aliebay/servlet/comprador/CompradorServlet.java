@@ -92,20 +92,20 @@ public class CompradorServlet extends AliEbaySessionServlet {
 
             for (ProductoDTO pr : productos) {
                 List<PujaDTO> pujas = ps.getPujaList(pr);
+                UsuarioDTO usuario = us.buscarUsuario(pr.getIdVendedor());
+                        String vendedorNombre = usuario.getUserName();
                 if (pujas != null && !pujas.isEmpty()) {
                     PujaDTO puja = pujas.get(pujas.size() - 1);
-
+                        
+                        
                     if (Objects.equals(puja.getComprador().getIdUsuario(), comprador.getIdUsuario())) {
                         productosPujadosPorComprador.add(pr);
                         
-                        UsuarioDTO usuario = us.buscarUsuario(pr.getIdVendedor());
-                        String vendedorNombre = usuario.getUserName();
-
                         nombresVendedoresPujados.add(vendedorNombre);
                     } else {
                         productosNoPujadosPorComprador.add(pr);
                         VendedorDTO vendedor = vs.buscarVendedor(pr.getIdVendedor());
-                        String vendedorNombre = vendedor.getUsuario().getUserName();
+                       
 
                         nombresVendedoresNoPujados.add(vendedorNombre);
                     }
@@ -114,8 +114,10 @@ public class CompradorServlet extends AliEbaySessionServlet {
 
                 } else {
                     productosNoPujadosPorComprador.add(pr);
-                    VendedorDTO vendedor = vs.buscarVendedor(pr.getIdVendedor());
-                    String vendedorNombre = vendedor.getUsuario().getUserName();
+
+                  
+                    
+                    
 
                     nombresVendedoresNoPujados.add(vendedorNombre);
                     

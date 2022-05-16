@@ -64,10 +64,13 @@
             <td><%=  sdf.format(p.getFechaSalida()) %></td>
             <td><%= sdf.format(p.getFechaFin()) %></td>
         </tr>
-        </table>
+       
         <%
                     }
-                } 
+                }
+        %>
+         </table>
+        <%
                 if(!productosVendidos.isEmpty()){
         %>
                     
@@ -92,10 +95,13 @@
             <td><%= p.getVenta().getComprador().getUsuario().getUserName() %></td>
             <td><%= sdf.format(p.getVenta().getFecha()) %></td>
         </tr>
-        </table>
+        
         <%
                 }
             }
+        %>
+        </table>
+        <%
         }
             %>
         

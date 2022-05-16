@@ -66,6 +66,9 @@ public class ListacompradorService {
         lc.setCompradorList(new ArrayList());
         lc.setMensajeList(new ArrayList());
         this.listacompradorf.create(lc);
+        
+        this.listacompradorf.count();
+        
         return lc.toDTO();
     }
 

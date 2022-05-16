@@ -63,7 +63,7 @@ public class UsuarioGuardarServlet extends AliEbaySessionServlet {
         String tipoUsuario = request.getParameter("tipoUsuario");
         
         String servlet = request.getParameter("admin");
-        servlet = servlet != null?"/AdminServlet":"/LoginServlet";
+        servlet = servlet != null?"/AdminServlet":"/login.jsp";
         
         if (strId == null || strId.isEmpty()){
             UsuarioDTO u = userService.crearUsuario(tipoUsuario,nombre,apellidos,domicilio,ciudad,edad,sexo,user,password);
