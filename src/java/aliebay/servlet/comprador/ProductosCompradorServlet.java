@@ -5,9 +5,7 @@
 package aliebay.servlet.comprador;
 
 import aliebay.dto.CompradorDTO;
-import aliebay.dto.PujaDTO;
 import aliebay.dto.UsuarioDTO;
-import aliebay.dto.VendedorDTO;
 import aliebay.dto.VentaDTO;
 import aliebay.service.CompradorService;
 import aliebay.service.ProductoService;
@@ -18,12 +16,10 @@ import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -62,7 +58,7 @@ public class ProductosCompradorServlet extends AliEbaySessionServlet {
                 List<String> nombresVendedores = new ArrayList<>();
                 
                 for(VentaDTO ve : ventas) {
-                    UsuarioDTO user = us.buscarUsuario(Integer.parseInt(usuario));
+                    UsuarioDTO user = us.buscarUsuario(ve.getProducto().getIdVendedor());
                     String vendedorNombre = user.getUserName();
 
                     nombresVendedores.add(vendedorNombre);

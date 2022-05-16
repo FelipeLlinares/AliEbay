@@ -135,25 +135,6 @@ public class CompradorService {
         this.cf.edit(c);
     }
     
-    public void quitarProducto(Integer idUsuario, Integer producto) {
-        Comprador c = this.cf.find(idUsuario);
-        Producto p = this.pf.find(producto);
-        
-        Venta venta = p.getVenta();
-        
-        List<Venta> ventas = c.getVentaList();
-        ventas.remove(venta);
-        c.setVentaList(ventas);
-        cf.edit(c);
-        
-        vf.remove(venta);
-        
-        p.setPujaList(null);
-        p.setVenta(null);
-        p.setCompradorList(null);
-        pf.edit(p);
-    }
-    
     public CompradorDTO setUsuario(CompradorDTO comprador) {
         Comprador com = cf.find(comprador.getIdUsuario());
         comprador.setUsuario(com.getUsuario().toDTO());

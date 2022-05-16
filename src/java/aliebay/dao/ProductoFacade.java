@@ -76,9 +76,7 @@ public class ProductoFacade extends AbstractFacade<Producto> {
     
     public List<Producto> getTodosProductosPorCategoria(Categoria categoria){
         Query q;
-        
-        Date date = new Date();
-        
+
         q = this.getEntityManager().createQuery("SELECT p FROM Producto p WHERE p.categoria = :categoria");
         q.setParameter("categoria", categoria);
         

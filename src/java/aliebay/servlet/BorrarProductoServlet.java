@@ -36,12 +36,13 @@ public class BorrarProductoServlet extends AliEbaySessionServlet {
         
         String idpro = request.getParameter("idprod");
         this.pfs.borrarProducto(Integer.parseInt(idpro));
+        
         String id = request.getParameter("id");
         if(id == null){
             response.sendRedirect(request.getContextPath() + "/VendedorServlet");
         }else{
             String idVendedor = request.getParameter("idVendedor");
-            request.getRequestDispatcher(request.getContextPath() + "/MostrarProductosServlet?" + idVendedor ).forward(request,response);
+            response.sendRedirect(request.getContextPath() + "/MostrarProductosServlet?id=" + idVendedor );
         }
         
     }

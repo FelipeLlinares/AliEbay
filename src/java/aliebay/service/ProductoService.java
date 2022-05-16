@@ -7,12 +7,16 @@ package aliebay.service;
 import aliebay.dao.CategoriaFacade;
 import aliebay.dao.CompradorFacade;
 import aliebay.dao.ProductoFacade;
+import aliebay.dao.VendedorFacade;
+import aliebay.dao.VentaFacade;
 import aliebay.dto.CategoriaDTO;
 import aliebay.dto.ProductoDTO;
 import aliebay.dto.PujaDTO;
 import aliebay.entity.Categoria;
 import aliebay.entity.Comprador;
 import aliebay.entity.Producto;
+import aliebay.entity.Vendedor;
+import aliebay.entity.Venta;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import java.util.ArrayList;
@@ -30,6 +34,8 @@ public class ProductoService {
     @EJB CategoriaFacade cf;
     @EJB PujaService ps;
     @EJB CompradorFacade comf;
+    @EJB VendedorFacade venf;
+    @EJB VentaFacade vf;
     
     private List<ProductoDTO> listaEntityADTO (List<Producto> lista) {
         List<ProductoDTO> listaDTO = null;
@@ -58,8 +64,16 @@ public class ProductoService {
     
     public void borrarProducto (Integer id) {
         Producto p = this.pf.find(id);
-
-        this.pf.remove(p);        
+        
+        if(p.getVenta() != null){
+            Comprador c = p.getCompradorList().get(0);
+            List<Venta> ventas = c.getVentaList();
+            ventas.remove(p.getVenta());
+            c.setVentaList(ventas);
+            this.comf.edit(c);
+        }
+            
+        this.pf.remove(p);
     }
 
     public List<ProductoDTO> getProductosPorNombreYCategoria(String nombreFiltro, CategoriaDTO categ) {

@@ -4,21 +4,14 @@
  */
 package aliebay.servlet.comprador;
 
-import aliebay.dto.CompradorDTO;
-import aliebay.dto.ProductoDTO;
-import aliebay.dto.VentaDTO;
 import aliebay.service.CompradorService;
 import aliebay.service.ProductoService;
 import aliebay.service.VentaService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
-import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -43,13 +36,8 @@ public class ProductosBorrarServlet extends AliEbaySessionServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       
         String comp = (String) request.getParameter("comprador");
-
-        CompradorDTO comprador = cs.buscarComprador(Integer.parseInt(comp));
-        
         String producto = request.getParameter("producto");
-        ProductoDTO prod = ps.buscarProducto(Integer.parseInt(producto));
-        
-        cs.quitarProducto(comprador.getIdUsuario(), prod.getIdProducto());
+        ps.borrarProducto(Integer.parseInt(producto));
         
         response.sendRedirect(request.getContextPath() + "/ProductosCompradorServlet?id=" + comp);
     }
