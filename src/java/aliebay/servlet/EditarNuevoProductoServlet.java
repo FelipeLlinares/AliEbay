@@ -4,23 +4,15 @@
  */
 package aliebay.servlet;
 
-import aliebay.dao.CategoriaFacade;
-import aliebay.dao.ProductoFacade;
 import aliebay.dto.CategoriaDTO;
 import aliebay.dto.ProductoDTO;
-import aliebay.entity.Categoria;
-import aliebay.entity.Comprador;
-import aliebay.entity.Marketing;
-import aliebay.entity.Producto;
-import aliebay.entity.Vendedor;
 import aliebay.service.CategoriaService;
 import aliebay.service.ProductoService;
 import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;

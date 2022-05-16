@@ -8,7 +8,6 @@ import aliebay.dto.CompradorDTO;
 import aliebay.dto.ProductoDTO;
 import aliebay.dto.PujaDTO;
 import aliebay.dto.UsuarioDTO;
-import aliebay.dto.VendedorDTO;
 import aliebay.service.CompradorService;
 import aliebay.service.ProductoService;
 import aliebay.service.UsuarioService;
@@ -17,14 +16,13 @@ import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -59,7 +57,7 @@ public class FavoritoServlet extends AliEbaySessionServlet {
             if (comprador != null) {
 
                 List<ProductoDTO> productos = ps.getProductosFavoritos(comprador.getIdUsuario());
-
+                
                 List<ProductoDTO> productosPujadosPorComprador = new ArrayList<>();
                 List<String> nombresVendedoresPujados = new ArrayList<>();
                 List<ProductoDTO> productosNoPujadosPorComprador = new ArrayList<>();
@@ -68,39 +66,33 @@ public class FavoritoServlet extends AliEbaySessionServlet {
                 List<Float> mayoresPujasNoVendidos = new ArrayList<>();
 
                 for (ProductoDTO prod : productos) {
-                    ProductoDTO pr = ps.buscarProducto(prod.getIdProducto());
+                    Date date = new Date();
+                    if(date.before(prod.getFechaFin())){
+                        ProductoDTO pr = ps.buscarProducto(prod.getIdProducto());
+                        List<PujaDTO> pujas = ps.getPujaList(pr);
                     
-                    List<PujaDTO> pujas = ps.getPujaList(pr);
+                        UsuarioDTO usuario = us.buscarUsuario(pr.getIdVendedor());
+                        String vendedorNombre = usuario.getUserName();
                     
-                    if (pujas != null && !pujas.isEmpty()) {
-                        PujaDTO puja = pujas.get(pujas.size() - 1);
+                        if (pujas != null && !pujas.isEmpty()) {
+                            PujaDTO puja = pujas.get(pujas.size() - 1);
 
-                        if (Objects.equals(puja.getComprador().getIdUsuario(), comprador.getIdUsuario())) {
-                            productosPujadosPorComprador.add(pr);
+                            if (Objects.equals(puja.getComprador().getIdUsuario(), comprador.getIdUsuario())) {
+                              productosPujadosPorComprador.add(pr);
+                                nombresVendedoresPujados.add(vendedorNombre);
+                                mayoresPujasVendidos.add(puja.getPuja());
+                            } else {
+                                productosNoPujadosPorComprador.add(pr);
+                                nombresVendedoresNoPujados.add(vendedorNombre);
+                                mayoresPujasNoVendidos.add(puja.getPuja());
+                            }
 
-                            UsuarioDTO usuario = us.buscarUsuario(pr.getIdVendedor());
-                            String vendedorNombre = usuario.getUserName();
-
-                            nombresVendedoresPujados.add(vendedorNombre);
                         } else {
                             productosNoPujadosPorComprador.add(pr);
-                            VendedorDTO vendedor = vs.buscarVendedor(pr.getIdVendedor());
-                            String vendedorNombre = vendedor.getUsuario().getUserName();
-
-                            nombresVendedoresNoPujados.add(vendedorNombre);
+                             nombresVendedoresNoPujados.add(vendedorNombre);
+                            mayoresPujasNoVendidos.add(0f);
                         }
-                        
-                        mayoresPujasVendidos.add(puja.getPuja());
-
-                    } else {
-                        productosNoPujadosPorComprador.add(pr);
-                        VendedorDTO vendedor = vs.buscarVendedor(pr.getIdVendedor());
-                        String vendedorNombre = vendedor.getUsuario().getUserName();
-
-                        nombresVendedoresNoPujados.add(vendedorNombre);
-                        
-                        mayoresPujasNoVendidos.add(0f);
-                    }
+                    }     
                 }
 
                 request.setAttribute("productos", productos);

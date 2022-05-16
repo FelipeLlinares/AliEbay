@@ -73,11 +73,16 @@ public class ProductoService {
         return this.listaEntityADTO(pf.getProductosDisponiblesPorNombre(nombreFiltro));
     }
 
-    public List<ProductoDTO> getProductosPorCategoria(CategoriaDTO categ) {
-        Categoria categoria = cf.find(categ.getIdCategoria());
+    public List<ProductoDTO> getProductosPorCategoria(String categ) {
+        Categoria categoria = cf.find(categ);
         return this.listaEntityADTO(pf.getProductosPorCategoria(categoria));
     }
 
+    public List<ProductoDTO> getTodosProductosPorCategoria(String categ) {
+        Categoria categoria = cf.find(categ);
+        return this.listaEntityADTO(pf.getTodosProductosPorCategoria(categoria));
+    }
+    
     public List<ProductoDTO> getProductosDisponibles() {
         return this.listaEntityADTO(pf.getProductosDisponibles());
     }
@@ -139,5 +144,14 @@ public class ProductoService {
         cat.setProductoList(prods);
 
         cf.edit(cat);
+    }
+
+    public ProductoDTO getVenta(ProductoDTO p) {
+        Producto producto = pf.find(p.getIdProducto());
+        if(producto.getVenta() != null)
+            p.setVenta(producto.getVenta().toDTO());
+            
+        return p;
+        
     }
 }

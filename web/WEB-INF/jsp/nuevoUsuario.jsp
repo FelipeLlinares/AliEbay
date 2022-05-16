@@ -51,8 +51,8 @@
             </tr>
             <tr>
                 <td>Edad:</td>
-                <td><input type="text" name="edad" value="<%= usuario == null ? "" : usuario.getEdad()%>" /></td>
-            </tr><!-- comment -->
+                <td><input type="number" name="edad" value="<%= usuario == null ? "" : usuario.getEdad()%>" /></td>
+            </tr>
             <tr>
                 <td>Sexo:</td>
                 <td>

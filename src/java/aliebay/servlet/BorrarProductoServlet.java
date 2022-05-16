@@ -33,10 +33,17 @@ public class BorrarProductoServlet extends AliEbaySessionServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String id = request.getParameter("id");
+        
         String idpro = request.getParameter("idprod");
         this.pfs.borrarProducto(Integer.parseInt(idpro));
-        response.sendRedirect(request.getContextPath() + "/VendedorServlet");
+        String id = request.getParameter("id");
+        if(id == null){
+            response.sendRedirect(request.getContextPath() + "/VendedorServlet");
+        }else{
+            String idVendedor = request.getParameter("idVendedor");
+            request.getRequestDispatcher(request.getContextPath() + "/MostrarProductosServlet?" + idVendedor ).forward(request,response);
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

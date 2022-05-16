@@ -74,9 +74,8 @@ public class CompradorServlet extends AliEbaySessionServlet {
                 productos = ps.getProductosDisponiblesPorNombre(nombreFiltro);
                 request.setAttribute("filtrado", "por '" + nombreFiltro + "'");
             } else if(categoria != null && !categoria.isEmpty()){
-                CategoriaDTO categ = cs.buscarCategoria(categoria);
-                productos = ps.getProductosPorCategoria(categ);
-                request.setAttribute("filtrado", "por '" + categ.getIdCategoria() + "'");
+                productos = ps.getProductosPorCategoria(categoria);
+                request.setAttribute("filtrado", "por '" + categoria + "'");
             } else {
                 productos = ps.getProductosDisponibles();
             }
@@ -92,35 +91,25 @@ public class CompradorServlet extends AliEbaySessionServlet {
 
             for (ProductoDTO pr : productos) {
                 List<PujaDTO> pujas = ps.getPujaList(pr);
+                
                 UsuarioDTO usuario = us.buscarUsuario(pr.getIdVendedor());
-                        String vendedorNombre = usuario.getUserName();
+                String vendedorNombre = usuario.getUserName();
+                
                 if (pujas != null && !pujas.isEmpty()) {
                     PujaDTO puja = pujas.get(pujas.size() - 1);
-                        
-                        
+
                     if (Objects.equals(puja.getComprador().getIdUsuario(), comprador.getIdUsuario())) {
                         productosPujadosPorComprador.add(pr);
-                        
                         nombresVendedoresPujados.add(vendedorNombre);
+                        mayoresPujasVendidos.add(puja.getPuja());
                     } else {
                         productosNoPujadosPorComprador.add(pr);
-                        VendedorDTO vendedor = vs.buscarVendedor(pr.getIdVendedor());
-                       
-
                         nombresVendedoresNoPujados.add(vendedorNombre);
+                        mayoresPujasNoVendidos.add(puja.getPuja());
                     }
-                    
-                    mayoresPujasVendidos.add(puja.getPuja());
-
                 } else {
                     productosNoPujadosPorComprador.add(pr);
-
-                  
-                    
-                    
-
-                    nombresVendedoresNoPujados.add(vendedorNombre);
-                    
+                    nombresVendedoresNoPujados.add(vendedorNombre);  
                     mayoresPujasNoVendidos.add(0f);
                 }
             }

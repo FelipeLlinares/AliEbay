@@ -63,7 +63,8 @@ public class UsuarioService {
     }
 
     public UsuarioDTO comprobarUsuario(String usuario, String clave) {
-        return uf.comprobarUsuario(usuario, clave).toDTO();
+        Usuario u = uf.comprobarUsuario(usuario, clave);
+        return u==null?null:u.toDTO();
     }
 
     public String getTipoUsuario(UsuarioDTO user) {
@@ -134,6 +135,4 @@ public class UsuarioService {
         
         uf.edit(usuario);
     }
-    
-
 }

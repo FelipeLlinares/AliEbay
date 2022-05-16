@@ -9,7 +9,6 @@ import aliebay.entity.Producto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class ProductoFacade extends AbstractFacade<Producto> {
         
         Date date = new Date();
         
-        q = this.getEntityManager().createQuery("SELECT p FROM Producto p WHERE p.fechaFin >= :fechaAhora ORDER BY p.fechaFin ");
+        q = this.getEntityManager().createQuery("SELECT p FROM Producto p WHERE p.fechaFin >= :fechaAhora ORDER BY p.fechaFin");
         q.setParameter("fechaAhora", date);
         
         return q.getResultList();

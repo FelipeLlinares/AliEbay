@@ -5,7 +5,10 @@
 package aliebay.servlet.admin;
 
 ;
+import aliebay.dto.CompradorDTO;
 import aliebay.dto.ProductoDTO;
+import aliebay.dto.UsuarioDTO;
+import aliebay.service.CompradorService;
 import aliebay.service.ProductoService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
@@ -14,7 +17,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +29,7 @@ import java.util.List;
 @WebServlet(name = "MostrarProductosServlet", urlPatterns = {"/MostrarProductosServlet"})
 public class MostrarProductosServlet extends AliEbaySessionServlet {
     @EJB ProductoService ps;
+    @EJB CompradorService cs;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,17 +47,33 @@ public class MostrarProductosServlet extends AliEbaySessionServlet {
             
             List<ProductoDTO> productosVendidos = new ArrayList<>();
             List<ProductoDTO> productosNoVendidos  = new ArrayList<>();
-        
+            List<ProductoDTO> productosNoVendidosTerminados  = new ArrayList<>();
+            
             for(ProductoDTO p:productos){
-                if(p.getVenta() == null){
-                    productosNoVendidos.add(p);
+                if(ps.getVenta(p).getVenta() == null){
+                    Date date = new Date();
+                    if(date.before(p.getFechaFin())){
+                        productosNoVendidos.add(p);
+                    }else{
+                        productosNoVendidosTerminados.add(p);
+                    }
+                    
                 }else{
+                    CompradorDTO com = cs.setUsuario(p.getVenta().getComprador());
+                    p.getVenta().setComprador(com);
                     productosVendidos.add(p);
                 }
             }
             
-        request.setAttribute("productosVendidos", productosVendidos);
-        request.setAttribute("productosNoVendidos", productosNoVendidos);
+            HttpSession session = request.getSession();
+            UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
+            
+            request.setAttribute("id", user.getIdUsuario());
+            
+            request.setAttribute("productosVendidos", productosVendidos);
+            request.setAttribute("productosNoVendidos", productosNoVendidos);
+            request.setAttribute("productosNoVendidosTerminados", productosNoVendidosTerminados);
+        
 
         request.getRequestDispatcher("/WEB-INF/jsp/productos.jsp").forward(request, response);
         }

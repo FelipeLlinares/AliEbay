@@ -4,7 +4,6 @@
  */
 package aliebay.entity;
 
-import aliebay.dto.CompradorDTO;
 import aliebay.dto.VentaDTO;
 import java.io.Serializable;
 import java.util.Date;
@@ -132,9 +131,7 @@ public class Venta implements Serializable {
     public VentaDTO toDTO() {
         VentaDTO dto = new VentaDTO();
         dto.setComprador(comprador.toDTO());
-        if(dto.getProducto() == null) {
-            dto.setProducto(producto.toDTO());
-        }
+        dto.setProducto(producto.toDTO());
         dto.setPrecioVenta(precioVenta);
         dto.setFecha(fecha);
         return dto;

@@ -13,13 +13,12 @@ import aliebay.dto.UsuarioDTO;
 import aliebay.service.CompradorService;
 import aliebay.service.ProductoService;
 import aliebay.service.PujaService;
+import aliebay.service.UsuarioService;
 import aliebay.servlet.AliEbaySessionServlet;
 import jakarta.ejb.EJB;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -39,7 +38,7 @@ public class CompradorGuardarPujaServlet extends AliEbaySessionServlet {
     PujaService pjs;
     @EJB
     CompradorService cs;
-
+    @EJB UsuarioService us;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -61,11 +60,15 @@ public class CompradorGuardarPujaServlet extends AliEbaySessionServlet {
             String puja = request.getParameter("puja");
 
             ProductoDTO prod = ps.buscarProducto(Integer.valueOf(producto));
+           
+            List<PujaDTO> pujas = ps.getPujaList(prod);
             request.setAttribute("producto", prod);
-
+            request.setAttribute("pujas",pujas);
+            UsuarioDTO usuario = us.buscarUsuario(prod.getIdVendedor());
+            String vendedorNombre = usuario.getUserName();
+            request.setAttribute("vendedor", vendedorNombre);
+            
             if (puja != null && !puja.isEmpty()) {
-
-                List<PujaDTO> pujas = ps.getPujaList(prod);
                 float pujaUltima = 0;
                 if (pujas != null && !pujas.isEmpty()) {
                     pujaUltima = pujas.get(pujas.size() - 1).getPuja();
@@ -79,11 +82,9 @@ public class CompradorGuardarPujaServlet extends AliEbaySessionServlet {
                         Date date = new Date();
 
                         pjs.anyadirPuja(prod.getIdProducto(), comprador.getIdUsuario(), nuevoValorPuja, prod, comprador, date);
-                        
-                        
+
                         response.sendRedirect(request.getContextPath() + "/" + "CompradorServlet");
                     } else {
-
                         String strError = "El valor de la puja tiene que ser superior a la puja anterior";
                         request.setAttribute("error", strError);
                         request.getRequestDispatcher("/WEB-INF/jsp/pujar.jsp").forward(request, response);

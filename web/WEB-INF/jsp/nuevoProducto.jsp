@@ -25,6 +25,7 @@
         
         %>
     <body>
+        <jsp:include page="/WEB-INF/jsp/cabeceraVendedor.jsp" />
         <h1>Datos producto</h1>
         <form action="NuevoProductoServlet?id=<%=vendedor%>&idprod=<%=producto == null ? "" : producto.getIdProducto() %>" method="POST">
         <input type="hidden" name="idprod" value="<%= producto == null ? "" : producto.getIdProducto() %>"/>
@@ -62,8 +63,12 @@
                             <option value="" selected disabled hidden></option>
                         <%
                             for(CategoriaDTO c : categorias) {
+                                String selected = "";
+                                if(producto != null && c.getIdCategoria().equals(producto.getCategoria().getIdCategoria())){
+                                    selected = "selected";
+                                }
                         %>
-                                <option value="<%= c.getIdCategoria()%>"><%= c.getIdCategoria()%></option>
+                        <option value="<%= c.getIdCategoria()%>" <%=selected%>><%= c.getIdCategoria()%></option>
                         <%
                             }
                         %>

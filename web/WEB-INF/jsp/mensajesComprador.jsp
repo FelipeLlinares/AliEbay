@@ -32,7 +32,7 @@
           <%
             }else{
     %>
-                <table border="1">
+                <table border="1" width="80%">
             <tr>
                 <th>Asunto</th>
                 <th>Productos</th>

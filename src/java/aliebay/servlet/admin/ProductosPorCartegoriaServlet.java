@@ -4,10 +4,11 @@
  */
 package aliebay.servlet.admin;
 
-import aliebay.dao.ProductoFacade;
+import aliebay.dto.CompradorDTO;
 import aliebay.dto.ProductoDTO;
-import aliebay.entity.Producto;
+import aliebay.dto.UsuarioDTO;
 import aliebay.service.CategoriaService;
+import aliebay.service.CompradorService;
 import aliebay.service.ProductoService;
 import jakarta.ejb.EJB;
 import java.io.IOException;
@@ -17,7 +18,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -26,7 +29,7 @@ import java.util.ArrayList;
 @WebServlet(name = "ProductosPorCartegoriaServlet", urlPatterns = {"/ProductosPorCartegoriaServlet"})
 public class ProductosPorCartegoriaServlet extends HttpServlet {
     @EJB ProductoService ps;
-    @EJB CategoriaService cs;
+    @EJB CompradorService coms;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,21 +42,37 @@ public class ProductosPorCartegoriaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String categoria = (String) request.getParameter("id");
-        List<ProductoDTO> productos = ps.getProductosPorCategoria(cs.buscarCategoria(categoria));
+        List<ProductoDTO> productos = ps.getTodosProductosPorCategoria(categoria);
         
         List<ProductoDTO> productosVendidos = new ArrayList<>();
         List<ProductoDTO> productosNoVendidos  = new ArrayList<>();
-        
-        for(ProductoDTO p:productos){
-            if(p.getVenta() == null){
-                productosNoVendidos.add(p);
-            }else{
-                productosVendidos.add(p);
+        List<ProductoDTO> productosNoVendidosTerminados  = new ArrayList<>();
+            
+            for(ProductoDTO p:productos){
+                if(ps.getVenta(p).getVenta() == null){
+                    Date date = new Date();
+                    if(date.before(p.getFechaFin())){
+                        productosNoVendidos.add(p);
+                    }else{
+                        productosNoVendidosTerminados.add(p);
+                    }
+                    
+                }else{
+                    CompradorDTO com = coms.setUsuario(p.getVenta().getComprador());
+                    p.getVenta().setComprador(com);
+                    productosVendidos.add(p);
+                }
             }
-        }
-        request.setAttribute("productosVendidos", productosVendidos);
-        request.setAttribute("productosNoVendidos", productosNoVendidos);
-        request.setAttribute("categoria",categoria);
+            
+            HttpSession session = request.getSession();
+            UsuarioDTO user = (UsuarioDTO) session.getAttribute("usuario");
+            
+            request.setAttribute("id", user.getIdUsuario());
+            
+            request.setAttribute("productosVendidos", productosVendidos);
+            request.setAttribute("productosNoVendidos", productosNoVendidos);
+            request.setAttribute("productosNoVendidosTerminados", productosNoVendidosTerminados);
+            request.setAttribute("categoria",categoria);
         
         request.getRequestDispatcher("/WEB-INF/jsp/productos.jsp").forward(request, response);
     }
