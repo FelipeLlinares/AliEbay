@@ -65,12 +65,25 @@ public class ProductoService {
         Producto p = this.pf.find(id);
         
         if(p.getVenta() != null){
-            Comprador c = p.getCompradorList().get(0);
+            Comprador c = p.getVenta().getComprador();
             List<Venta> ventas = c.getVentaList();
             ventas.remove(p.getVenta());
             c.setVentaList(ventas);
             this.comf.edit(c);
+            
+            Venta v = p.getVenta();
+            this.vf.remove(v);
+            p.setVenta(null);  
+            
         }
+        
+        for(Comprador c: p.getCompradorList()){
+            List<Producto> prods = c.getProductoList();
+            prods.remove(p);
+            c.setProductoList(prods);
+            this.comf.edit(c);
+        }
+
             
         this.pf.remove(p);
     }

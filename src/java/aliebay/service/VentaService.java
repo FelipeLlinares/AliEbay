@@ -85,8 +85,8 @@ public class VentaService {
         pf.edit(p);
     }
 
-    public List<VentaDTO> getVentaList(CompradorDTO comprador) {
-        Comprador c = cf.find(comprador.getIdUsuario());
+    public List<VentaDTO> getVentaList(int usuario) {
+        Comprador c = cf.find(usuario);
         return vs.listaEntityADTO(c.getVentaList()); 
     }
     

@@ -47,11 +47,10 @@ public class ProductosCompradorServlet extends AliEbaySessionServlet {
         if (super.comprobarSesion(request,response)){
             
             String usuario = request.getParameter("id");
-            CompradorDTO comprador = cs.buscarComprador(Integer.parseInt(usuario));
             
-            if(comprador != null) {
+            if(usuario != null) {
                 
-                List<VentaDTO> ventas = vts.getVentaList(comprador);
+                List<VentaDTO> ventas = vts.getVentaList(Integer.parseInt(usuario));
                 
                 request.setAttribute("ventas", ventas);
                 
